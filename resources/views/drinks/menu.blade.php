@@ -446,32 +446,32 @@
                 <div class="form-group my-2 px-4">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="type" id="typeCold"
-                            value='{"name":"ร้อน","val":0}' />
+                            value='{"name":"ร้อน","val":-5}' />
                         <label class="form-check-label color-wsm" for="typeCold">
                             ร้อน
                         </label>
                         <label class="form-check-label color-wsm" for="price"
-                            style="float: inline-end; font-weight: 700">฿0</label>
+                            style="float: inline-end; font-weight: 700">฿20</label>
                     </div>
 
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="type" id="typeHot"
-                            value='{"name":"เย็น","val":5}' checked />
+                            value='{"name":"เย็น","val":0}' checked />
                         <label class="form-check-label color-wsm" for="typeHot">
                             เย็น
                         </label>
                         <label class="form-check-label color-wsm" for="price"
-                            style="float: inline-end; font-weight: 700">฿5</label>
+                            style="float: inline-end; font-weight: 700">฿25</label>
                     </div>
 
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="type" id="typeSmoothie"
-                            value='{"name":"ปั่น","val":10}' />
+                            value='{"name":"ปั่น","val":5}' />
                         <label class="form-check-label color-wsm" for="typeSmoothie">
                             ปั่น
                         </label>
                         <label class="form-check-label color-wsm" for="price"
-                            style="float: inline-end; font-weight: 700">฿10</label>
+                            style="float: inline-end; font-weight: 700">฿30</label>
                     </div>
                 </div>
                 <div style="border-bottom: 1px solid #8080801f"></div>
