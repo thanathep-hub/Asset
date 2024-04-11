@@ -21,28 +21,28 @@
         /* background-color: #04764e; */
         border-radius: 14px;
         /* color: #fff; */
-        color: #04764e;
+        color: #fff;
         /* box-shadow: 0px 3px 3px 0px #04764e21; */
     }
 
     .bg-menu:hover {
-        background-color: #04764e;
+        background-color: #000;
         color: white;
     }
 
     .bg-menu:focus {
-        background-color: #04764e;
+        background-color: #000;
         color: white;
     }
 
     .active {
-        background-color: #04764e;
+        background-color: #000;
         color: white;
     }
 
     .bg-menu:active,
     .bg-menu:target {
-        background-color: #04764e;
+        background-color: #000;
         /* Background color when active (clicked) or targeted */
         color: white;
         /* Text color when active (clicked) or targeted */
@@ -55,14 +55,14 @@
     }
 
     .bg-cus {
-        background-color: #ffffff75;
+        background-color: #08514c;
         overflow-x: scroll;
     }
 </style>
 
 <nav class="navbar" style="top: 0px;
-position: sticky;background-color: #fff;">
-    <div class="container-fluid" style="border-bottom:1px solid #0000001a;background-color:#fff;">
+position: sticky;background-color: #08514c;">
+    <div class="container-fluid" style="border-bottom:1px solid #0000001a;background-color:#08514c;color: #fff;">
         <div class="header" style="margin-bottom: 0.25rem;">
             <h2 style="font-weight: 900;" style="color: #000;">ตะวันยิ้ม - สกลฯ</h2>
             <div class="cart">

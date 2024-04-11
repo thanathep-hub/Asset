@@ -396,7 +396,9 @@
 <div class="modal fade" id="menu-detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
     <div class="modal-dialog modal-fullscreen-sm-down">
         <div class="modal-content animate-bottom">
-            <div class="modal-header" style="margin-left: unset;margin-right:unset;">
+            <div class="modal-header"
+                style="margin-left: unset;margin-right:unset;background-color: #08514c;
+    color: #fff;">
                 <h1 class="modal-title fs-5 fw-900 " style="margin-left: unset;
                 margin-right: unset;">
                     เมนู : </h1>
