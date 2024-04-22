@@ -168,7 +168,7 @@
                             <label id="" style="margin-top: 0px;margin-bottom:0px;"> 30 </label>
                             <label style="margin-top: 0px;margin-bottom:0px;">รายการ</label>
                         </div>
-                        <div class="col-lg-auto" style="font-weight: 900;font-size: small;color:gray;">
+                        <div class="col-lg-auto" style="font-weight: 900;font-size: small;color:gray;" hidden>
                             <label style="margin-top: 0px;margin-bottom:0px;">มูลค่ารวม</label>
                             <label id="assetValue" style="margin-top: 0px;margin-bottom:0px;">...</label>
                             <label style="margin-top: 0px;margin-bottom:0px;">บาท</label>
