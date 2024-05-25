@@ -388,7 +388,7 @@
                                 <label class="comp-label" style="color:gray;">บริษัท</label>
                             </div>
                             <div class="col-lg-8">
-                                @if (session('idPositions') == 15)
+                                @if (session('role') === 'admin' || session('role') === 'superAdmin')
 
                                     <select class="form-control select2" style="width: 100%;" id="comp">
                                         <option value="0" selected>ทุกบริษัท</option>
@@ -480,6 +480,8 @@
     <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
     <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
     <script>
+        var sessionUser = @json(session('role'));
+        console.log(sessionUser);
         $(function() {
             //Initialize Select2 Elements
             $('.select2').select2()

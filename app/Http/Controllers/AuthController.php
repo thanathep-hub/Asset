@@ -42,6 +42,14 @@ class AuthController extends Controller
             session()->put("idComp", $data_user->idComp);
             // session()->put('idPositions', 15); // position 15 กรรมการผู้บริหาร
 
+            if ($data_user->idPositions === '15') {
+                session()->put("role", 'admin');
+            } else if ($data_user->idPositions === '17') {
+                session()->put("role", 'superAdmin');
+            } else {
+                session()->put("role", 'user');
+            }
+
             return redirect()->back();
         } else {
             Alert::error('เกิดข้อผิดพลาด!', 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง');
