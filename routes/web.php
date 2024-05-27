@@ -86,6 +86,9 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::get('/asset_land/search', 'AssetController@searchLand')->name('searchLand');
     // search_filter_land
     Route::get('/asset_land/search_filter_land', 'AssetController@search_filter_land')->name('search_filter_land');
+
+    Route::get('/po', 'POController@showPO')->name('show_po');
+
     /* ---------------------------------------------- /Asset ---------------------------------------------- */
 
     Route::get('/vam', 'VamController@index');
@@ -129,7 +132,13 @@ Route::get('up-file', function () {
 
 Route::post('/up-file-con', 'TestController@resizeAndSaveToFTP');
 
+//
+//
+//
 
+//
+//
+//
 /* drink  */
 
 use App\Http\Controllers\DrinkController;
