@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -50,7 +51,14 @@ class AuthController extends Controller
                 session()->put("role", 'user');
             }
 
-            return redirect()->back();
+            // ดึง URL ก่อนหน้าจาก session
+            $previousUrl = Session::get('previous_url', '/');
+            Session::forget('previous_url'); // ลบ URL ก่อนหน้าออกจาก session เพื่อป้องกันปัญหาในอนาคต
+
+            // ดีบัก URL ก่อนหน้า
+            // dd($previousUrl);
+
+            return redirect()->to($previousUrl);
         } else {
             Alert::error('เกิดข้อผิดพลาด!', 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง');
             return redirect()->back();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Support\Facades\Session;
 use Closure;
 
 class CheckLogin
@@ -15,10 +16,11 @@ class CheckLogin
      */
     public function handle($request, Closure $next)
     {
-        if(!Session()->has('user')){
-
+        if (!Session::has('user') && !$request->is('login')) {
+            Session::put('previous_url', url()->current());
             return redirect('/login');
         }
+
         return $next($request);
     }
 }
