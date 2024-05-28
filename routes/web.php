@@ -87,7 +87,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     // search_filter_land
     Route::get('/asset_land/search_filter_land', 'AssetController@search_filter_land')->name('search_filter_land');
 
-    Route::get('/po', 'POController@showPO')->name('show_po');
+    Route::get('/po/{id_po}', 'POController@showPO');
 
     /* ---------------------------------------------- /Asset ---------------------------------------------- */
 
@@ -158,7 +158,7 @@ Route::post('/insertCart', 'DrinkController@insertCart');
 Route::get('/drinks_success', 'DrinkController@drinks_success');
 Route::get('/back_to_drink', 'DrinkController@success')->name('back_to_drink');
 
-Route::get('/test', 'DrinkController@test');
+// Route::get('/test', 'DrinkController@test');
 
 Route::get('/drink_home', function () {
     return view('drinks.drink_home');

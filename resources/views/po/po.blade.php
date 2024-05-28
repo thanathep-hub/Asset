@@ -218,14 +218,27 @@
         .stepper-item:last-child::after {
             content: none;
         }
+
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #005340;
+            color: white;
+            text-align: center;
+            height: 40px;
+            align-content: center;
+
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="container-custom container">
+    <div class="container-custom container" style="margin-bottom:5rem;">
         <div class="text-center mt-3 mb-3">
-            <h6>เลขที่ใบสั่งซื้อ PO99987</h6>
+            <h6>Purchase order : #{{ $po_mt->DocCode }}</h6>
         </div>
         <div class="stepper-wrapper mt-3">
             <div class="stepper-item completed">
@@ -245,89 +258,206 @@
                 <div class="step-name">อนุมัติ 2</div>
             </div>
         </div>
-
-        <div class="datail-po">
-            <div class="in-detail-first border p-3 mb-2">
-                <div class="item">
-                    <label class="kanit-semibold">บริษัท : </label>
-                    <label for="">บริษัท กรีนซีดส์ จำกัด</label>
-                </div>
-                <div class="item">
-                    <label class="kanit-semibold">Supplier : </label>
-                    <label for=""></label>
-                </div>
-                <div class="item">
-                    <label class="kanit-semibold">ผู้สั่งซื้อ : </label>
-                    <label for=""></label>
-                </div>
-                <div class="item">
-                    <label class="kanit-semibold">เบอร์ติดต่อ : </label>
-                    <label for=""></label>
-                </div>
-                <div class="item">
-                    <label class="kanit-semibold">ผู้ออกคำสั่ง : </label>
-                    <label for=""></label>
-                </div>
-                <div class="item">
-                    <label class="kanit-semibold">โครงการ : </label>
-                    <label for=""></label>
-                </div>
+        <div class="border-bottom mb-3"></div>
+        <div class="d-flex justify-content-between">
+            <div class="logo-comp ">
+                <img src="http://203.151.27.229/spm/Center/Logo/{{ $po_mt->idComp }}.jpg" alt=""
+                    style="width:60px;">
+                <label for="">{{ $po_mt->CompName }}</label>
             </div>
-            <div class="in-detail-second border p-3">
-                <div class="item">
-                    <label class="kanit-semibold">วันที่ซื้อสินค้า : </label>
-                    <label for="">27-05-2567</label>
-                </div>
-                <div class="item">
-                    <label class="kanit-semibold">ผู้ทำรายการ : </label>
-                    <label for="">เอก ธุมากร</label>
-                </div>
-                <div class="item">
-                    <label class="kanit-semibold">วันที่ทำรายการ : </label>
-                    <label for="">05-05-2567</label>
-                </div>
-                <div class="item">
-                    <label class="kanit-semibold">สถานที่ส่งของ : </label>
-                    <label for="">บริษัท กรีนซีดส์ จำกัด
-                        421 หมู่ 11 ต.พังขว้าง อ.เมือง 47000
-                        โทร.042-970217</label>
-                </div>
-                <div class="item">
-                    <label class="kanit-semibold">หมายเหตุ : </label>
-                    <label for="">โครงการซ่อมโรงเรือนตาข่ายเคลื่อนที่ไร่สุขสม</label>
-                </div>
+            <div class="time ">
+                <div id="date" class="text-end"></div>
+                <div id="time" class="text-end"></div>
             </div>
-
-            <div class="in-detail-second border p-3">
-                <h6>รายการ</h6>
-                <div class="table-responsive">
-                    {{-- <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Column 1</th>
-                                <th scope="col">Column 2</th>
-                                <th scope="col">Column 3</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="">
-                                <td scope="row">R1C1</td>
-                                <td>R1C2</td>
-                                <td>R1C3</td>
-                            </tr>
-                            <tr class="">
-                                <td scope="row">Item</td>
-                                <td>Item</td>
-                                <td>Item</td>
-                            </tr>
-                        </tbody>
-                    </table> --}}
-                </div>
-
-            </div>
-
         </div>
 
+        <div class="text-center mt-3 mb-3">
+            <h6>ใบสั่งซื้อ</h6>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                <table class="table table-bordered tTableText">
+                    <thead>
+                        <tr>
+                            {{-- <th style="font-size: 12px; text-align: center;width:50px;">ลำดับ</th> --}}
+                            <th style="font-size: 12px; text-align: center;">จ่ายให้ Supplier</th>
+                            <th style="font-size: 12px; text-align: center; width: 70px;">ภาษี ณ<br>ที่จ่าย</th>
+                            <th style="font-size: 12px; text-align: center; width: 70px;">จำนวนเงิน<br>สุทธิ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="height: auto;">
+                            {{-- <td class="text-center">1</td> --}}
+                            <td style="text-align: center;font-size: 12px;">{{ $po_mt->SupName }}</td>
+                            <td style="text-align: right; font-size: 12px;"></td>
+                            <td style="text-align: right; font-size: 12px;">
+                                {{ number_format($po_mt->TotalNet, 2) ?? 0.0 }}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right; font-size: 12px; font-weight: bold;" colspan="2">
+                                รวมเป็นเงิน</td>
+                            <td style="text-align: right; font-size: 12px; width: 70px; font-weight: bold;">
+                                {{ number_format($po_mt->TotalNet, 2) ?? 0.0 }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            @php
+                $date = DateTime::createFromFormat('Ymd', $po_mt->DateBuy);
+                $formattedDate = $date ? $date->format('d-m-Y') : 'Invalid date';
+            @endphp
+
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <table class="table table-bordered tTableText">
+                    <tbody>
+                        <tr>
+                            <td style="height: 30px; font-size: 12px;">
+                                <p style="font-size: 12px;">PO No : {{ $po_mt->DocCode }}</p>
+                                <p style="margin-top: -5px; font-size: 12px;">วันที่ใบสังซื้อ : {{ $formattedDate }}
+                                </p>
+                                <p style="margin-top: -5px; margin-bottom: -1px; font-size: 12px;">
+                                    เลขที่ใบเสนอราคา : {{ $po_mt->QtCode }}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <table class="table table-bordered tTableText">
+                    <thead>
+                        <tr>
+                            <th style="font-size: 12px; text-align: center;">#</th>
+                            <th style="font-size: 12px; text-align: center;">รายการ</th>
+                            <th style="width: 100px; font-size: 12px; text-align: center;">ราคาต้องการซื้อ</th>
+                            <th style="width: 100px; font-size: 12px; text-align: center; width: 100px;">จำนวน
+                            </th>
+                            <th style="width: 100px; font-size: 12px; text-align: center; width: 100px;">รวมเป็นเงิน
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($po_dt as $index => $item)
+                            <tr style="height: auto;">
+                                <td class="text-center">{{ $index + 1 }}</td>
+                                <td class="text-start">{{ $item->InvName_ }}</td>
+                                <td class="text-end">{{ $item->InvPrice }}</td>
+                                <td class="text-end">{{ number_format($item->AmountSub) ?? 0 }}</td>
+                                <td class="text-end">{{ number_format($item->TotalPrice, 2) ?? 0.0 }}
+                                </td>
+                            </tr>
+                        @empty
+                        @endforelse
+
+
+                        <tr>
+                            <td class="text-center">*</td>
+                            <td>
+                                <strong>หมายเหตุ(Note) : </strong>{{ $po_mt->Note ?? '' }}
+                            </td>
+                            <td style="font-size: 12px; font-weight: bold; text-align: right;" colspan="2">
+                                รวมเป็นเงิน :
+                            </td>
+                            <td style="text-align: right; font-size: 12px;">
+                                <strong>{{ number_format($po_mt->TotalNet, 2) ?? 0.0 }}</strong>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <table class="table table-bordered" style="margin-top: -21px; background-color: #EEEEEE;">
+                    <tbody>
+                        <tr>
+                            <td style="text-align: center; font-size: 12px; font-weight: bold;">
+                                -</td>
+                            <td style="text-align: right; font-size: 12px; width: 100px; font-weight: bold;">
+                                {{ number_format($po_mt->TotalNet, 2) ?? 0.0 }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row" style="margin-bottom: -10px;">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <table class="table table-bordered tTableText">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; width: 100px;">
+                                <img class="img_cusMax"
+                                    src="http://203.151.27.229/spm/images/eSign/{{ $po_mt->idPsCheck }}.png"
+                                    onerror="this.src = '{{ asset('signature/signature_empty.png') }}';"
+                                    style="height: 40px;">
+                            </th>
+                            <th style="text-align: center; width: 100px;">
+                                <img class="img_cusMax"
+                                    src="http://203.151.27.229/spm/images/eSign/{{ $po_mt->idPsAccept }}.png"
+                                    onerror="this.src = '{{ asset('signature/signature_empty.png') }}';"
+                                    style="height: 40px;">
+                            </th>
+                            <th style="text-align: center; width: 100px;">
+                                <img class="img_cusMax"
+                                    src="http://203.151.27.229/spm/images/eSign/{{ $po_mt->idPsConfirm }}.png"
+                                    onerror="this.src = '{{ asset('signature/signature_empty.png') }}';"
+                                    style="height: 40px;">
+                            </th>
+                            <th style="text-align: center; width: 100px;">
+                                <img class="img_cusMax"
+                                    src="http://203.151.27.229/spm/images/eSign/{{ $po_mt->idPsConfirm2 }}.png"
+                                    onerror="this.src = '{{ asset('signature/signature_empty.png') }}';"
+                                    style="height: 40px;">
+                            </th>
+                            <!-- <th class="tTb">วิธีการโอนเงิน &nbsp; - ผ่านทางธนาคาร<br>INST.DATE </th> -->
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="tTextL text-center" style="font-size: 12px;">
+                                {{ $po_mt->PsCheckName ?? '-' }}<br>
+                                ผู้ตรวจสอบ
+                            <td class="tTextL text-center" style="font-size: 12px;">{{ $po_mt->idPsAccept ?? '-' }}
+                                <br>
+                                รับทราบ
+                            </td>
+                            </td>
+                            <td class="tTextL text-center" style="font-size: 12px;">
+                                {{ $po_mt->PsConfirmName_ ?? '-' }}<br>
+                                ผู้อนุมัติ1
+                            </td>
+                            <td class="tTextL text-center" style="font-size: 12px;">
+                                {{ $po_mt->PsConfirmName2_ ?? '-' }}<br>
+                                ผู้อนุมัติ2</td>
+                            <!-- <td class="tTb">ผู้รับเงิน</td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="border-bottom mb-3"></div>
+
+    </div>
+    <div class="btn-approve" hidden>
+        <button type="button" class="btn btn" style="background-color: #49b466;color:#fff;width:8rem;">
+            <i class="fa-solid fa-check" style="color: #fff;">
+                อนุมติ
+        </button>
+    </div>
+    <div class="footer">
+        <div class="row">
+            <div class="text-d">
+                <i class="fa-regular fa-circle-user"></i>
+                <strong>{{ session('username') }}</strong>
+                <i class="mr-3 fa-regular fa-building"></i>
+                <strong>{{ session('user')->CompName }}</strong>
+            </div>
+        </div>
     </div>
     <!-- jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
@@ -338,9 +468,31 @@
     <!-- Custom Script -->
     <script>
         $(document).ready(function() {
-            // $('#myButton').click(function(){
-            //     alert('Button clicked!');
-            // });
+            function updateTime() {
+                var now = new Date();
+
+                var thailandTime = new Date(now.toLocaleString("en-US", {
+                    timeZone: "Asia/Bangkok"
+                }));
+                var day = thailandTime.getDate();
+                var month = thailandTime.getMonth() + 1;
+                var year = thailandTime.getFullYear();
+
+                var hours = thailandTime.getHours();
+                var minutes = thailandTime.getMinutes();
+                var seconds = thailandTime.getSeconds();
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+                var dateString = `${day}/${month}/${year+543}`;
+                var timeString = `${hours}:${minutes}:${seconds}`;
+
+                $('#date').text(dateString);
+                $('#time').text(timeString);
+            }
+
+            setInterval(updateTime, 1000);
+
+            updateTime();
         });
     </script>
 
