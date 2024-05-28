@@ -231,29 +231,44 @@
             align-content: center;
 
         }
+
+        .po-btn-accept {
+            position: fixed;
+            bottom: 60px;
+            right: 22px;
+            border-radius: 8px;
+            color: #fff;
+            width: 6rem;
+            background-color: #2b9504;
+        }
+
+        .btn-item-ac {
+            max-width: 120px;
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="container-custom container" style="margin-bottom:5rem;">
+    <div class="container-custom container" style="margin-bottom:7rem;">
         <div class="text-center mt-3 mb-3">
             <h6>Purchase order : #{{ $po_mt->DocCode }}</h6>
         </div>
         <div class="stepper-wrapper mt-3">
-            <div class="stepper-item completed">
+            <div class="stepper-item {{ $po_mt->idPsCheck ? 'completed' : '' }}">
                 <div class="step-counter"><i class="fa-solid fa-check fa-xl" style="color: #fff;"></i></div>
                 <div class="step-name">ตรวจสอบ</div>
             </div>
-            <div class="stepper-item completed">
+            <div class="stepper-item {{ $po_mt->idPsAccept ? 'completed' : '' }}
+            ">
                 <div class="step-counter"><i class="fa-solid fa-check fa-xl" style="color: #fff;"></i></div>
                 <div class="step-name">รับทราบ</div>
             </div>
-            <div class="stepper-item active">
+            <div class="stepper-item {{ $po_mt->idPsConfirm ? 'completed' : '' }}">
                 <div class="step-counter"><i class="fa-solid fa-check fa-xl" style="color: #fff;"></i></div>
                 <div class="step-name">อนุมัติ 1</div>
             </div>
-            <div class="stepper-item">
+            <div class="stepper-item {{ $po_mt->idPsConfirm2 ? 'completed' : '' }}">
                 <div class="step-counter"><i class="fa-solid fa-check fa-xl" style="color: #fff;"></i></div>
                 <div class="step-name">อนุมัติ 2</div>
             </div>
@@ -420,9 +435,9 @@
                     <tbody>
                         <tr>
                             <td class="tTextL text-center" style="font-size: 12px;">
-                                {{ $po_mt->PsCheckName ?? '-' }}<br>
+                                {{ $po_mt->PsCheck ?? '-' }}<br>
                                 ผู้ตรวจสอบ
-                            <td class="tTextL text-center" style="font-size: 12px;">{{ $po_mt->idPsAccept ?? '-' }}
+                            <td class="tTextL text-center" style="font-size: 12px;">{{ $po_mt->PsAccept ?? '-' }}
                                 <br>
                                 รับทราบ
                             </td>
@@ -443,12 +458,51 @@
         <div class="border-bottom mb-3"></div>
 
     </div>
-    <div class="btn-approve" hidden>
-        <button type="button" class="btn btn" style="background-color: #49b466;color:#fff;width:8rem;">
-            <i class="fa-solid fa-check" style="color: #fff;">
-                อนุมติ
+
+    <div class="po-btn-accept">
+        <button type="button" class="btn btn text-center" style="width: 100%;color:#fff;" data-bs-toggle="modal"
+            data-bs-target="#PO_Update">
+            <i class="fa-solid fa-check"></i>
+            อนุมติ
         </button>
     </div>
+
+    <div class="modal fade" id="PO_Update" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="border: none;">
+                <div class="modal-body">
+                    <div class="row p-4 border-bottom" style="text-align: center;">
+                        <label for="" class="col-6" style="align-content: center;">สิทธิ์</label>
+                    </div>
+                    <div class="row p-4 border-bottom" style="text-align: center;">
+                        <label for="" class="col-6" style="align-content: center;"><i
+                                class="fa-solid fa-user-check fa-2xl" style="color: #B197FC;"></i> : -</label>
+                        <button class="btn col-6 btn-item-ac" style="background-color: #015dee;color:#fff;"><i
+                                class="fa-solid fa-check"></i> ตรวจสอบ</button>
+                    </div>
+                    <div class="row p-4 border-bottom" style="text-align: center;">
+                        <label for="" class="col-6" style="align-content: center;">รับทราบ</label>
+                        <button class="btn col-6 btn-item-ac" style="background-color: #015dee;color:#fff;"><i
+                                class="fa-solid fa-check"></i> รับทราบ</button>
+                    </div>
+                    <div class="row p-4 border-bottom" style="text-align: center;">
+                        <label for="" class="col-6" style="align-content: center;">อนุมัติ 1</label>
+                        <button class="btn col-6 btn-item-ac" style="background-color: #015dee;color:#fff;"> <i
+                                class="fa-solid fa-check"></i> อนุมัติ 1</button>
+                    </div>
+                    <div class="row p-4" style="text-align: center;">
+                        <label for="" class="col-6" style="align-content: center;">อนุมัติ 2</label>
+                        <button class="btn col-6 btn-item-ac" style="background-color: #015dee;color:#fff;"><i
+                                class="fa-solid fa-check"></i> อนุมัติ 2</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="footer">
         <div class="row">
             <div class="text-d">
@@ -464,6 +518,7 @@
         crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Custom Script -->
     <script>
@@ -493,7 +548,30 @@
             setInterval(updateTime, 1000);
 
             updateTime();
+
+
         });
+
+        function showAlert() {
+            Swal.fire({
+                title: "ต้องการยืนยันรายการ ?",
+                // text: "You won't be able to revert this!",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "ตกลง",
+                cancelButtonText: "ปิด"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "สำเร็จ!",
+                        text: "คุณได้ทำรายการสำเร็จ.",
+                        icon: "success"
+                    });
+                }
+            });
+        }
     </script>
 
 </body>
