@@ -238,7 +238,7 @@
             right: 22px;
             border-radius: 8px;
             color: #fff;
-            width: 6rem;
+            width: 8rem;
             background-color: #2b9504;
         }
 
@@ -459,15 +459,74 @@
 
     </div>
 
-    <div class="po-btn-accept">
-        <button type="button" class="btn btn text-center" style="width: 100%;color:#fff;" data-bs-toggle="modal"
-            data-bs-target="#PO_Update">
-            <i class="fa-solid fa-check"></i>
-            อนุมติ
-        </button>
+    {{-- @if ($po_mt->idPsConfirm == null)
+    @endif --}}
+    @if (isset($permission))
+        @if ($permission->po_confirm2 !== null && $permission->po_confirm2 == 1)
+            @if ($po_mt->idPsConfirm2 == null)
+                <div class="po-btn-accept">
+                    <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
+                        onclick="showAlert('confirm2')">
+                        <i class="fa-solid fa-check"></i>
+                        อนุมัติ 2
+                    </button>
+                </div>
+            @elseif ($po_mt->idPsConfirm == null && $permission->po_confirm1 == 1)
+                <div class="po-btn-accept">
+                    <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
+                        onclick="showAlert('confirm1')">
+                        <i class="fa-solid fa-check"></i>
+                        อนุมัติ 1
+                    </button>
+                </div>
+            @endif
+        @elseif($permission->po_confirm1 !== null && $permission->po_confirm1 == 1)
+            @if ($po_mt->idPsConfirm == null)
+                <div class="po-btn-accept">
+                    <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
+                        onclick="showAlert('confirm1')">
+                        <i class="fa-solid fa-check"></i>
+                        อนุมัติ 1
+                    </button>
+                </div>
+            @endif
+        @elseif ($permission->po_check == 1)
+            @if ($po_mt->idPsCheck == null)
+                <div class="po-btn-accept">
+                    <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
+                        onclick="showAlert('check')">
+                        <i class="fa-solid fa-check"></i>
+                        ตรวจสอบ
+                    </button>
+                </div>
+            @endif
+        @elseif ($permission->po_accept == 1)
+            @if ($po_mt->idPsAccept == null)
+                <div class="po-btn-accept">
+                    <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
+                        onclick="showAlert('accept')">
+                        <i class="fa-solid fa-check"></i>
+                        รับทราบ
+                    </button>
+                </div>
+            @endif
+        @endif
+    @endif
+
+
+
+    <div class="footer">
+        <div class="row">
+            <div class="text-d">
+                <i class="fa-regular fa-circle-user"></i>
+                <strong>{{ session('username') }}</strong>
+                <i class="mr-3 fa-regular fa-building"></i>
+                <strong>{{ session('user')->CompName }}</strong>
+            </div>
+        </div>
     </div>
 
-    <div class="modal fade" id="PO_Update" tabindex="-1" aria-hidden="true">
+    {{-- <div class="modal fade" id="PO_Update" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content" style="border: none;">
                 <div class="modal-body">
@@ -501,18 +560,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="footer">
-        <div class="row">
-            <div class="text-d">
-                <i class="fa-regular fa-circle-user"></i>
-                <strong>{{ session('username') }}</strong>
-                <i class="mr-3 fa-regular fa-building"></i>
-                <strong>{{ session('user')->CompName }}</strong>
-            </div>
-        </div>
-    </div>
+
     <!-- jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
@@ -552,9 +602,9 @@
 
         });
 
-        function showAlert() {
+        function showAlert(status) {
             Swal.fire({
-                title: "ต้องการยืนยันรายการ ?",
+                title: `ยืนยันการทำรายการ ?`,
                 // text: "You won't be able to revert this!",
                 icon: "info",
                 showCancelButton: true,
@@ -564,11 +614,38 @@
                 cancelButtonText: "ปิด"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "สำเร็จ!",
-                        text: "คุณได้ทำรายการสำเร็จ.",
-                        icon: "success"
-                    });
+                    // เรียก API ของ Laravel
+                    fetch(`/po/confirm`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                status: status,
+                                idPoBuy: {{ $po_mt->idPoBuy }}
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            Swal.fire({
+                                title: "สำเร็จ!",
+                                text: "คุณได้ทำรายการสำเร็จ.",
+                                icon: "success"
+                            });
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 3000);
+
+                        })
+                        .catch(error => {
+                            Swal.fire({
+                                title: "เกิดข้อผิดพลาด!",
+                                text: "ไม่สามารถทำรายการได้",
+                                icon: "error"
+                            });
+                        });
                 }
             });
         }
