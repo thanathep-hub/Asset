@@ -401,8 +401,8 @@
                 <table class="table table-bordered" style="margin-top: -21px; background-color: #EEEEEE;">
                     <tbody>
                         <tr>
-                            <td style="text-align: center; font-size: 12px; font-weight: bold;">
-                                -</td>
+                            <td style="text-align: center; font-size: 12px; font-weight: bold;" id="bahtText">
+                            </td>
                             <td style="text-align: right; font-size: 12px; width: 100px; font-weight: bold;">
                                 {{ number_format($po_mt->TotalNet, 2) ?? 0.0 }}</td>
                         </tr>
@@ -568,6 +568,8 @@
     <!-- Custom Script -->
     <script>
         $(document).ready(function() {
+            bahtText();
+
             function updateTime() {
                 var now = new Date();
 
@@ -591,11 +593,10 @@
             }
 
             setInterval(updateTime, 1000);
-
             updateTime();
 
-
         });
+
 
         function showAlert(status) {
             Swal.fire({
@@ -641,6 +642,19 @@
                                 icon: "error"
                             });
                         });
+                }
+            });
+        }
+
+        function bahtText() {
+            $.ajax({
+                url: '/BahtText/' + {{ $po_mt->TotalNet }} + '',
+                type: 'GET',
+                success: function(bahtText) {
+                    document.getElementById('bahtText').textContent = bahtText;
+                },
+                error: function(error) {
+                    console.error('Error fetching chart data', error);
                 }
             });
         }

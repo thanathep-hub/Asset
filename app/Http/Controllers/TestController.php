@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Artisan;
 
 use Image;
 use File;
@@ -19,7 +20,6 @@ class TestController extends Controller
 
             // ftp_close($ftp);
             dd($login_result);
-
         } catch (\Throwable $th) {
             //throw $th;
             dd($th->getMessage());
@@ -98,5 +98,11 @@ class TestController extends Controller
             return 'Image resized and saved to FTP successfully.';
         }
         return 'No image file uploaded.';
+    }
+
+    public function dumpAutoload()
+    {
+        Artisan::call('dump-autoload');
+        return response()->json(['message' => 'Autoload files have been regenerated successfully.']);
     }
 }

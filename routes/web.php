@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\AssetController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,9 +15,8 @@ use App\Http\Controllers\AssetController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+
+
 
 Route::get('/login', function () {
     if (Session::has('user')) {
@@ -30,10 +28,6 @@ Route::get('/login', function () {
 
 Route::group(['middleware' => 'CheckLogin'], function () {
 
-    // Route::get('/', function () {
-    //     return view('home');
-    // });
-    // Route::get('/', 'HomeController@index');
     Route::get('/', function () {
         return view('asset.asset_menu');
     });
@@ -63,6 +57,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
         $asset_category = $assetController->asset_comp_repair();
         return view('asset.asset_repair', ['Comp' => $asset_category]);
     });
+
     // page asset repair bill
     Route::get('/search_repair', 'AssetController@search_repair')->name('search_repair');
     // page asset
@@ -89,6 +84,11 @@ Route::group(['middleware' => 'CheckLogin'], function () {
 
     Route::get('/po/items/{id_po}', 'POController@showPO');
     Route::post('/po/confirm', 'POController@confirmPO');
+
+    Route::get('/BahtText/{number}', 'BahtTextController@bahtText');
+
+    // Route::get('/composer/dump-autoload', 'TestController@dumpAutoload');
+
 
     /* ---------------------------------------------- /Asset ---------------------------------------------- */
 
@@ -122,13 +122,8 @@ Route::get(
         return view('errors.404');
     }
 );
-// Route::get('/asset_details', function () {
-//     return view('asset.asset_details');
-// });
 
 Route::get('ftp-connect', 'TestController@test');
-
-// Route::get('del', 'TestController@del');
 
 
 // /* test upload file */
