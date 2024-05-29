@@ -82,12 +82,11 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     // search_filter_land
     Route::get('/asset_land/search_filter_land', 'AssetController@search_filter_land')->name('search_filter_land');
 
+    /* ---------------------------------------------- /PO ---------------------------------------------- */
     Route::get('/po/items/{id_po}', 'POController@showPO');
     Route::post('/po/confirm', 'POController@confirmPO');
 
     Route::get('/BahtText/{number}', 'BahtTextController@bahtText');
-
-    // Route::get('/composer/dump-autoload', 'TestController@dumpAutoload');
 
 
     /* ---------------------------------------------- /Asset ---------------------------------------------- */
