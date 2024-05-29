@@ -601,7 +601,6 @@
         function showAlert(status) {
             Swal.fire({
                 title: `ยืนยันการทำรายการ ?`,
-                // text: "You won't be able to revert this!",
                 icon: "info",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -610,7 +609,6 @@
                 cancelButtonText: "ปิด"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // เรียก API ของ Laravel
                     fetch(`/po/confirm`, {
                             method: 'POST',
                             headers: {
@@ -633,7 +631,6 @@
                                 // Reload the page after successful operation
                                 window.location.reload();
                             });
-
                         })
                         .catch(error => {
                             Swal.fire({
@@ -645,6 +642,7 @@
                 }
             });
         }
+
 
         function bahtText() {
             $.ajax({
