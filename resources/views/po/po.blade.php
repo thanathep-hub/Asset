@@ -629,10 +629,10 @@
                                 title: "สำเร็จ!",
                                 text: "คุณได้ทำรายการสำเร็จ.",
                                 icon: "success"
-                            });
-                            setTimeout(function() {
+                            }).then(() => {
+                                // Reload the page after successful operation
                                 window.location.reload();
-                            }, 3000);
+                            });
 
                         })
                         .catch(error => {
