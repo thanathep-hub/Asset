@@ -264,7 +264,7 @@
 
     <div class="container-custom container" style="margin-bottom:7rem;">
         <div class="text-center mt-3 mb-3">
-            <h6>Purchase order : #{{ $po_mt->DocCode ?? '' }}</h6>
+            <h6>Purchase Order : #{{ $po_mt->DocCode ?? '' }}</h6>
         </div>
         <div class="stepper-wrapper mt-3">
             <div class="stepper-item {{ $po_mt->idPsCheck ? 'completed' : '' }}">
