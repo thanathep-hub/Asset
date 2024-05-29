@@ -245,6 +245,18 @@
         .btn-item-ac {
             max-width: 120px;
         }
+
+        .swal2-confirm {
+            width: 6rem;
+        }
+
+        .swal2-cancel {
+            width: 6rem;
+        }
+
+        button.swal2-cancel.swal2-styled.swal2-default-outline {
+            color: #000;
+        }
     </style>
 </head>
 
@@ -252,7 +264,7 @@
 
     <div class="container-custom container" style="margin-bottom:7rem;">
         <div class="text-center mt-3 mb-3">
-            <h6>Purchase order : #{{ $po_mt->DocCode }}</h6>
+            <h6>Purchase order : #{{ $po_mt->DocCode ?? '' }}</h6>
         </div>
         <div class="stepper-wrapper mt-3">
             <div class="stepper-item {{ $po_mt->idPsCheck ? 'completed' : '' }}">
@@ -361,7 +373,7 @@
                             <tr style="height: auto;">
                                 <td class="text-center">{{ $index + 1 }}</td>
                                 <td class="text-start">{{ $item->InvName_ }}</td>
-                                <td class="text-end">{{ $item->InvPrice }}</td>
+                                <td class="text-end">{{ number_format($item->InvPrice, 2) ?? 0 }}</td>
                                 <td class="text-end">{{ number_format($item->AmountSub) ?? 0 }}</td>
                                 <td class="text-end">{{ number_format($item->TotalPrice, 2) ?? 0.0 }}
                                 </td>
@@ -455,64 +467,47 @@
                 </table>
             </div>
         </div>
+
         <div class="border-bottom mb-3"></div>
 
     </div>
 
-    {{-- @if ($po_mt->idPsConfirm == null)
-    @endif --}}
+
     @if (isset($permission))
-        @if ($permission->po_confirm2 !== null && $permission->po_confirm2 == 1)
-            @if ($po_mt->idPsConfirm2 == null)
-                <div class="po-btn-accept">
-                    <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
-                        onclick="showAlert('confirm2')">
-                        <i class="fa-solid fa-check"></i>
-                        อนุมัติ 2
-                    </button>
-                </div>
-            @elseif ($po_mt->idPsConfirm == null && $permission->po_confirm1 == 1)
-                <div class="po-btn-accept">
-                    <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
-                        onclick="showAlert('confirm1')">
-                        <i class="fa-solid fa-check"></i>
-                        อนุมัติ 1
-                    </button>
-                </div>
-            @endif
-        @elseif($permission->po_confirm1 !== null && $permission->po_confirm1 == 1)
-            @if ($po_mt->idPsConfirm == null)
-                <div class="po-btn-accept">
-                    <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
-                        onclick="showAlert('confirm1')">
-                        <i class="fa-solid fa-check"></i>
-                        อนุมัติ 1
-                    </button>
-                </div>
-            @endif
-        @elseif ($permission->po_check == 1)
-            @if ($po_mt->idPsCheck == null)
-                <div class="po-btn-accept">
-                    <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
-                        onclick="showAlert('check')">
-                        <i class="fa-solid fa-check"></i>
-                        ตรวจสอบ
-                    </button>
-                </div>
-            @endif
-        @elseif ($permission->po_accept == 1)
-            @if ($po_mt->idPsAccept == null)
-                <div class="po-btn-accept">
-                    <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
-                        onclick="showAlert('accept')">
-                        <i class="fa-solid fa-check"></i>
-                        รับทราบ
-                    </button>
-                </div>
-            @endif
+        @if ($po_mt->idPsConfirm2 == null && $permission->po_confirm2 == 1)
+            <div class="po-btn-accept">
+                <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
+                    onclick="showAlert('confirm2')">
+                    <i class="fa-solid fa-check"></i>
+                    อนุมัติ 2
+                </button>
+            </div>
+        @elseif ($po_mt->idPsConfirm == null && $permission->po_confirm1 == 1)
+            <div class="po-btn-accept">
+                <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
+                    onclick="showAlert('confirm1')">
+                    <i class="fa-solid fa-check"></i>
+                    อนุมัติ 1
+                </button>
+            </div>
+        @elseif ($po_mt->idPsAccept == null && $permission->po_accept == 1)
+            <div class="po-btn-accept">
+                <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
+                    onclick="showAlert('accept')">
+                    <i class="fa-solid fa-check"></i>
+                    รับทราบ
+                </button>
+            </div>
+        @elseif ($po_mt->idPsCheck == null && $permission->po_check == 1)
+            <div class="po-btn-accept">
+                <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
+                    onclick="showAlert('check')">
+                    <i class="fa-solid fa-check"></i>
+                    ตรวจสอบ
+                </button>
+            </div>
         @endif
     @endif
-
 
 
     <div class="footer">
@@ -609,7 +604,7 @@
                 icon: "info",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
+                cancelButtonColor: "#f8f9fa",
                 confirmButtonText: "ตกลง",
                 cancelButtonText: "ปิด"
             }).then((result) => {

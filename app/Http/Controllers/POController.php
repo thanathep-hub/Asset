@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class POController extends Controller
 {
@@ -16,6 +17,9 @@ class POController extends Controller
 
         session()->put("permission", 'permission');
 
+        if ($po_mt === null) {
+            return redirect('/errors/404');
+        }
 
         return view('po.po', compact('po_mt', 'po_dt', 'permission'));
     }
@@ -64,7 +68,7 @@ class POController extends Controller
         if ($po_status == true) {
             $stDoc_update = DB::update("
                 UPDATE PchInvAndProject.dbo.AssPoBuyMt
-                SET stDoc = 1
+                SET stDoc = 4
                 WHERE
                     idPoBuy = $idPoBuy
             ");
@@ -100,8 +104,12 @@ class POController extends Controller
             //throw $th;
         }
 
-        if ($po_mt) {
+        // dd($po_mt);
+
+        if ($po_mt != null) {
             return $po_mt;
+        } else {
+            return null;
         }
     }
 

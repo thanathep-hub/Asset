@@ -116,7 +116,12 @@ Route::group(['middleware' => 'CheckLogin'], function () {
 Route::get('/checkLogin', 'AuthController@Login');
 Route::get('/logout', 'AuthController@userLogout');
 
-
+Route::get(
+    '/errors/404',
+    function () {
+        return view('errors.404');
+    }
+);
 // Route::get('/asset_details', function () {
 //     return view('asset.asset_details');
 // });
