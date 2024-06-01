@@ -341,11 +341,15 @@
                     <tbody>
                         <tr>
                             <td style="height: 30px; font-size: 12px;">
-                                <p style="font-size: 12px;">PO No : {{ $po_mt->DocCode }}</p>
-                                <p style="margin-top: -5px; font-size: 12px;">วันที่ใบสังซื้อ : {{ $formattedDate }}
+                                <p style="font-size: 12px;"><b>PO No : </b>{{ $po_mt->DocCode }}</p>
+                                <p style="margin-top: -5px; font-size: 12px;"><b>วันที่ใบสังซื้อ :
+                                    </b>{{ $formattedDate }}
                                 </p>
-                                <p style="margin-top: -5px; margin-bottom: -1px; font-size: 12px;">
-                                    เลขที่ใบเสนอราคา : {{ $po_mt->QtCode }}</p>
+                                <p style="margin-top: -5px; font-size: 12px;">
+                                    <b>เลขที่ใบเสนอราคา : </b>{{ $po_mt->QtCode }}
+                                </p>
+                                <p style="margin-top: -5px; margin-bottom: -1px; font-size: 12px;"><b>ผู้ทำรายการ :
+                                    </b>{{ $po_mt->PsTs }}</p>
                             </td>
                         </tr>
                     </tbody>
