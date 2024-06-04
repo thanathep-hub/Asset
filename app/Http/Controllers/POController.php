@@ -317,7 +317,7 @@ class POController extends Controller
 
     public function tinyURL($url)
     {
-        $apiUrl = "https://tinyurl.com/api-create.php?url=" . "http://assets.advanceseeds.com/po/items/771";
+        $apiUrl = "https://tinyurl.com/api-create.php?url=" . $url;
         $response = Http::get($apiUrl);
         if ($response->successful()) {
             $shortUrl = $response->body();
