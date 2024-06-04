@@ -159,6 +159,7 @@ Route::get('/drinks_success', 'DrinkController@drinks_success');
 Route::get('/back_to_drink', 'DrinkController@success')->name('back_to_drink');
 
 // Route::get('/test', 'DrinkController@test');
+// Route::get('/test/po/{id}', 'POController@PO_line_update');
 
 Route::get('/drink_home', function () {
     return view('drinks.drink_home');

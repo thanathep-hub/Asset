@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 class POController extends Controller
 {
     public function showPO($id)
     {
+        $this->get_vAssPoBuyMt($id);
         $po_mt = $this->PO_MT($id);
         $po_dt = $this->PO_DT($id);
         $permission = $this->PO_Permission($id);
@@ -77,6 +79,7 @@ class POController extends Controller
 
         // ทดสอบการส่งค่ากลับ
         if ($update_po) {
+            $this->PO_line_update($idPoBuy);
             return response()->json([
                 'message' => 'สำเร็จ',
                 'status' => $inputStatus,
@@ -194,6 +197,135 @@ class POController extends Controller
             return true;
         } else {
             return false;
+        }
+    }
+
+    // line function
+    public function PO_line_update($id_po)
+    {
+        $po_dt = $this->get_vAssPoBuyMt($id_po);
+        $totalNet = number_format($po_dt->TotalNet, 2, '.', ',');
+
+        $longUrl = "http://assets.advanceseeds.com/po/items/" . $id_po;
+        $link_po = $this->tinyURL($longUrl);
+
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+        date_default_timezone_set("Asia/Bangkok");
+
+        // $sToken = "9gZvubJwRAJUnxxZp2Ny30IJOl7AIgfpJdANd7D6z8U"; // test
+        $sToken = "uTrsM8eNXoDDiF5nL6uvVMwVUmmYoJIumhyicHwhY1h";
+
+        $sMessage = "\nเรียนผู้อนุมัติ (" . $po_dt->CompName . ") \n";
+        $sMessage .= "ขออนุมัติจัดซื้อ PO : " . $po_dt->DocCode . "\n";
+        $sMessage .= "จ่ายเงินให้ : " . $po_dt->SupName . "\n";
+        $sMessage .= "จำนวนเงิน : " . $totalNet . " บาท\n";
+        $sMessage .= "หมายเหตุ : " . $po_dt->Note . "\n";
+        $sMessage .= "ผู้ออกคำสั่ง : " . $po_dt->PsCommand . "\n";
+        $sMessage .= "ผู้ทำรายการ : " . $po_dt->PsTs . "\n";
+        $sMessage .= "---------------- รายการ -------------------\n";
+        $sMessage .= "รายละเอียด : \n";
+        $sMessage .= "---------------- สถานะอนุมัติ --------------\n";
+        $sMessage .= "ผู้รับทราบ : " . $po_dt->PsCheck . "\n";
+        $sMessage .= "ผู้ตรวจสอบ : " . $po_dt->PsAccept . "\n";
+        $sMessage .= "ผู้อนุมัติ 1 : " . $po_dt->PsConfirm . "\n";
+        $sMessage .= "ผู้อนุมัติ 2 : " . $po_dt->PsConfirm2 . "\n";
+        $sMessage .= "----------------------------------------------\n";
+        $sMessage .= "ลิ้งค์ทำรายการ : " . $link_po . "\n";
+
+
+
+        $chOne = curl_init();
+        curl_setopt(
+            $chOne,
+            CURLOPT_URL,
+            "https://notify-api.line.me/api/notify"
+        );
+        curl_setopt(
+            $chOne,
+            CURLOPT_SSL_VERIFYHOST,
+            0
+        );
+        curl_setopt(
+            $chOne,
+            CURLOPT_SSL_VERIFYPEER,
+            0
+        );
+        curl_setopt(
+            $chOne,
+            CURLOPT_POST,
+            1
+        );
+        curl_setopt(
+            $chOne,
+            CURLOPT_POSTFIELDS,
+            "message=" . $sMessage
+        );
+        $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $sToken . '',);
+        curl_setopt(
+            $chOne,
+            CURLOPT_HTTPHEADER,
+            $headers
+        );
+        curl_setopt(
+            $chOne,
+            CURLOPT_RETURNTRANSFER,
+            1
+        );
+
+        $result = curl_exec($chOne);
+        if (curl_error($chOne)) {
+            echo 'error:' . curl_error($chOne);
+        } else {
+            $result_ = json_decode($result, true);
+            echo "status : " . $result_['status'];
+            echo "message : " . $result_['message'];
+        }
+        curl_close($chOne);
+        if ($result) {
+            $rt = "ทำรายการสำเร็จ!";
+        } else {
+            $rt = "ทำรายการสำเร็จ";
+        }
+
+        // return $result;
+        // return response()->json([
+        //     'message' => $result,
+        // ]);
+        // Log::info('Making API request to TinyURL', ['message' => $result]);
+    }
+
+    public function get_vAssPoBuyMt($id)
+    {
+        try {
+            $query = collect(DB::select("
+                SELECT
+                    *
+                FROM
+                    PchInvAndProject.devsk.vAssPoBuyMt AS pdva
+                WHERE
+                    pdva.idPoBuy = $id
+            "))->first();
+            //
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        if ($query) {
+            return $query;
+        } else {
+            // dd("not found");
+            //
+        }
+    }
+
+    public function tinyURL($url)
+    {
+        $apiUrl = "https://tinyurl.com/api-create.php?url=" . "http://assets.advanceseeds.com/po/items/771";
+        $response = Http::get($apiUrl);
+        if ($response->successful()) {
+            $shortUrl = $response->body();
+            return $shortUrl;
         }
     }
 }
