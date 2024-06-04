@@ -214,8 +214,8 @@ class POController extends Controller
         error_reporting(E_ALL);
         date_default_timezone_set("Asia/Bangkok");
 
-        // $sToken = "9gZvubJwRAJUnxxZp2Ny30IJOl7AIgfpJdANd7D6z8U"; // test
-        $sToken = "uTrsM8eNXoDDiF5nL6uvVMwVUmmYoJIumhyicHwhY1h"; // po Update
+        $sToken = "9gZvubJwRAJUnxxZp2Ny30IJOl7AIgfpJdANd7D6z8U"; // test
+        // $sToken = "uTrsM8eNXoDDiF5nL6uvVMwVUmmYoJIumhyicHwhY1h"; // po Update
 
         $sMessage = "\nเรียนผู้อนุมัติ (" . $po_dt->CompName . ") \n";
         $sMessage .= "ขออนุมัติจัดซื้อ PO : " . $po_dt->DocCode . "\n";
