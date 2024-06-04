@@ -78,13 +78,13 @@ class POController extends Controller
 
 
         // ทดสอบการส่งค่ากลับ
+        $PO_msg = $this->PO_line_update($idPoBuy);
         if ($update_po) {
-            $this->PO_line_update($idPoBuy);
             return response()->json([
                 'message' => 'สำเร็จ',
                 'status' => $inputStatus,
                 'status2' => $idPoBuy,
-                // 'DateConfirm2' => $DateApprove,
+                // 'PO_msg' => $PO_msg,
                 // 'text_sql' => $text_sql_update,
                 // 'po_status' => $po_status
             ]);
@@ -215,7 +215,7 @@ class POController extends Controller
         date_default_timezone_set("Asia/Bangkok");
 
         // $sToken = "9gZvubJwRAJUnxxZp2Ny30IJOl7AIgfpJdANd7D6z8U"; // test
-        $sToken = "uTrsM8eNXoDDiF5nL6uvVMwVUmmYoJIumhyicHwhY1h";
+        $sToken = "uTrsM8eNXoDDiF5nL6uvVMwVUmmYoJIumhyicHwhY1h"; // po Update
 
         $sMessage = "\nเรียนผู้อนุมัติ (" . $po_dt->CompName . ") \n";
         $sMessage .= "ขออนุมัติจัดซื้อ PO : " . $po_dt->DocCode . "\n";
@@ -227,8 +227,8 @@ class POController extends Controller
         $sMessage .= "---------------- รายการ -------------------\n";
         $sMessage .= "รายละเอียด : \n";
         $sMessage .= "---------------- สถานะอนุมัติ --------------\n";
-        $sMessage .= "ผู้รับทราบ : " . $po_dt->PsCheck . "\n";
-        $sMessage .= "ผู้ตรวจสอบ : " . $po_dt->PsAccept . "\n";
+        $sMessage .= "ผู้ตรวจสอบ : " . $po_dt->PsCheck . "\n";
+        $sMessage .= "ผู้รับทราบ : " . $po_dt->PsAccept  . "\n";
         $sMessage .= "ผู้อนุมัติ 1 : " . $po_dt->PsConfirm . "\n";
         $sMessage .= "ผู้อนุมัติ 2 : " . $po_dt->PsConfirm2 . "\n";
         $sMessage .= "----------------------------------------------\n";
@@ -275,25 +275,21 @@ class POController extends Controller
         );
 
         $result = curl_exec($chOne);
-        if (curl_error($chOne)) {
-            echo 'error:' . curl_error($chOne);
-        } else {
-            $result_ = json_decode($result, true);
-            echo "status : " . $result_['status'];
-            echo "message : " . $result_['message'];
-        }
-        curl_close($chOne);
-        if ($result) {
-            $rt = "ทำรายการสำเร็จ!";
-        } else {
-            $rt = "ทำรายการสำเร็จ";
-        }
+        // if (curl_error($chOne)) {
+        //     echo 'error:' . curl_error($chOne);
+        // } else {
+        //     $result_ = json_decode($result, true);
+        //     echo "status : " . $result_['status'];
+        //     echo "message : " . $result_['message'];
+        // }
+        // curl_close($chOne);
+        // if ($result) {
+        //     $rt = "ทำรายการสำเร็จ!";
+        // } else {
+        //     $rt = "ทำรายการสำเร็จ";
+        // }
 
-        // return $result;
-        // return response()->json([
-        //     'message' => $result,
-        // ]);
-        // Log::info('Making API request to TinyURL', ['message' => $result]);
+        return $result;
     }
 
     public function get_vAssPoBuyMt($id)
