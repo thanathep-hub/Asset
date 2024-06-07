@@ -270,11 +270,12 @@
             /* margin: 0 0 10px; */
             object-fit: contain;
             cursor: zoom-in;
-            border: 1px solid grey;
+            border: 1px solid #1a73e8;
         }
 
         .preview-area img:not(:nth-child(4n)) {
             margin-right: 1.333%;
+            margin-bottom: 1.333%;
         }
 
         /* Add some styling for enlarged images */
@@ -621,6 +622,7 @@
         <div class="modal-dialog">
             <div class="modal-content border-0">
                 <div class="modal-header">
+                    <h6>ใบเสนอราคา</h6>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
