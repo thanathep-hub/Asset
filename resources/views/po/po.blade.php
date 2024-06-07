@@ -257,6 +257,50 @@
         button.swal2-cancel.swal2-styled.swal2-default-outline {
             color: #000;
         }
+
+        /* preview area */
+        .preview-area {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 0.5rem;
+        }
+
+        .preview-area img {
+            width: 24%;
+            /* margin: 0 0 10px; */
+            object-fit: contain;
+            cursor: zoom-in;
+            border: 1px solid grey;
+        }
+
+        .preview-area img:not(:nth-child(4n)) {
+            margin-right: 1.333%;
+        }
+
+        /* Add some styling for enlarged images */
+        .enlarged {
+            max-width: 100%;
+            max-height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            background: rgba(0, 0, 0, 0.8);
+            cursor: pointer;
+        }
+
+        .enlarged img {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            margin: auto;
+        }
+
+        .enlarged img:hover {
+            /* cursor: zoom-in; */
+        }
     </style>
 </head>
 
@@ -356,6 +400,15 @@
                 </table>
             </div>
         </div>
+
+        <div class="row mb-3" style="padding-right:.75rem;padding-left:.75rem;">
+            <div class="col-lg-12 text-end border" style="padding-top: .25rem;padding-bottom: .25rem;">
+                <b>ใบเสนอราคา : </b> <a><img src="{{ asset('imges/folder-pic-po.png') }}" data-bs-toggle="modal"
+                        data-bs-target="#poImage" onclick="po_image({{ $po_mt->idPoBuy }})"
+                        style="width: 32px;height:32px;cursor: pointer;"></a>
+            </div>
+        </div>
+
 
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -562,6 +615,26 @@
     </div> --}}
 
 
+    <!-- Modal -->
+
+    <div class="modal fade" id="poImage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content border-0">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 align-self-center">
+                            <div class="preview-area"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
@@ -658,6 +731,65 @@
                 error: function(error) {
                     console.error('Error fetching chart data', error);
                 }
+            });
+        }
+
+        function po_image(id) {
+            var assetIdRepair = id;
+            async function isImageUrl(assetIdRepair) {
+                try {
+                    const response = await fetch(assetIdRepair, {
+                        method: 'HEAD'
+                    });
+                    const contentType = response.headers.get('content-type');
+                    return contentType.includes('image');
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                    return false;
+                }
+            }
+            var image = [1, 2, 3];
+            var imagList = [];
+            var counter = 0;
+            var promises = image.map(async (element) => {
+                var imageUrl = 'http://203.151.27.229/spm/POP/images/pBill/AssetPO' + assetIdRepair + '_' +
+                    element + '.jpg';
+                const isImage = await isImageUrl(imageUrl);
+                if (isImage) {
+                    imagList.push(imageUrl);
+                    counter++;
+                }
+            });
+            Promise.all(promises).then(() => {
+                let output = "";
+                for (let i = 0; i < imagList.length; i++) {
+                    output += `<img data-enlargable src="${imagList[i]}" alt="Image ${i + 1}">`;
+                }
+                const previewArea = document.querySelector('.preview-area');
+                previewArea.innerHTML = output;
+                const previewImages = document.querySelectorAll('[data-enlargable]');
+                previewImages.forEach(image => {
+                    image.addEventListener('click', () => {
+                        const enlargedImage = document.createElement('div');
+                        enlargedImage.className = 'enlarged';
+                        enlargedImage.innerHTML = `<img src="${image.src}" alt="${image.alt}">`;
+                        enlargedImage.style.position = 'fixed';
+                        enlargedImage.style.top = '0';
+                        enlargedImage.style.left = '0';
+                        enlargedImage.style.width = '100%';
+                        enlargedImage.style.height = '100%';
+                        enlargedImage.style.background = 'rgba(0, 0, 0, 0.8)';
+                        enlargedImage.style.zIndex = '9999';
+                        enlargedImage.style.display = 'flex';
+                        enlargedImage.style.alignItems = 'center';
+                        enlargedImage.style.justifyContent = 'center';
+                        enlargedImage.style.cursor = 'zoom-out';
+                        document.body.appendChild(enlargedImage);
+                        enlargedImage.addEventListener('click', () => {
+                            document.body.removeChild(enlargedImage);
+                        });
+                    });
+                });
             });
         }
     </script>
