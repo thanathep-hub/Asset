@@ -75,7 +75,7 @@ to get the desired effect
         @include('layouts.sidebar')
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="background-color: #dbdbd9a3;">
+        <div class="content-wrapper"> {{-- style="background-color: #dbdbd9a3;" --}}
 
             <!-- Main content -->
             @yield('content')

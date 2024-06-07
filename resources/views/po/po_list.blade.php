@@ -2,6 +2,10 @@
 @section('title', 'ASSET')
 @push('css')
     <style>
+        .content-wrapper {
+            background-color: #fff;
+        }
+
         .small-box:hover {
             /* filter: brightness(50%); */
             cursor: pointer;
