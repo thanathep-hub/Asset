@@ -51,6 +51,22 @@
                     </div>
                 </div>
 
+                <div class="col-lg-3 " id="po_list" @if (!session()->has('permission_po')) hidden @endif>
+                    <div id="menu-card" class="menu-card d-flex justify-content-between small-box p-2"
+                        style="border-radius: 18px;">
+                        <div class="inner">
+                            <p class="m-0" style="font-weight: 900;
+                            font-size: 27px;">
+                                Purchase Order
+                            </p>
+                            <p class="m-0 detail-card" style="font-weight: 900;font-size: small;">รายการใบสั่งซื้อ</p>
+                        </div>
+                        <div class="">
+                            <img src="{{ asset('imges/order.png') }}" alt="" height="84">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-lg-3 " id="asset_bill_repair" @if (session('idPositions') != 15) hidden @endif>
                     <div id="menu-card" class="menu-card d-flex justify-content-between small-box p-2"
                         style="border-radius: 18px;">
@@ -177,6 +193,9 @@
 
             $('#asset_land').on('click', function() {
                 window.location.href = '/asset_land';
+            });
+            $('#po_list').on('click', function() {
+                window.location.href = '/po/list';
             });
 
         });

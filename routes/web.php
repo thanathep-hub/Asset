@@ -84,6 +84,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
 
     /* ---------------------------------------------- /PO ---------------------------------------------- */
     Route::get('/po/items/{id_po}', 'POController@showPO');
+    Route::get('/po/list', 'POController@showPO_list');
     Route::post('/po/confirm', 'POController@confirmPO');
 
     Route::get('/BahtText/{number}', 'BahtTextController@bahtText');

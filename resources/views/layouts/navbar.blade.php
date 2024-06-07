@@ -7,7 +7,7 @@
     </ul>
 
     <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto" style="margin-right: 0.5rem;">
+    <ul class="navbar-nav ml-auto" style="margin-right: 0.5rem;" hidden>
 
         <!-- Notifications Dropdown Menu -->
         <li class="nav-item dropdown">

@@ -328,6 +328,11 @@ class POController extends Controller
             return $shortUrl;
         }
     }
+
+    public function showPO_list()
+    {
+        return view('po.po_list');
+    }
 }
 
 //ตรวจสอบ รับทราบ อนุมัติ1 อนุมัติ2

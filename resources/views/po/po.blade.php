@@ -728,7 +728,7 @@
                 url: '/BahtText/' + {{ $po_mt->TotalNet }} + '',
                 type: 'GET',
                 success: function(bahtText) {
-                    document.getElementById('bahtText').textContent = bahtText;
+                    document.getElementById('bahtText').textContent = "** " + bahtText + " **";
                 },
                 error: function(error) {
                     console.error('Error fetching chart data', error);

@@ -43,6 +43,8 @@ class AuthController extends Controller
             session()->put("idComp", $data_user->idComp);
             // session()->put('idPositions', 15); // position 15 กรรมการผู้บริหาร
 
+            session()->put("permission_po", $this->permission_po($data_user->idPs));
+
             if ($data_user->idPositions === '15') {
                 session()->put("role", 'admin');
             } else if ($data_user->idPositions === '17') {
@@ -62,6 +64,25 @@ class AuthController extends Controller
         } else {
             Alert::error('เกิดข้อผิดพลาด!', 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง');
             return redirect()->back();
+        }
+    }
+
+    public function permission_po($id)
+    {
+        try {
+            $query = collect(DB::select("
+                SELECT
+                    *
+                FROM
+                    PchInvAndProject.devsk.PO_Update_Permission AS pdpp
+                    WHERE pdpp.idPS = $id
+            "))->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+        if ($query) {
+            return $query;
         }
     }
 }
