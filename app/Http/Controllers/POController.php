@@ -78,13 +78,13 @@ class POController extends Controller
 
 
         // ทดสอบการส่งค่ากลับ
-        $PO_msg = $this->PO_line_update($idPoBuy);
+        $line_status = $this->PO_line_update($idPoBuy); // return false is complete. true is error in procress line notify.
         if ($update_po) {
             return response()->json([
                 'message' => 'สำเร็จ',
                 'status' => $inputStatus,
                 'status2' => $idPoBuy,
-                // 'PO_msg' => $PO_msg,
+                'line_status' => $line_status,
                 // 'text_sql' => $text_sql_update,
                 // 'po_status' => $po_status
             ]);
@@ -214,8 +214,8 @@ class POController extends Controller
         error_reporting(E_ALL);
         date_default_timezone_set("Asia/Bangkok");
 
-        // $sToken = "9gZvubJwRAJUnxxZp2Ny30IJOl7AIgfpJdANd7D6z8U"; // test
-        $sToken = "uTrsM8eNXoDDiF5nL6uvVMwVUmmYoJIumhyicHwhY1h"; // po Update
+        $sToken = "9gZvubJwRAJUnxxZp2Ny30IJOl7AIgfpJdANd7D6z8U"; // test
+        // $sToken = "uTrsM8eNXoDDiF5nL6uvVMwVUmmYoJIumhyicHwhY1h"; // po Update
 
         $sMessage = "\nเรียนผู้อนุมัติ (" . $po_dt->CompName . ") \n";
         $sMessage .= "ขออนุมัติจัดซื้อ PO : " . $po_dt->DocCode . "\n";
@@ -275,21 +275,25 @@ class POController extends Controller
         );
 
         $result = curl_exec($chOne);
-        // if (curl_error($chOne)) {
-        //     echo 'error:' . curl_error($chOne);
-        // } else {
-        //     $result_ = json_decode($result, true);
-        //     echo "status : " . $result_['status'];
-        //     echo "message : " . $result_['message'];
-        // }
-        // curl_close($chOne);
+
+        $line_st = false;
+        if (curl_error($chOne)) {
+            $line_st = true;
+            // echo 'error:' . curl_error($chOne);
+        } else {
+            $line_st = false;
+            // $result_ = json_decode($result, true);
+            // echo "status : " . $result_['status'];
+            // echo "message : " . $result_['message'];
+        }
+        curl_close($chOne);
         // if ($result) {
         //     $rt = "ทำรายการสำเร็จ!";
         // } else {
         //     $rt = "ทำรายการสำเร็จ";
         // }
 
-        return $result;
+        return $line_st;
     }
 
     public function get_vAssPoBuyMt($id)
@@ -317,7 +321,7 @@ class POController extends Controller
 
     public function tinyURL($url)
     {
-        $apiUrl = "https://tinyurl.com/api-create.php?url=" . "http://assets.advanceseeds.com/po/items/771";
+        $apiUrl = "https://tinyurl.com/api-create.php?url=" . $url;
         $response = Http::get($apiUrl);
         if ($response->successful()) {
             $shortUrl = $response->body();
