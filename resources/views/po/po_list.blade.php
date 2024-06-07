@@ -44,7 +44,7 @@
                             </div>
                             <p class="m-0 mb-3" style="font-weight: 900;
                             font-size: 18px;">
-                                ไร่ในกรีนซีดส์และไร่นอกริมคลอง
+                                ไร่ในกรีนซีดส์และไร่นอกริมคลอง(ทดสอบ)
                             </p>
                             <div class="row mb-3">
                                 <div class="px-1">
