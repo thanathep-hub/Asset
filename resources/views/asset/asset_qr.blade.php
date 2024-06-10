@@ -44,7 +44,7 @@
 
     <div class="col-12 invoice-col m-1" style="padding-top: 4px;">
         <div class="row">
-            <div class="col-auto  py-2 text-right class="print-content"">
+            <div class="col-auto  py-2 text-right print-content">
                 {{-- {!! QrCode::size(100)->generate($url) !!} --}}
                 {!! QrCode::size(150)->generate('http://assets.advanceseeds.com/asset/' . $id) !!}
             </div>
