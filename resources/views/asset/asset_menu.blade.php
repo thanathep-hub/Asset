@@ -51,7 +51,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 " id="po_list" @if (!session()->has('permission_po')) hidden @endif>
+                <div class="col-lg-3 " id="po_list" hidden {{-- @if (!session()->has('permission_po')) hidden @endif --}}>
                     <div id="menu-card" class="menu-card d-flex justify-content-between small-box p-2"
                         style="border-radius: 18px;">
                         <div class="inner">
