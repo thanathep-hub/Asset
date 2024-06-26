@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -28,7 +29,14 @@ class AuthController extends Controller
             $user = $request->input("user");
             $password = $request->input("password");
             $query = "SELECT * FROM GR_Group.dbo.dEmployee WHERE GR_Group.dbo.dEmployee.UN = '$user' AND GR_Group.dbo.dEmployee.PW = '$password'";
-            $data_user = collect(DB::select($query))->first();
+
+            try {
+                $data_user = collect(DB::select($query))->first();
+            } catch (\Throwable $th) {
+                Log::error('Database query error: ' . $th->getMessage());
+                Alert::error('เกิดข้อผิดพลาด!', 'คุณไม่สามารถเข้าสู่ระบบได้ในขณะนี้');
+                return redirect()->back();
+            }
         } else {
             Alert::error('เกิดข้อผิดพลาด!', 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง');
             return redirect()->back();
