@@ -146,9 +146,13 @@ use App\Http\Controllers\DrinkController;
 
 Route::get('/connect_admin', 'DrinkController@connect_admin')->name('connect_admin');
 Route::get('/drink', function () {
-    $DrinkController = new DrinkController();
-    $getMenus = $DrinkController->getMenus();
-    // session()->flush(); // remove all data from the session
+    try {
+        $DrinkController = new DrinkController();
+        $getMenus = $DrinkController->getMenus();
+    } catch (\Throwable $th) {
+        return view('404');
+    }
+
     return view('drink', ['getMenus' => $getMenus]);
 });
 
