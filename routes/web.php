@@ -150,7 +150,7 @@ Route::get('/drink', function () {
         $DrinkController = new DrinkController();
         $getMenus = $DrinkController->getMenus();
     } catch (\Throwable $th) {
-        return view('404');
+        return view('errors.404');
     }
 
     return view('drink', ['getMenus' => $getMenus]);
