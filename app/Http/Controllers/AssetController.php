@@ -26,56 +26,56 @@ class AssetController extends Controller
         return view('asset', compact('asset_category', 'Comp'));
     }
 
-    public function asset_query($year, $category)
-    {
-        if ($category == 0) {
-            $chartData = DB::select("
-                SELECT
-                    CONVERT(DECIMAL(10, 2), SUM(ass.AssAmount * ass.Price)) AS AssTotal,
-                    SUBSTRING(ass.AssDate, 5, 2) AS monthText,
-                    dbo.fn_GetTextMonth(SUBSTRING(ass.AssDate, 5, 2)) AS textMonthAsset,
-                    dbo.fn_GetTextMonthEng(SUBSTRING(ass.AssDate, 5, 2)) AS textMonthAssetEng,
-                    SUBSTRING(ass.AssDate, 1, 4) AS DateAsset
-                FROM
-                    PchInvAndProject.dbo.AssAssetD AS ass
-                    LEFT JOIN PchInvAndProject.dbo.AssTypeD AS assType ON ass.idType = assType.idAssType
-                WHERE
-                    ass.idType != 17
-                    AND CAST(SUBSTRING(ass.AssDate, 1, 4) AS INT) = '$year'
-                GROUP BY
-                    SUBSTRING(ass.AssDate, 1, 4),
-                    SUBSTRING(ass.AssDate, 5, 2)
-                ORDER BY
-                    SUBSTRING(ass.AssDate, 5, 2) ASC
-            ");
-        } else {
-            $chartData = DB::select("
-                SELECT
-                    CONVERT(DECIMAL(10, 2), SUM(ass.AssAmount * ass.Price)) AS AssTotal,
-                    SUBSTRING(ass.AssDate, 5, 2) AS monthText,
-                    dbo.fn_GetTextMonth(SUBSTRING(ass.AssDate, 5, 2)) AS textMonthAsset,
-                    dbo.fn_GetTextMonthEng(SUBSTRING(ass.AssDate, 5, 2)) AS textMonthAssetEng,
-                    SUBSTRING(ass.AssDate, 1, 4) AS DateAsset
-                FROM
-                    PchInvAndProject.dbo.AssAssetD AS ass
-                    LEFT JOIN PchInvAndProject.dbo.AssTypeD AS assType ON ass.idType = assType.idAssType
-                WHERE
-                    ass.idType != 17
-                    AND CAST(SUBSTRING(ass.AssDate, 1, 4) AS INT) = '$year' AND ass.idType = '$category'
-                GROUP BY
-                    SUBSTRING(ass.AssDate, 1, 4),
-                    SUBSTRING(ass.AssDate, 5, 2)
-                ORDER BY
-                    SUBSTRING(ass.AssDate, 5, 2) ASC
-            ");
-        }
-        // AND ass.idType = '$category'
-        // foreach ($chartData as $items) {
-        // Format the assPriceTotal property to have two decimal places
-        // $items->AssTotal = number_format($items->AssTotal, 2);
-        // }
-        return response()->json($chartData);
-    }
+    // public function asset_query($year, $category)
+    // {
+    //     if ($category == 0) {
+    //         $chartData = DB::select("
+    //             SELECT
+    //                 CONVERT(DECIMAL(10, 2), SUM(ass.AssAmount * ass.Price)) AS AssTotal,
+    //                 SUBSTRING(ass.AssDate, 5, 2) AS monthText,
+    //                 dbo.fn_GetTextMonth(SUBSTRING(ass.AssDate, 5, 2)) AS textMonthAsset,
+    //                 dbo.fn_GetTextMonthEng(SUBSTRING(ass.AssDate, 5, 2)) AS textMonthAssetEng,
+    //                 SUBSTRING(ass.AssDate, 1, 4) AS DateAsset
+    //             FROM
+    //                 PchInvAndProject.dbo.AssAssetD AS ass
+    //                 LEFT JOIN PchInvAndProject.dbo.AssTypeD AS assType ON ass.idType = assType.idAssType
+    //             WHERE
+    //                 ass.idType != 17
+    //                 AND CAST(SUBSTRING(ass.AssDate, 1, 4) AS INT) = '$year'
+    //             GROUP BY
+    //                 SUBSTRING(ass.AssDate, 1, 4),
+    //                 SUBSTRING(ass.AssDate, 5, 2)
+    //             ORDER BY
+    //                 SUBSTRING(ass.AssDate, 5, 2) ASC
+    //         ");
+    //     } else {
+    //         $chartData = DB::select("
+    //             SELECT
+    //                 CONVERT(DECIMAL(10, 2), SUM(ass.AssAmount * ass.Price)) AS AssTotal,
+    //                 SUBSTRING(ass.AssDate, 5, 2) AS monthText,
+    //                 dbo.fn_GetTextMonth(SUBSTRING(ass.AssDate, 5, 2)) AS textMonthAsset,
+    //                 dbo.fn_GetTextMonthEng(SUBSTRING(ass.AssDate, 5, 2)) AS textMonthAssetEng,
+    //                 SUBSTRING(ass.AssDate, 1, 4) AS DateAsset
+    //             FROM
+    //                 PchInvAndProject.dbo.AssAssetD AS ass
+    //                 LEFT JOIN PchInvAndProject.dbo.AssTypeD AS assType ON ass.idType = assType.idAssType
+    //             WHERE
+    //                 ass.idType != 17
+    //                 AND CAST(SUBSTRING(ass.AssDate, 1, 4) AS INT) = '$year' AND ass.idType = '$category'
+    //             GROUP BY
+    //                 SUBSTRING(ass.AssDate, 1, 4),
+    //                 SUBSTRING(ass.AssDate, 5, 2)
+    //             ORDER BY
+    //                 SUBSTRING(ass.AssDate, 5, 2) ASC
+    //         ");
+    //     }
+    //     // AND ass.idType = '$category'
+    //     // foreach ($chartData as $items) {
+    //     // Format the assPriceTotal property to have two decimal places
+    //     // $items->AssTotal = number_format($items->AssTotal, 2);
+    //     // }
+    //     return response()->json($chartData);
+    // }
 
     public function asset_all()
     {
