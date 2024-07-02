@@ -11,13 +11,13 @@
     <style>
         #qr-code {
             font-size: 14px;
-            padding: unset;
         }
 
         @page {
             size: 60mm 40mm;
             /* This sets the paper size to 60mm by 40mm */
             margin: 0;
+            padding: 0;
             /* Adjust margins as needed */
         }
 
@@ -25,34 +25,54 @@
 
             /* Additional print-specific styles */
             body {
-                font-size: 12pt;
-                /* Adjust the font size for printing */
+                font-size: 12pt
+                    /* Adjust the font size for printing */
             }
 
             /* Optionally, ensure the content fits within the custom size */
             .print-content {
-                width: 60mm;
-                height: 40mm;
+                width: 100%;
+                height: 100%;
                 overflow: hidden;
                 /* Hide overflow to prevent clipping issues */
+                /* border: 1px solid red; */
             }
+
+            .page-set {
+                /* display: flex; */
+            }
+
+            .qr-code {
+                margin-top: 2.75rem;
+                margin-left: 0;
+                padding-left: 0px;
+            }
+
+            .w-set {
+                margin-top: 2.25rem;
+                flex: 0 0 25%;
+                max-width: 25%;
+            }
+
         }
     </style>
 </head>
 
 <body>
 
-    <div class="col-12 invoice-col m-1" style="padding-top: 4px;">
-        <div class="row">
-            <div class="col-auto  py-2 text-right print-content">
-                {{-- {!! QrCode::size(100)->generate($url) !!} --}}
-                {!! QrCode::size(150)->generate('http://assets.advanceseeds.com/asset/' . $id) !!}
+    <div class="col-12 m-2 page-set" style="">
+        <div class="print-content row page-set p-0">
+            <div class="col-auto p-0 w-auto m-0">
+                <div class="qr-code" style="width: 100%;padding:0px;">
+                    {!! QrCode::size(100)->generate('http://assets.advanceseeds.com/asset/' . $id) !!}
+                </div>
+
             </div>
-            {{-- <div class="col-8 align-self-center" id="qr-code">
-                    <b>รหัสสินทรัพย์ : </b> {{ $qrAsset->AssetCode ?? '-' }}<br>
-                    <b>ชื่อ : </b> {{ $qrAsset->AssetName ?? '-' }}<br>
-                    <b>ใช้งานที่: </b>{{ $qrAsset->CompName ?? '-' }}
-                </div> --}}
+            <div class="col-auto w-set">
+                <b>รหัสสินทรัพย์ : </b> {{ $qrAsset->AssetCode ?? '-' }}<br>
+                <b>ชื่อ : </b> {{ $qrAsset->AssetName ?? '-' }}<br>
+                {{-- <b>ชื่อ : </b> {{ $qrAsset->AssetName ?? '-' }}<br> --}}
+            </div>
         </div>
     </div>
 
