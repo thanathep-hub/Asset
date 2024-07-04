@@ -263,6 +263,18 @@ class AssetController extends Controller
                     "
             );
         }
+        // if ($request->hasfile('filenames')) {
+
+        //     foreach ($request->file('filenames') as $file) {
+
+        //         $filename = $request->idAsset . "-" . uniqid() . "." . $file->extension();
+        //         $fileU = $file->storeAs('/Asset/pictest', $filename, 'ftp');
+        //         $this->pic_insert($request->idAsset, $filename);
+        //     }
+
+        //     Alert::success(Session('success', 'อัพเดตสถานะสินทรัพย์สำเร็จ!'));
+        //     return redirect()->back();
+        // }
 
         try {
 
@@ -271,7 +283,7 @@ class AssetController extends Controller
                 foreach ($request->file('filenames') as $file) {
 
                     $filename = $request->idAsset . "-" . uniqid() . "." . $file->extension();
-                    $filenames = $file->storeAs('/', $filename, 'ftp');
+                    $fileU = $file->storeAs('/Asset/pictest', $filename, 'ftp');
                     $this->pic_insert($request->idAsset, $filename);
                 }
 

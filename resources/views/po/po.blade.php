@@ -476,25 +476,25 @@
                         <tr>
                             <th style="text-align: center; width: 100px;">
                                 <img class="img_cusMax"
-                                    src="http://203.151.27.229/spm/images/eSign/{{ $po_mt->idPsCheck }}.png"
+                                    src="https://seedsgroup.dyndns.org/spm/images/eSign/{{ $po_mt->idPsCheck }}.png"
                                     onerror="this.src = '{{ asset('signature/signature_empty.png') }}';"
                                     style="height: 40px;">
                             </th>
                             <th style="text-align: center; width: 100px;">
                                 <img class="img_cusMax"
-                                    src="http://203.151.27.229/spm/images/eSign/{{ $po_mt->idPsAccept }}.png"
+                                    src="https://seedsgroup.dyndns.org/spm/images/eSign/{{ $po_mt->idPsAccept }}.png"
                                     onerror="this.src = '{{ asset('signature/signature_empty.png') }}';"
                                     style="height: 40px;">
                             </th>
                             <th style="text-align: center; width: 100px;">
                                 <img class="img_cusMax"
-                                    src="http://203.151.27.229/spm/images/eSign/{{ $po_mt->idPsConfirm }}.png"
+                                    src="https://seedsgroup.dyndns.org/spm/images/eSign/{{ $po_mt->idPsConfirm }}.png"
                                     onerror="this.src = '{{ asset('signature/signature_empty.png') }}';"
                                     style="height: 40px;">
                             </th>
                             <th style="text-align: center; width: 100px;">
                                 <img class="img_cusMax"
-                                    src="http://203.151.27.229/spm/images/eSign/{{ $po_mt->idPsConfirm2 }}.png"
+                                    src="https://seedsgroup.dyndns.org/spm/images/eSign/{{ $po_mt->idPsConfirm2 }}.png"
                                     onerror="this.src = '{{ asset('signature/signature_empty.png') }}';"
                                     style="height: 40px;">
                             </th>
@@ -754,7 +754,7 @@
             var imagList = [];
             var counter = 0;
             var promises = image.map(async (element) => {
-                var imageUrl = 'http://203.151.27.229/spm/POP/images/pBill/AssetPO' + assetIdRepair + '_' +
+                var imageUrl = 'https://seedsgroup.dyndns.org/spm/POP/images/pBill/AssetPO' + assetIdRepair + '_' +
                     element + '.jpg';
                 const isImage = await isImageUrl(imageUrl);
                 if (isImage) {

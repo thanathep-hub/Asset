@@ -8,6 +8,7 @@
     <title>QR-Code</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         #qr-code {
             font-size: 14px;
@@ -64,14 +65,15 @@
         <div class="print-content row page-set p-0">
             <div class="col-auto p-0 w-auto m-0">
                 <div class="qr-code" style="width: 100%;padding:0px;">
-                    {!! QrCode::size(100)->generate('http://assets.advanceseeds.com/asset/' . $id) !!}
+
+                    {{-- {!! QrCode::size(100)->generate('http://assets.advanceseeds.com/asset/' . $id) !!} --}}
+                    <div id="qrcode"></div>
                 </div>
 
             </div>
             <div class="col-auto w-set">
                 <b>รหัสสินทรัพย์ : </b> {{ $qrAsset->AssetCode ?? '-' }}<br>
-                <b>ชื่อ : </b> {{ $qrAsset->AssetName ?? '-' }}<br>
-                {{-- <b>ชื่อ : </b> {{ $qrAsset->AssetName ?? '-' }}<br> --}}
+                 <label id="asset-name"><strong>ชื่อ :</strong> {{ $qrAsset->AssetName ?? '-' }}</label>
             </div>
         </div>
     </div>
@@ -83,10 +85,26 @@
         integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
     </script>
     <script>
+        // let assetNameElement = document.getElementById('asset-name');
+        // assetNameElement.textContent = assetNameElement.textContent.substring(0, 10);
+
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: "https://assets.advanceseeds.com/asset/" + {{ $id }},
+            width: 100,
+            height: 100,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
         window.onload = function() {
+            let assetNameElement = document.getElementById('asset-name');
+            assetNameElement.textContent = assetNameElement.textContent.substring(0, 100);
+
             window.print();
         };
     </script>
 </body>
 
 </html>
+
+

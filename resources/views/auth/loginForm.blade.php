@@ -54,7 +54,7 @@
 {{-- <body style="background: radial-gradient(rgb(210,241,223),rgb(211,215,250),rgb(186,216,244)) 0% 0%/400% 400%;"> --}}
 
 <body
-    style="background-image: url('https://cdn.pixabay.com/photo/2023/03/26/11/40/woman-7878192_1280.jpg');background-size: cover;
+    style="background-image: url( {{asset('imges/bg-asset.png')}});background-size: cover;
     background-position: center;backdrop-filter: blur(5px);">
     <div class="form-signin">
         <div class="card">

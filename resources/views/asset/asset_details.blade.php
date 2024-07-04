@@ -230,7 +230,8 @@
                     </div>
                     <div class="col-2 border p-3 " id="pic-res">
                         @foreach ($asset_pic as $items)
-                            <img data-enlargable src="http://203.151.27.229/spm/Asset/PicAsset/{{ $items->pic_name }}"
+                            <img data-enlargable
+                                src="https://seedsgroup.dyndns.org/spm/Asset/PicAsset/{{ $items->pic_name }}"
                                 alt="" width="100%">
                         @endforeach
                     </div>
@@ -255,10 +256,10 @@
             box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);"></a>
     </div>
 
-    <div class="bill-code">
+    {{-- <div class="bill-code">
         <a href="/qr-code" type="button" class="btn fw-bold button1" data-toggle="modal" data-target="#modal-lg">
             <img src="{{ asset('imges/contract.png') }}" alt="approved" height="44" width="44"></a>
-    </div>
+    </div> --}}
 
 
     <div class="modal fade" id="modal-lg-image">
