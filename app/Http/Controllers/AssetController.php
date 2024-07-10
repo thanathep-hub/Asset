@@ -425,32 +425,32 @@ class AssetController extends Controller
 
         if ($request->searchInput != "") {
             // Request contains data
-            $input .= "AND (PchInvAndProject.dbo.AssAssetD.AssetName LIKE '%$request->searchInput%' OR PchInvAndProject.dbo.AssAssetD.AssetCode LIKE '%$request->searchInput%')";
+            $input .= "AND (a.AssetName LIKE '%$request->searchInput%' OR a.AssetCode LIKE '%$request->searchInput%')";
         }
 
         $search_asset = DB::select("
-        SELECT
-                PchInvAndProject.dbo.AssAssetD.idAsset,
-                PchInvAndProject.dbo.AssAssetD.AssetCode,
-                PchInvAndProject.dbo.AssAssetD.AssetName,
-				PchInvAndProject.dbo.AssAssetD.idComp,
+            SELECT
+                a.idAsset,
+                a.AssetCode,
+                a.AssetName,
+				a.idComp,
             CASE
-                WHEN PchInvAndProject.dbo.AssAssetD.idType IS NULL THEN
-                    '0' ELSE PchInvAndProject.dbo.AssAssetD.idType
+                WHEN a.idType IS NULL THEN
+                    '0' ELSE a.idType
                 END AS idType,
             CASE
-                WHEN PchInvAndProject.dbo.AssTypeD.AssTypeName IS NULL THEN
-                    'ไม่ระบุประเภท' ELSE PchInvAndProject.dbo.AssTypeD.AssTypeName
+                WHEN t.AssTypeName IS NULL THEN
+                    'ไม่ระบุประเภท' ELSE t.AssTypeName
                 END AS AssTypeName,
-                (PchInvAndProject.dbo.AssAssetD.Price * PchInvAndProject.dbo.AssAssetD.AssAmount) AS assPriceTotal
+                (a.Price * a.AssAmount) AS assPriceTotal
             FROM
-                PchInvAndProject.dbo.AssAssetD
-                LEFT JOIN PchInvAndProject.dbo.AssTypeD ON PchInvAndProject.dbo.AssAssetD.idType = PchInvAndProject.dbo.AssTypeD.idAssType
-			WHERE PchInvAndProject.dbo.AssAssetD.idType != 17
-            AND PchInvAndProject.dbo.AssAssetD.idComp = $user->idComp
+                PchInvAndProject.dbo.AssAssetD a
+                LEFT JOIN PchInvAndProject.dbo.AssTypeD t ON a.idType = t.idAssType
+			WHERE a.idType != 17
+            AND a.idComp = $user->idComp
 			$input
             ORDER BY
-                PchInvAndProject.dbo.AssAssetD.idAsset DESC
+                a.idAsset DESC
         ");
         foreach ($search_asset as $items) {
             // Format the assPriceTotal property to have two decimal places

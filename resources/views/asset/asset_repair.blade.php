@@ -495,7 +495,7 @@
             var imagList = [];
             var counter = 0;
             var promises = image.map(async (element) => {
-                var imageUrl = 'http://203.151.27.229/spm/POP/images/pBill/AssetAM' + assetIdRepair + '_' +
+                var imageUrl = 'https://seedsgroup.dyndns.org/spm/POP/images/pBill/AssetAM' + assetIdRepair + '_' +
                     element + '.jpg';
                 const isImage = await isImageUrl(imageUrl);
                 if (isImage) {

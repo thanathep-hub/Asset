@@ -333,7 +333,7 @@
         <div class="border-bottom mb-3"></div>
         <div class="d-flex justify-content-between">
             <div class="logo-comp ">
-                <img src="http://203.151.27.229/spm/Center/Logo/{{ $po_mt->idComp }}.jpg" alt=""
+                <img src="https://seedsgroup.dyndns.org/spm/Center/Logo/{{ $po_mt->idComp }}.jpg" alt=""
                     style="width:60px;">
                 <label for="">{{ $po_mt->CompName }}</label>
             </div>

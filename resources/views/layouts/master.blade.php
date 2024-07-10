@@ -122,12 +122,14 @@ to get the desired effect
             Swal.fire({
                 title: "คุณต้องการออกจากระบบหรือไม่?",
                 // text: "You won't be able to revert this!",
-                icon: "question",
+                icon: "info",
                 showCancelButton: true,
                 confirmButtonColor: "#016b4e",
                 cancelButtonColor: "#6e7980",
-                confirmButtonText: "ออกจากระบบ",
-                cancelButtonText: "ยกเลิก"
+                // confirmButtonText: "ออกจากระบบ",
+
+                cancelButtonText: "ยกเลิก",
+                confirmButtonText: "ออกจากระบบ"
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire({

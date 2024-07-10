@@ -120,9 +120,110 @@
         }
 
         /* /select2 */
+
+        /*    loading    */
+        .d-flex {
+            display: flex !important;
+        }
+
+        .justify-content-center {
+            justify-content: center !important;
+        }
+
+        .align-items-center {
+            align-items: center !important;
+        }
+
+        .h-100 {
+            height: 100vh !important;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .bg-blue {
+            background-color: #1D4ED8;
+            /* Equivalent to Tailwind's bg-blue-700 */
+        }
+
+        .rounded-full {
+            border-radius: 50%;
+        }
+
+        .bounce {
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-30px);
+            }
+
+            60% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .delay-1 {
+            animation-delay: -0.3s;
+        }
+
+        .delay-2 {
+            animation-delay: -0.5s;
+        }
+
+        .w-4.h-4.bg-blue.rounded-full.bounce {
+            width: 16px;
+            /* Updated to 16px */
+            height: 16px;
+            /* Updated to 16px */
+        }
+
+        .absolute {
+            position: absolute;
+        }
+
+        .bg-white {
+            background-color: white;
+        }
+
+        .bg-opacity-60 {
+            opacity: 0.6;
+        }
+
+        .z-10 {
+            z-index: 10;
+        }
+
+        .h-full {
+            height: 100%;
+        }
+
+        .w-full {
+            width: 100%;
+        }
+/*    loading    */
     </style>
 @endpush
 @section('content')
+<div class="absolute bg-white bg-opacity-60 z-10 h-full w-full justify-content-center align-items-center d-none"
+            id="loadingWait">
+            <div class="d-flex flex-row gap-2">
+                <div class="w-4 h-4 bg-blue rounded-full bounce"></div>
+                <div class="w-4 h-4 bg-blue rounded-full bounce delay-1"></div>
+                <div class="w-4 h-4 bg-blue rounded-full bounce delay-2"></div>
+            </div>
+        </div>
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -649,6 +750,7 @@
             asset_search();
 
             $('#asset_table').on('click', '.assetRow', function() {
+                loginLoading();
                 var assetId = $(this).data('id'); // ดึงค่า id ของทรัพยากรจาก data-id ของแถว
                 window.location.href = "/asset/" +
                     assetId; // นำ id ไปสร้าง URL และเปลี่ยนเส้นทางของหน้าเว็บไปยังหน้ารายละเอียดทรัพยากร
@@ -723,10 +825,8 @@
         });
 
         function asset_search() {
+            
             var searchInput = $('#searchInput').val();
-            // if (searchInput == "") {
-            //     console.log("null");
-            // } else {
             $.ajax({
                 url: '{{ route('asset_search') }}',
                 type: 'GET',
@@ -812,5 +912,10 @@
 
 
         // }
+
+        function loginLoading() {
+            document.getElementById('loadingWait')?.classList.remove('d-none');
+            document.getElementById('loadingWait')?.classList.add('d-flex');
+        }
     </script>
 @endpush
