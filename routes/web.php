@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\AssetController;
+use App\Http\Controllers\ProjectController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -91,6 +92,12 @@ Route::group(['middleware' => 'CheckLogin'], function () {
 
 
     /* ---------------------------------------------- /Asset ---------------------------------------------- */
+
+    /* ---------------------------------------------- Project ---------------------------------------------- */
+
+    Route::get('/project/items/{id}', 'ProjectController@project_mt');
+
+    /* ---------------------------------------------- /Project ---------------------------------------------- */
 
     Route::get('/vam', 'VamController@index');
     Route::get('/vam/search', 'VamController@vamSearch')->name('vamSearch');
