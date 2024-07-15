@@ -26,11 +26,12 @@
         body {
             font-family: "Kanit", sans-serif;
             font-size: 14px;
+            background-color: #efefef7a;
         }
 
-        @media only screen and (max-width: 600px) {}
+        /* @media only screen and (max-width: 600px) {}
 
-        @media only screen and (min-width: 600px) {}
+        @media only screen and (min-width: 600px) {} */
     </style>
     @stack('style')
 </head>

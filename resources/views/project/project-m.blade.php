@@ -6,6 +6,19 @@
             --bs-card-border-color: #00000009;
         }
 
+        .card-approve {
+            background-color: #f6f5fa;
+            border-radius: 8px;
+        }
+
+        .border-bm {
+            border-bottom: 2px solid #00000009;
+        }
+
+        .border-left-cus {
+            border-left: 1px solid #00000010;
+        }
+
         .logo-company {
             align-content: center;
         }
@@ -18,48 +31,129 @@
             font-size: 14px;
         }
 
+        .f-15 {
+            font-size: 15px;
+        }
+
         .color-gray {
             color: gray;
         }
 
         .text-b {
-            font: bold;
+            font-weight: bold;
+        }
+
+        .project-icon {
+            height: 40px;
+        }
+
+        .btn-approve {
+            /* border: 1px solid #087c69; */
+            background-color: #5587dc;
+            border-radius: 8px;
+            color: #fff;
+            /* width: 140px; */
+        }
+
+        .btn-approve:hover {
+            background-color: #2d417b;
+            border-radius: 8px;
+            color: #fff;
+        }
+
+        .btn-not-approve {
+            border-radius: 8px;
+            color: #000;
+            /* width: 140px; */
+        }
+
+        .btn-not-approve:hover {
+            background-color: #808080;
+            border-radius: 8px;
+            color: #fff;
         }
     </style>
 @endpush
 @section('content')
-    <div class="project-card mt-4 p-2">
-        <div class="p-2">
-            <div class="project-title d-flex">
-                <div class="logo-company pe-4">
-                    <img src="https://seedsgroup.dyndns.org/spm/Center/Logo/3.jpg" style="width:60px;">
+    <div class="project-card card mt-4 bg-white accent-blue">
+        <div class="row m-2 mt-4">
+            <div class="col-lg-8">
+                <div class="">
+                    <div class="project-title d-flex">
+                        <div class="logo-company pe-4">
+                            <img src="https://seedsgroup.dyndns.org/spm/Center/Logo/3.jpg" style="width:60px;">
+                        </div>
+                        <div class="tital-project">
+                            <h6>{{ $query_mt->ProjectName ?? '-' }}</h6>
+                            <label class="p-0 m-0" style="color: gray;">รหัสโครงการ
+                                :{{ $query_mt->ProjectCode ?? '-' }}</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="tital-project">
-                    <h6>โครงการสร้างแผงกันน้ำเซาะข้างโรงงานฝั่งริมห้วยด้านหลังโรงโสหุ้ย</h6>
-                    <p class="p-0 m-0" style="color: gray;">รหัสโครงการ : GR66088</p>
+
+                <div class="mt-4">
+                    <div class="project-detail">
+                        <h6 class="d-flex align-items-center">
+                            <img class="project-icon pe-2"
+                                src="{{ asset('project/project-management.png') }}">{{ $query_mt->ProjectName ?? '-' }}
+                        </h6>
+                        {{-- <p class="m-0 color-gray">รหัสโครงการ : {{ $query_mt->ProjectCode ?? '-' }}</p> --}}
+                        <p class="f-14 m-0 color-gray d-inline">กลุ่มโครงการรอง :
+                        <p class="f-14 m-0 d-inline ">{{ $query_mt->PjGroupMainName ?? '-' }}</p>
+                        </p>
+                        <p class="f-14 m-0 color-gray d-inline">กลุ่มโครงการหลัก :
+                        <p class="f-14 m-0 d-inline">{{ $query_mt->PjGroupSubName ?? '-' }}</p>
+                        </p>
+                        <div class="border-bm mb-3"></div>
+                        <p class="text-b f-15">ระยะเวลาโครงการ <img class="ps-1"
+                                src="{{ asset('project/timetable.png') }}" height="24px;"></p>
+                        <p class="f-14 color-gray d-inline">
+                            วันที่เริ่ม:
+                        <p class="d-inline ">
+                            {{ \Carbon\Carbon::parse($query_mt->cDateStart)->locale('th')->translatedFormat('d F Y') ?? '-' }}
+                        </p>
+
+                        </p>
+                        <p class="f-14 color-gray d-inline">
+                            วันที่คาดว่าจะสิ้นสุด:
+                        <p class="d-inline">
+                            {{ \Carbon\Carbon::parse($query_mt->cDateEnd)->locale('th')->translatedFormat('d F Y') ?? '-' }}
+                        </p>
+
+                        </p>
+                        <div class="border-bm mb-3"></div>
+                        <p class="f-14 m-0 color-gray d-inline">จังหวัดของโครงการ :
+                        <p class="f-14 d-inline "> {{ $query_mt->ProvinceName ?? '-' }}</p>
+                        </p>
+                        <p class="f-14 m-0 color-gray d-inline">อำเภอของของโครงการ :
+                        <p class="f-14 d-inline "> {{ $query_mt->ApName ?? '-' }}</p>
+                        </p>
+                        <p class="f-14 m-0 color-gray d-inline">รายละเอียด :
+                        <p class="f-14 d-inline "> {{ $query_mt->Note ?? '-' }}</p>
+                        </p>
+                        <p class="f-14 m-0 color-gray d-inline align-items-center"><img class="pe-2"
+                                src="{{ asset('project/accounting.png') }}" height="24px"> งบประมาณ :
+                        <p class="f-14 d-inline "> {{ number_format($query_mt->Budget, 2) ?? '-' }} บาท</p>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 card-approve">
+                <div class="text-end pt-2">
+                    <img src="{{ asset('project/clipboard.png') }}" height="36px">
+                </div>
+                <div class="mb-3 f-15 color-gray">
+                    <label for="note_project f-14">*หมายเหตุ : </label>
+                    <textarea class="form-control f-14" id="note_project" rows="3" {{-- placeholder="เหตุผล : ในการอนุมัติ / ไม่อนุมัติ" --}}></textarea>
+                </div>
+                <div class="row mt-4 m-1">
+                    <button type="button" class="col-12 btn btn-approve mb-2">อนุมัติ</button>
+                    <button type="button" class="col-12 btn btn-not-approve">ยกเลิก</button>
                 </div>
             </div>
         </div>
 
-        <div class="card mt-4">
-            <div class="project-detail m-4">
-                <p class="m-0 color-gray">รหัสโครงการ : GR66088</p>
-                <h6>โครงการสร้างแผงกันน้ำเซาะข้างโรงงานฝั่งริมห้วยด้านหลังโรงโสหุ้ย</h6>
-                <p class="f-14 color-gray">กลุ่มโครงการรอง : โครงการก่อสร้างต่างๆ</p>
-                <p class="f-14 color-gray">กลุ่มโครงการหลัก : โครงการก่อสร้างแผงกันน้ำเซาะ </p>
-                <div class="border-bottom mb-3"></div>
-                <p class="text-b">ระยะเวลาโครงการ</p>
-                <p class="text-b color-gray">วันที่เริ่ม : </p>
-                <p class="text-b color-gray">วันที่คาดว่าจะสิ้นสุด : </p>
-                <div class="border-bottom mb-3"></div>
-                <p class="text-b color-gray">จังหวัดของโครงการ : </p>
-                <p class="text-b color-gray">อำเภอของของโครงการ : </p>
-                <p class="text-b color-gray">รายละเอียด : </p>
-                <p class="text-b color-gray">งบประมาณ : </p>
-            </div>
-        </div>
 
-    </div>
     </div>
 
 @endsection
