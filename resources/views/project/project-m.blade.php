@@ -72,16 +72,32 @@
             border-radius: 8px;
             color: #fff;
         }
+
+        /* table list  */
+        td {
+            border: 2px solid #00000009;
+        }
+
+        td:first-child {
+            border-left: none;
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        /*  */
     </style>
 @endpush
 @section('content')
-    <div class="project-card card mt-4 bg-white accent-blue">
+    <div class="project-card card mt-4 mb-4 bg-white accent-blue">
         <div class="row m-2 mt-4">
             <div class="col-lg-8">
                 <div class="">
                     <div class="project-title d-flex">
                         <div class="logo-company pe-4">
-                            <img src="https://seedsgroup.dyndns.org/spm/Center/Logo/3.jpg" style="width:60px;">
+                            <img src="https://seedsgroup.dyndns.org/spm/Center/Logo/{{ $query_mt->idComp ?? '-' }}.jpg"
+                                style="width:60px;">
                         </div>
                         <div class="tital-project">
                             <h6>{{ $query_mt->ProjectName ?? '-' }}</h6>
@@ -110,14 +126,14 @@
                         <p class="f-14 color-gray d-inline">
                             วันที่เริ่ม:
                         <p class="d-inline ">
-                            {{ \Carbon\Carbon::parse($query_mt->cDateStart)->locale('th')->translatedFormat('d F Y') ?? '-' }}
+                            {{ \Carbon\Carbon::parse($query_mt->cDateStart)->locale('th')->addYears(543)->translatedFormat('d F Y') ?? '-' }}
                         </p>
 
                         </p>
                         <p class="f-14 color-gray d-inline">
                             วันที่คาดว่าจะสิ้นสุด:
                         <p class="d-inline">
-                            {{ \Carbon\Carbon::parse($query_mt->cDateEnd)->locale('th')->translatedFormat('d F Y') ?? '-' }}
+                            {{ \Carbon\Carbon::parse($query_mt->cDateEnd)->locale('th')->addYears(543)->translatedFormat('d F Y') ?? '-' }}
                         </p>
 
                         </p>
@@ -135,15 +151,18 @@
                                 src="{{ asset('project/accounting.png') }}" height="24px"> งบประมาณ :
                         <p class="f-14 d-inline "> {{ number_format($query_mt->Budget, 2) ?? '-' }} บาท</p>
                         </p>
+                        <div class="border-bm mb-3 d-lg-none"></div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 card-approve">
-                <div class="text-end pt-2">
-                    <img src="{{ asset('project/clipboard.png') }}" height="36px">
+            <div class="col-lg-4 card-approve d-none d-lg-block"> {{-- d-lg-none --}}
+                <div class="text-start pt-3 mb-1 ">
+                    <img src="{{ asset('project/quality-control-ap.png') }}" height="32px">
+                    <label class="f-15 text-b">อนุมัติโครงการ</label>
                 </div>
+                <div class="border-b mb-3 mt-3" style="border: 1px solid #86b7fe"></div>
                 <div class="mb-3 f-15 color-gray">
-                    <label for="note_project f-14">*หมายเหตุ : </label>
+                    <label for="note_project f-14">หมายเหตุ(โปรดระบุ)</label>
                     <textarea class="form-control f-14" id="note_project" rows="3" {{-- placeholder="เหตุผล : ในการอนุมัติ / ไม่อนุมัติ" --}}></textarea>
                 </div>
                 <div class="row mt-4 m-1">
@@ -151,6 +170,54 @@
                     <button type="button" class="col-12 btn btn-not-approve">ยกเลิก</button>
                 </div>
             </div>
+
+            <div class="col-12 d-block d-lg-none">
+                <div class="row" style="justify-content: center;">
+                    <button type="button" class="col-5 btn btn-not-approve mb-2 me-2">ยกเลิก</button>
+                    <button type="button" class="col-5 btn btn-approve mb-2">อนุมัติ</button>
+                </div>
+            </div>
+
+            <div class="border-bm mb-3 d-none d-lg-block"></div>
+            @if (count($query_dt) > 0)
+                <div class="lis-material d-none d-lg-block">
+                    <h6>รายการวัสดุ</h6>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width:72px;"><i class="fa-solid fa-list-ol pe-2"></i>ลำดับ</th>
+                                <th class=""><i class="fa-solid fa-bars-progress pe-2"></i>รายการ</th>
+                                <th class="text-end"><i class="fa-regular fa-rectangle-list pe-2"></i>จำนวน</th>
+                                <th class="text-end" style="width:180px;"><i
+                                        class="fa-solid fa-calculator pe-2"></i>รวมเป็นเงิน
+                                </th>
+                                <th class="text-center"><i class="fa-solid fa-user-group pe-2"></i>Supplier</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($query_dt as $items)
+                                <tr>
+                                    <td class="f-14 text-center">{{ $loop->index + 1 }}</td>
+                                    <td class="f-14 text-start">{{ $items->InvName }}</td>
+                                    <td class="f-14 text-end">{{ number_format($items->Amount) ?? '0' }}</td>
+                                    <td class="f-14 text-end">{{ number_format($items->TotalPrice, 2) ?? '0.00' }}</td>
+                                    <td class="f-14 text-center">{{ $items->SupName }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td class="f-14 text-center">-</td>
+                                    <td class="f-14 text-start">-</td>
+                                    <td class="f-14 text-end">-</td>
+                                    <td class="f-14 text-end">-</td>
+                                    <td class="f-14 text-center">-</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+
+
         </div>
 
 

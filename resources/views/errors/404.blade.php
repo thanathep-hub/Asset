@@ -4,36 +4,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Not Found</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ไม่พร้อมใช้งาน</title>
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
-            color: #343a40;
-            text-align: center;
-            padding: 50px;
+            /* width: 768px; */
         }
 
-        .container {
-            margin-top: 100px;
+        .page_404 {
+            padding: 40px 0;
+            background: #fff;
+            font-family: 'Arvo', serif;
         }
 
-        h1 {
-            font-size: 100px;
+        .page_404 img {
+            width: 100%;
         }
 
-        p {
-            font-size: 24px;
+        .four_zero_four_bg {
+
+            background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+            height: 400px;
+            background-position: center;
+        }
+
+
+        .four_zero_four_bg h1 {
+            font-size: 80px;
+        }
+
+        .four_zero_four_bg h3 {
+            font-size: 80px;
+        }
+
+        .link_404 {
+            color: #fff !important;
+            padding: 10px 20px;
+            background: #39ac31;
+            margin: 20px 0;
+            display: inline-block;
+        }
+
+        .contant_box_404 {
+            margin-top: -50px;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>404</h1>
-        <p>ไม่พร้อมใช้งานในขณะนี้</p>
-    </div>
+    <section class="page_404" style="text-align: center;">
+        <div class="container" style="text-align: -webkit-center;">
+            <div class="row" style="width: 768px;">
+                <div class="col-sm-12 ">
+                    <div class="col-sm-10 col-sm-offset-1  text-center">
+                        <div class="four_zero_four_bg">
+                            <h1 class="text-center ">404</h1>
+
+
+                        </div>
+
+                        <div class="contant_box_404">
+                            <h3 class="h2">
+                                ดูเหมือนคุณจะหลงทางแล้ว
+                            </h3>
+
+                            <p>หน้าที่คุณกำลังค้นหาไม่มีอยู่!</p>
+
+                            {{-- <a href="" class="link_404">Go to Home</a> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 
 </html>

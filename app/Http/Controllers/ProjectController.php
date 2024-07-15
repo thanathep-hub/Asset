@@ -11,8 +11,12 @@ class ProjectController extends Controller
     public function project_mt($id)
     {
         $query_mt = $this->project_query($id);
-        return view('project.project-m', compact('query_mt'));
-        // return response()->json($query_mt);
+        $query_dt = $this->project_dt($id);
+
+        if ($query_mt == null) {
+            return redirect('/errors/404');
+        }
+        return view('project.project-m', compact('query_mt', 'query_dt'));
     }
 
     public function project_query($id)
@@ -29,11 +33,27 @@ class ProjectController extends Controller
                 ORDER BY
                     pdvp.idProject DESC
             "))->first();
-            if ($query) {
-                return $query;
-            }
+            return $query;
         } catch (\Throwable $th) {
-            //throw $th;
+            return redirect('/errors/404');
+        }
+    }
+    public function project_dt($id)
+    {
+        try {
+            $query = DB::select("
+                SELECT
+                    *
+                FROM
+                    PchInvAndProject.dbo.vProject_InvDetail AS pdvpi
+                WHERE
+                    pdvpi.idProject = $id
+                ORDER BY
+                    pdvpi.idBuyDt DESC
+            ");
+            return $query;
+        } catch (\Throwable $th) {
+            return redirect('/errors/404');
         }
     }
 }
