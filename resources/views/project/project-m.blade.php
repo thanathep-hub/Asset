@@ -11,6 +11,14 @@
             border-radius: 8px;
         }
 
+        .card-btn-approve {
+            height: 3.75rem;
+            /* margin: 0 1.75rem; */
+            background-color: #fff;
+            align-content: center;
+            border-radius: 8px;
+        }
+
         .border-bm {
             border-bottom: 2px solid #00000009;
         }
@@ -171,13 +179,6 @@
                 </div>
             </div>
 
-            <div class="col-12 d-block d-lg-none">
-                <div class="row" style="justify-content: center;">
-                    <button type="button" class="col-5 btn btn-not-approve mb-2 me-2">ยกเลิก</button>
-                    <button type="button" class="col-5 btn btn-approve mb-2">อนุมัติ</button>
-                </div>
-            </div>
-
             <div class="border-bm mb-3 d-none d-lg-block"></div>
             @if (count($query_dt) > 0)
                 <div class="lis-material d-none d-lg-block">
@@ -217,9 +218,13 @@
                 </div>
             @endif
 
-
         </div>
-
+        <div class="d-block d-lg-none fixed-bottom">
+            <div class="row card-btn-approve">
+                <button type="button" class="btn btn-not-approve me-2">ยกเลิก</button>
+                <button type="button" class="btn btn-approve">อนุมัติ</button>
+            </div>
+        </div>
 
     </div>
 
