@@ -369,9 +369,13 @@
         function successAlert() {
             $('#show-modal-approve').modal('hide');
             Swal.fire({
-                title: "Good job!",
-                text: "You clicked the button!",
+                title: "สำเร็จ!",
+                text: "ได้รับการอนุมัติโครงการเรียบร้อย!",
                 icon: "success"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload();
+                }
             });
         }
     </script>

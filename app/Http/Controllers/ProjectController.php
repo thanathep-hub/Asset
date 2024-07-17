@@ -10,13 +10,18 @@ class ProjectController extends Controller
 {
     public function project_mt($id)
     {
-        $query_mt = $this->project_query($id);
-        $query_dt = $this->project_dt($id);
+        $permiss = $this->project_permission();
+        if ($permiss) {
+            $query_mt = $this->project_query($id);
+            $query_dt = $this->project_dt($id);
 
-        if ($query_mt == null) {
-            return redirect('/errors/404');
+            if ($query_mt == null) {
+                return redirect('/errors/404');
+            }
+            return view('project.project-m', compact('query_mt', 'query_dt', 'permiss'));
+        } else {
+            return  view('project.no-access');
         }
-        return view('project.project-m', compact('query_mt', 'query_dt'));
     }
 
     public function project_query($id)
@@ -54,6 +59,26 @@ class ProjectController extends Controller
             return $query;
         } catch (\Throwable $th) {
             return redirect('/errors/404');
+        }
+    }
+
+    public function project_permission()
+    {
+        $user = session('user');
+        try {
+            $query = collect(DB::select(
+                "
+                SELECT
+                    *
+                FROM
+                    PchInvAndProject.devsk.permission_approve_list AS pdpa
+                WHERE
+                    pdpa.idPs = $user->idPs AND pdpa.pj_view = 1
+                "
+            ))->first();
+            return $query;
+        } catch (\Throwable $th) {
+            //throw $th;
         }
     }
 }
