@@ -96,6 +96,8 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     /* ---------------------------------------------- Project ---------------------------------------------- */
 
     Route::get('/project/items/{id}', 'ProjectController@project_mt');
+    Route::post('/project/items/{id}', 'ProjectController@projectMtApprove')->name('projectMtApprove');
+    Route::post('/project/reject/{id}', 'ProjectController@project_reject');
 
     /* ---------------------------------------------- /Project ---------------------------------------------- */
 

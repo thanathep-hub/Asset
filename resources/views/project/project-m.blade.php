@@ -2,6 +2,22 @@
 @section('title', 'โครงการ')
 @push('style')
     <style>
+        .invalid {
+            border: 1px solid #ff0000 !important;
+        }
+
+        #btnnotconfirm1.disabled {
+            background-color: #fb7a6e;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        #btnnotconfirm2.disabled {
+            background-color: #fb7a6e;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         .card {
             --bs-card-border-color: #00000009;
         }
@@ -158,9 +174,67 @@
         }
 
         /*  */
+
+        /* loading css */
+
+        .loader {
+            --s: 20px;
+
+            --_d: calc(0.353*var(--s));
+            width: calc(var(--s) + var(--_d));
+            aspect-ratio: 1;
+            display: grid;
+        }
+
+        .loader:before,
+        .loader:after {
+            content: "";
+            grid-area: 1/1;
+            clip-path: polygon(var(--_d) 0, 100% 0, 100% calc(100% - var(--_d)), calc(100% - var(--_d)) 100%, 0 100%, 0 var(--_d));
+            background:
+                conic-gradient(from -90deg at calc(100% - var(--_d)) var(--_d),
+                    #ecfdf5 135deg, #047857 0 270deg, #6ee7b7 0);
+            animation: l6 2s infinite;
+        }
+
+        .loader:after {
+            animation-delay: -1s;
+        }
+
+        @keyframes l6 {
+            0% {
+                transform: translate(0, 0)
+            }
+
+            25% {
+                transform: translate(30px, 0)
+            }
+
+            50% {
+                transform: translate(30px, 30px)
+            }
+
+            75% {
+                transform: translate(0, 30px)
+            }
+
+            100% {
+                transform: translate(0, 0)
+            }
+        }
+
+        /* loading css */
     </style>
 @endpush
 @section('content')
+    <div class="modal fade" id="show-modal-loading" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+        data-bs-keyboard="false" style="align-content: center;
+    margin-top: -5rem;">
+        <div class="modal-dialog" style="text-align: -webkit-center;">
+            <div class="loader"></div>
+        </div>
+    </div>
+
     <div class="project-card card mt-4 mb-4 bg-white accent-blue">
         <div class="row m-2 mt-4">
             <div class="col-lg-8">
@@ -231,23 +305,68 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 card-approve d-none d-lg-block">
-                <div class="text-start pt-3 mb-1 ">
-                    <img src="{{ asset('project/quality-control-ap.png') }}" height="32px">
-                    <label class="f-15 text-b">อนุมัติโครงการ</label>
+            @if ($permiss->check && $check_approve->idPsCheck == null)
+                <div class="col-lg-4 card-approve d-none d-lg-block">
+                    <div class="text-start pt-3 mb-1 ">
+                        <img class="pe-2" src="{{ asset('project/quality-control-ap.png') }}" height="32px">
+                        <label class="f-15 text-b">ตรวจสอบโครงการ</label>
+                    </div>
+                    <div class="border-b mb-3 mt-3" style="border: 1px solid #86b7fe"></div>
+                    <div class="row mt-4 m-1">
+                        <button type="button" class="col-12 btn btn-approve mb-2" data-bs-toggle="modal"
+                            data-bs-target="#show-modal-check">ตรวจสอบโครงการ</button>
+                    </div>
                 </div>
-                <div class="border-b mb-3 mt-3" style="border: 1px solid #86b7fe"></div>
-                <div class="mb-3 f-15 color-gray d-none">
-                    <label for="note_project f-14">หมายเหตุ(โปรดระบุ)</label>
-                    <textarea class="form-control f-14" id="note_project" rows="3" {{-- placeholder="เหตุผล : ในการอนุมัติ / ไม่อนุมัติ" --}}></textarea>
+            @elseif($permiss->accept && $check_approve->idPsAccept == null)
+                <div class="col-lg-4 card-approve d-none d-lg-block">
+                    <div class="text-start pt-3 mb-1 ">
+                        <img class="pe-2" src="{{ asset('project/quality-control-ap.png') }}" height="32px">
+                        <label class="f-15 text-b">รับทราบโครงการ</label>
+                    </div>
+                    <div class="border-b mb-3 mt-3" style="border: 1px solid #86b7fe"></div>
+                    <div class="row mt-4 m-1">
+                        <button type="button" class="col-12 btn btn-approve mb-2" data-bs-toggle="modal"
+                            data-bs-target="#show-modal-accept">รับทราบโครงการ</button>
+                    </div>
                 </div>
-                <div class="row mt-4 m-1">
-                    <button type="button" class="col-12 btn btn-approve mb-2" data-bs-toggle="modal"
-                        data-bs-target="#show-modal-approve">อนุมัติ</button>
-                    <button type="button" class="col-12 btn btn-not-approve" data-bs-toggle="modal"
-                        data-bs-target="#show-modal-not-approve">ยกเลิก</button>
+            @elseif($permiss->confirm_1 && $check_approve->idPsConfirm == null)
+                <div class="col-lg-4 card-approve d-none d-lg-block">
+                    <div class="text-start pt-3 mb-1 ">
+                        <img class="pe-2" src="{{ asset('project/quality-control-ap.png') }}" height="32px">
+                        <label class="f-15 text-b">อนุมัติโครงการ</label>
+                    </div>
+                    <div class="border-b mb-3 mt-3" style="border: 1px solid #86b7fe"></div>
+                    <div class="mb-3 f-15 color-gray d-none">
+                        <label for="note_project f-14">หมายเหตุ(โปรดระบุ)</label>
+                        <textarea class="form-control f-14" id="note_approve_1" rows="3" {{-- placeholder="เหตุผล : ในการอนุมัติ / ไม่อนุมัติ" --}}></textarea>
+                    </div>
+                    <div class="row mt-4 m-1">
+                        <button type="button" class="col-12 btn btn-approve mb-2" data-bs-toggle="modal"
+                            data-bs-target="#show-modal-approve-1">อนุมัติโครงการ(1)</button>
+                        <button type="button" class="col-12 btn btn-not-approve" data-bs-toggle="modal"
+                            data-bs-target="#show-modal-not-approve-1">ไม่อนุมัติโครงการ(1)</button>
+                    </div>
                 </div>
-            </div>
+            @elseif($permiss->confirm_2 && $check_approve->idPsConfirm2 == null)
+                <div class="col-lg-4 card-approve d-none d-lg-block">
+                    <div class="text-start pt-3 mb-1 ">
+                        <img class="pe-2" src="{{ asset('project/quality-control-ap.png') }}" height="32px">
+                        <label class="f-15 text-b">อนุมัติโครงการ</label>
+                    </div>
+                    <div class="border-b mb-3 mt-3" style="border: 1px solid #86b7fe"></div>
+                    <div class="mb-3 f-15 color-gray d-none">
+                        <label for="note_project f-14">หมายเหตุ(โปรดระบุ)</label>
+                        <textarea class="form-control f-14" id="note_approve_2" rows="3" {{-- placeholder="เหตุผล : ในการอนุมัติ / ไม่อนุมัติ" --}}></textarea>
+                    </div>
+                    <div class="row mt-4 m-1">
+                        <button type="button" class="col-12 btn btn-approve mb-2" data-bs-toggle="modal"
+                            data-bs-target="#show-modal-approve-2">อนุมัติโครงการ(2)</button>
+                        <button type="button" class="col-12 btn btn-not-approve" data-bs-toggle="modal"
+                            data-bs-target="#show-modal-not-approve-2">ไม่อนุมัติโครงการ(2)</button>
+                    </div>
+                </div>
+            @endif
+
 
             <div class="border-bm mb-3 d-none d-lg-block"></div>
             @if (count($query_dt) > 0)
@@ -292,15 +411,73 @@
         <div class="d-block d-lg-none fixed-bottom">
             <div class="row card-btn-approve m-0" style="justify-content: space-evenly;">
                 <button type="button" class="col-6 btn btn-not-approve-fixed" data-bs-toggle="modal"
-                    data-bs-target="#show-modal-not-approve">ยกเลิก</button>
+                    data-bs-target="#show-modal-not-approve-1">ยกเลิก</button>
                 <button type="button" class="col-6 btn btn-approve-fixed" data-bs-toggle="modal"
-                    data-bs-target="#show-modal-approve">อนุมัติ</button>
+                    data-bs-target="#show-modal-approve-1">อนุมัติ</button>
             </div>
         </div>
 
     </div>
+    <div class="modal fade" id="show-modal-check" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="border: unset">
+                <div class="modal-header border-0">
+                    <div class="text-start mb-1">
+                        <img class="pe-2" src="{{ asset('project/stamp.png') }}" height="32px">
+                        <h6 class="text-b d-inline">ตรวจสอบโครงการ</h6>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <p class="f-15 m-0 color-gray">โครงการ :
+                            <span class="f-15 text-dark"> {{ $query_mt->ProjectName ?? '-' }}</span>
+                        </p>
+                        <p class="f-14 color-gray">บริษัท :
+                            <span class="f-14 text-dark"> {{ $query_mt->CompName ?? '-' }}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn w-100" style="background-color:#5587dc;color:#fff;"
+                        onclick="checkProject('check')">
+                        ยืนยันการตรวจสอบโครงการ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="show-modal-accept" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="border: unset">
+                <div class="modal-header border-0">
+                    <div class="text-start mb-1">
+                        <img class="pe-2" src="{{ asset('project/stamp.png') }}" height="32px">
+                        <h6 class="text-b d-inline">รับทราบโครงการ</h6>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <p class="f-15 m-0 color-gray">โครงการ :
+                            <span class="f-15 text-dark"> {{ $query_mt->ProjectName ?? '-' }}</span>
+                        </p>
+                        <p class="f-14 color-gray">บริษัท :
+                            <span class="f-14 text-dark"> {{ $query_mt->CompName ?? '-' }}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn w-100" style="background-color:#5587dc;color:#fff;"
+                        onclick="checkProject('accept')">
+                        ยืนยันการรับทราบโครงการ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div class="modal fade" id="show-modal-not-approve" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="show-modal-not-approve-1" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content" style="border: unset">
                 <div class="modal-header border-0">
@@ -321,18 +498,19 @@
 
                     <div class="mb-3 f-15 color-gray">
                         <label class=" f-14 mb-1" for="note_project">หมายเหตุ(โปรดระบุ)</label>
-                        <textarea class="form-control f-14" id="note_project" rows="3" {{-- placeholder="เหตุผล : ในการอนุมัติ / ไม่อนุมัติ" --}}></textarea>
+                        <textarea class="form-control f-14" id="note_project_1" rows="3" {{-- placeholder="เหตุผล : ในการอนุมัติ / ไม่อนุมัติ" --}}></textarea>
                     </div>
                 </div>
                 <div class="modal-footer border-0">
-                    <button type="button" class="btn w-100 btn-not-approve-fixed-modal" style="color:#fff;">
+                    <button type="button" class="btn w-100 btn-not-approve-fixed-modal disabled" style="color:#fff;"
+                        id="btnnotconfirm1" onclick="notConfirm('1')">
                         ยืนยันการไม่อนุมัติโครงการ
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="show-modal-approve" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="show-modal-approve-1" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content" style="border: unset">
                 <div class="modal-header border-0">
@@ -354,7 +532,70 @@
                 </div>
                 <div class="modal-footer border-0">
                     <button type="button" class="btn w-100" style="background-color:#5587dc;color:#fff;"
-                        onclick="successAlert()">
+                        onclick="checkProject('confirm_1')">
+                        ยืนยันการอนุมัติโครงการ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="show-modal-not-approve-2" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="border: unset">
+                <div class="modal-header border-0">
+                    <div class="text-start mb-1 ">
+                        <img class="pe-2" src="{{ asset('project/stamp-2.png') }}" height="32px">
+                        <h6 class="d-inline text-b">ไม่อนุมัติโครงการ</h6>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{-- <p class="f-15 m-0">{{ $query_mt->ProjectName }}</p> --}}
+                    <p class="f-15 m-0 color-gray">โครงการ :
+                        <span class="f-15 text-dark"> {{ $query_mt->ProjectName ?? '-' }}</span>
+                    </p>
+                    <p class="f-14 color-gray">บริษัท :
+                        <span class="f-14 text-dark"> {{ $query_mt->CompName ?? '-' }}</span>
+                    </p>
+
+                    <div class="mb-3 f-15 color-gray">
+                        <label class=" f-14 mb-1" for="note_project">หมายเหตุ(โปรดระบุ)</label>
+                        <textarea class="form-control f-14" id="note_project_2" rows="3" {{-- placeholder="เหตุผล : ในการอนุมัติ / ไม่อนุมัติ" --}}></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn w-100 btn-not-approve-fixed-modal disabled" style="color:#fff;"
+                        id="btnnotconfirm2" onclick="notConfirm('2')">
+                        ยืนยันการไม่อนุมัติโครงการ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="show-modal-approve-2" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="border: unset">
+                <div class="modal-header border-0">
+                    <div class="text-start mb-1">
+                        <img class="pe-2" src="{{ asset('project/stamp.png') }}" height="32px">
+                        <h6 class="text-b d-inline">อนุมัติโครงการ</h6>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <p class="f-15 m-0 color-gray">โครงการ :
+                            <span class="f-15 text-dark"> {{ $query_mt->ProjectName ?? '-' }}</span>
+                        </p>
+                        <p class="f-14 color-gray">บริษัท :
+                            <span class="f-14 text-dark"> {{ $query_mt->CompName ?? '-' }}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn w-100" style="background-color:#5587dc;color:#fff;"
+                        onclick="checkProject('confirm_2')">
                         ยืนยันการอนุมัติโครงการ
                     </button>
                 </div>
@@ -366,17 +607,109 @@
 @endsection
 @push('script')
     <script>
-        function successAlert() {
-            $('#show-modal-approve').modal('hide');
-            Swal.fire({
-                title: "สำเร็จ!",
-                text: "ได้รับการอนุมัติโครงการเรียบร้อย!",
-                icon: "success"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    location.reload();
+        $(document).ready(function() {
+            const textInput = $('#note_project_1');
+            const submitButton = $('#btnnotconfirm1');
+            const textInput2 = $('#note_project_2');
+            const submitButton2 = $('#btnnotconfirm2');
+
+            textInput.on('input', function() {
+                if (textInput.val().trim() === '') {
+                    console.log("Input is empty");
+                    submitButton.addClass('disabled');
+                } else {
+                    console.log("Input is not empty");
+                    submitButton.removeClass('disabled');
                 }
             });
+
+            textInput2.on('input', function() {
+                if (textInput2.val().trim() === '') {
+                    console.log("Input is empty");
+                    submitButton2.addClass('disabled');
+                } else {
+                    console.log("Input is not empty");
+                    submitButton2.removeClass('disabled');
+                }
+            });
+        });
+
+        function checkProject(permiss) {
+            $('#show-modal-check').modal('hide');
+            $('#show-modal-accept').modal('hide');
+            $('#show-modal-approve-1').modal('hide');
+            $('#show-modal-approve-2').modal('hide');
+            $('#show-modal-loading').modal('show');
+
+            $.ajax({
+                url: '/project/items/' + {{ $query_mt->idProject }},
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    permiss: permiss
+                },
+                success: function(response) {
+                    console.log(response);
+                    if (response.status == true) {
+                        Swal.fire({
+                            title: "สำเร็จ!",
+                            text: response.message,
+                            icon: "success"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
+                    } else {
+                        console.log(response);
+                    }
+
+                }
+            });
+        }
+
+        function notConfirm(notConfirm) {
+            $('#show-modal-not-approve-1').modal('hide');
+            $('#show-modal-not-approve-2').modal('hide');
+            $('#show-modal-loading').modal('show');
+
+            if (notConfirm === '1') {
+                var note_status = 'Note_Reject';
+                var note = document.getElementById('note_project_1').value;
+
+            }
+            if (notConfirm === '2') {
+                var note_status = 'Note_Reject2';
+                var note = document.getElementById('note_project_2').value;
+            }
+
+            $.ajax({
+                url: '/project/reject/' + {{ $query_mt->idProject }},
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    note_status: note_status,
+                    note: note
+                },
+                success: function(response) {
+                    console.log(response);
+                    if (response.status == true) {
+                        Swal.fire({
+                            title: "สำเร็จ!",
+                            text: response.message,
+                            icon: "success"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
+                    } else {
+                        console.log(response, "tets");
+                    }
+
+                }
+            });
+
         }
     </script>
 @endpush
