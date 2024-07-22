@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class ProjectController extends Controller
 {
+    public function project()
+    {
+        session()->put("routeIs", 'project');
+        return view('project.project');
+    }
     public function project_mt($id)
     {
         $permiss = $this->project_permission();
@@ -96,13 +102,15 @@ class ProjectController extends Controller
         if ($permiss === 'check') {
             $check_approve = $this->Check_project($id);
             if ($check_approve == true) {
-                return response()->json(['status' => true, 'message' => 'ได้รับการตรวจสอบโครงการเรียบร้อย!']);
+                $line_status = $this->Project_line_update($id);
+                return response()->json(['status' => true, 'message' => 'ได้รับการตรวจสอบโครงการเรียบร้อย!', 'line_status' => $line_status]);
             } else {
                 return response()->json(['status' => false, 'message' => 'ทำการตรวจสอบไม่สำเร็จ']);
             }
         } else if ($permiss === 'accept') {
             $check_approve = $this->Accept_project($id);
             if ($check_approve == true) {
+                $line_status = $this->Project_line_update($id);
                 return response()->json(['status' => true, 'message' => 'ได้รับการรับทราบโครงการเรียบร้อย!']);
             } else {
                 return response()->json(['status' => false, 'message' => 'ทำการรับทราบไม่สำเร็จ']);
@@ -110,6 +118,7 @@ class ProjectController extends Controller
         } else if ($permiss === 'confirm_1') {
             $check_approve = $this->Confirm_1_project($id);
             if ($check_approve == true) {
+                $line_status = $this->Project_line_update($id);
                 return response()->json(['status' => true, 'message' => 'ได้รับการอนุมัติโครงการเรียบร้อย!']);
             } else {
                 return response()->json(['status' => false, 'message' => 'ทำการอนุมัติไม่สำเร็จ']);
@@ -117,6 +126,7 @@ class ProjectController extends Controller
         } else if ($permiss === 'confirm_2') {
             $check_approve = $this->Confirm_2_project($id);
             if ($check_approve == true) {
+                $line_status = $this->Project_line_update($id);
                 return response()->json(['status' => true, 'message' => 'ได้รับการอนุมัติโครงการเรียบร้อย!']);
             } else {
                 return response()->json(['status' => false, 'message' => 'ทำการอนุมัติไม่สำเร็จ']);
@@ -282,6 +292,136 @@ class ProjectController extends Controller
             } else {
                 return response()->json(['status' => false, 'message' => 'ยกเลิกโครงการไม่สำเร็จ!']);
             }
+        }
+    }
+
+    public function Project_line_update($id_project)
+    {
+
+        $project_mt = $this->project_query($id_project);
+
+        $checkNameApprove = $this->CheckNameApprove($id_project);
+        if ($checkNameApprove) {
+            $budget = number_format($project_mt->Budget, 2, '.', ',');
+
+            $longUrl = "https://assets.advanceseeds.com/project/items/" . $id_project;
+            $link_project = $this->tinyURL($longUrl);
+
+            ini_set('display_errors', 1);
+            ini_set('display_startup_errors', 1);
+            error_reporting(E_ALL);
+            date_default_timezone_set("Asia/Bangkok");
+
+            $sToken = "9gZvubJwRAJUnxxZp2Ny30IJOl7AIgfpJdANd7D6z8U"; // test
+            // $sToken = "iWhvlImxkt0vH6aIyu3W5LXVfFZXMwg4l78eEjhDiiA";
+
+            $sMessage = "test 02";
+            $sMessage = " เรียนผู้อนุมัติ (" . $project_mt->CompName . ") \n";
+            $sMessage .= "ชื่อโครงการ : " . $project_mt->ProjectName . "\n";
+            $sMessage .= "โครงการรอง : " . $project_mt->PjGroupMainName . "\n";
+            $sMessage .= "ชื่อโครงการย่อย : " . $project_mt->PjGroupSubName . "\n";
+            $sMessage .= "ผู้สั่งดำเนินการ : " . $project_mt->PsNamecom . "\n";
+            $sMessage .= "วันที่เริ่มโครงการ : " . $project_mt->DateStart . "\n";
+            $sMessage .= "วันสิ้นสุดโครงการ : " . $project_mt->DateEnd . "\n";
+            $sMessage .= "รายละเอียด : " . $project_mt->Note . "\n";
+            $sMessage .= "งบประมาณ : " . $budget . "\n";
+            $sMessage .= "ผู้ทำรายการ : " . $project_mt->PsnameAdd . "\n";
+
+            $sMessage .= "---------------- รายการ -------------------\n";
+            $sMessage .= "รายละเอียด : \n";
+            $sMessage .= "---------------- สถานะอนุมัติ --------------\n";
+            $sMessage .= "ผู้ตรวจสอบ : " . ($checkNameApprove->PsNameCheck ?? '-') . "\n";
+            $sMessage .= "ผู้รับทราบ : " . ($checkNameApprove->PsNameAccept ?? '-') . "\n";
+            $sMessage .= "ผู้อนุมัติ 1 : " . ($checkNameApprove->PsNameConfirm ?? '-') . "\n";
+            $sMessage .= "ผู้อนุมัติ 2 : " . ($checkNameApprove->PsNameConfirm2 ?? '-') . "\n";
+
+            $sMessage .= "----------------------------------------------\n";
+            $sMessage .= "ลิ้งค์ทำรายการ : " . $link_project . "\n";
+
+            $chOne = curl_init();
+            curl_setopt(
+                $chOne,
+                CURLOPT_URL,
+                "https://notify-api.line.me/api/notify"
+            );
+            curl_setopt(
+                $chOne,
+                CURLOPT_SSL_VERIFYHOST,
+                0
+            );
+            curl_setopt(
+                $chOne,
+                CURLOPT_SSL_VERIFYPEER,
+                0
+            );
+            curl_setopt(
+                $chOne,
+                CURLOPT_POST,
+                1
+            );
+            curl_setopt(
+                $chOne,
+                CURLOPT_POSTFIELDS,
+                "message=" . $sMessage
+            );
+            $headers = array('Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer ' . $sToken . '',);
+            curl_setopt(
+                $chOne,
+                CURLOPT_HTTPHEADER,
+                $headers
+            );
+            curl_setopt(
+                $chOne,
+                CURLOPT_RETURNTRANSFER,
+                1
+            );
+
+            $result = curl_exec($chOne);
+
+            $line_st = false;
+            if (curl_error($chOne)) {
+                $line_st = false;
+            } else {
+                $line_st = true;
+            }
+            curl_close($chOne);
+            return $line_st;
+        }
+    }
+
+    public function CheckNameApprove($id_poject)
+    {
+        try {
+            $query = collect(DB::select("
+                SELECT
+                    pdda.idPsCheck, gddCheck.PsName AS PsNameCheck,
+                    pdda.idPsAccept, gddAccept.PsName AS PsNameAccept,
+                    pdda.idPsConfirm, gddConfirm.PsName AS PsNameConfirm,
+                    pdda.idPsConfirm2, gddConfirm2.PsName AS PsNameConfirm2
+                FROM
+                    PchInvAndProject.dbo.dProject_Approve AS pdda
+                    LEFT JOIN GR_Group.dbo.dEmployee AS gddCheck ON pdda.idPsCheck = gddCheck.idPs
+                    LEFT JOIN GR_Group.dbo.dEmployee AS gddAccept ON pdda.idPsAccept = gddAccept.idPs
+                    LEFT JOIN GR_Group.dbo.dEmployee AS gddConfirm ON pdda.idPsConfirm = gddConfirm.idPs
+                    LEFT JOIN GR_Group.dbo.dEmployee AS gddConfirm2 ON pdda.idPsConfirm2 = gddConfirm2.idPs
+                WHERE
+                    pdda.idProject = $id_poject
+            "))->first();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        if ($query) {
+            return $query;
+        }
+    }
+
+    public function tinyURL($url)
+    {
+        $apiUrl = "https://tinyurl.com/api-create.php?url=" . $url;
+        $response = Http::get($apiUrl);
+        if ($response->successful()) {
+            $shortUrl = $response->body();
+            return $shortUrl;
         }
     }
 }
