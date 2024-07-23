@@ -100,6 +100,8 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::post('/project/items/{id}', 'ProjectController@projectMtApprove');
     Route::post('/project/reject/{id}', 'ProjectController@project_reject');
 
+    Route::get('/api/project', 'ProjectController@api_project')->name('get_project');
+
     // Route::get('/test-view', function () {
     //     session()->put("routeIs", 'active');
     //     return view('app.app');

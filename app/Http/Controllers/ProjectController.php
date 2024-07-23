@@ -424,6 +424,31 @@ class ProjectController extends Controller
             return $shortUrl;
         }
     }
+
+    public function api_project()
+    {
+
+        try {
+            $query_result = DB::select("
+                SELECT TOP
+                    300 pddap.idProject_Dt, pdvp.idProject, pdvp.ProjectName,pdvp.ProjStName, pdvp.CompName, CAST(pdvp.cDateStart AS DATE) cDateStart
+                FROM
+                    PchInvAndProject.dbo.dProject_Approve AS pddap
+                    LEFT JOIN PchInvAndProject.dbo.vProject AS pdvp ON pddap.idProject = pdvp.idProject
+                -- 	WHERE
+                ORDER BY
+                    pdvp.idProject DESC
+            ");
+
+            if ($query_result) {
+                return response()->json([
+                    'query_result' => $query_result
+                ]);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
 }
 
 
