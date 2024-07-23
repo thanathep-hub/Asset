@@ -84,7 +84,7 @@
 
         tr.gridjs-tr:last-child td {
             /* background-color: yellow;
-                border-radius: 18px 18px 18px 18px; */
+                                        border-radius: 18px 18px 18px 18px; */
             /* เปลี่ยนพื้นหลังเป็นสีเหลือง */
         }
 
@@ -213,12 +213,21 @@
         });
 
         function get_project_all() {
+            // Get the CSRF token from the meta tag
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            // Make the AJAX request with the CSRF token in the headers
             $.ajax({
-                url: "{{ route('get_project') }}",
+                url: "/api/project", // Ensure this route is served over HTTPS
                 type: 'GET',
+                headers: {
+                    'X-CSRF-Token': csrfToken // Include the CSRF token
+                },
                 success: function(data) {
+                    // Clear the existing table body
                     $('#project_table tbody').empty();
 
+                    // Iterate over the data and append rows to the table body
                     $.each(data.query_result, function(index, project_data) {
                         $('#project_table tbody').append('<tr><td>' + project_data.ProjectName +
                             '</td><td>' +
@@ -226,16 +235,19 @@
                             '</td><td><i class="fa-solid fa-circle pe-2"></i>' + project_data
                             .ProjStName +
                             '</td><td><i class="fa-solid fa-calendar-days pe-2"></i>' + project_data
-                            .cDateStart + '</td></tr>');
+                            .cDateStart +
+                            '</td></tr>');
                     });
-                    rederGridjs();
 
+                    // Call a function to render the grid (if needed)
+                    rederGridjs();
                 },
                 error: function(xhr, status, error) {
                     console.error('Error fetching data:', error);
                 }
             });
         }
+
 
         function rederGridjs() {
             const grid = $("table#project_table").Grid({
