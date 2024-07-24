@@ -84,7 +84,7 @@
 
         tr.gridjs-tr:last-child td {
             /* background-color: yellow;
-                                        border-radius: 18px 18px 18px 18px; */
+                                                border-radius: 18px 18px 18px 18px; */
             /* เปลี่ยนพื้นหลังเป็นสีเหลือง */
         }
 
@@ -283,7 +283,7 @@
             });
             setTimeout(function() {
                 StoploginLoading();
-            }, 1000);
+            }, 2000);
 
         }
 

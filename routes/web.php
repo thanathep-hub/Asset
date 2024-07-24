@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\AssetController;
+use App\Http\Controllers\AssetsController;
 use App\Http\Controllers\ProjectController;
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +34,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
         return view('asset.asset_menu');
     });
     /* ---------------------------------------------- Asset All ---------------------------------------------- */
-    Route::get('/asset', 'AssetController@index');
+    // Route::get('/asset', 'AssetController@index');
     Route::get('/asset/{id}', 'AssetController@asset_detail');
 
     Route::post('/asset_active', 'AssetController@asset_active');
@@ -92,6 +93,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
 
 
     /* ---------------------------------------------- /Asset ---------------------------------------------- */
+    Route::get('/assets', 'AssetsController@assets');
 
     /* ---------------------------------------------- Project ---------------------------------------------- */
 
