@@ -1,5 +1,5 @@
 @extends('app.app')
-@section('title', 'โครงการ')
+@section('title', 'สินทรัพย์')
 @push('style')
     <style>
         .content {
@@ -76,34 +76,56 @@
 
             <div class="form">
                 <i class="fa fa-search"></i>
-                <input type="text" class="form-control form-input border-0" placeholder="ค้นหารายการสินทรัพย์...">
+                <input type="text" class="form-control form-input border-0" placeholder="ค้นหารายการสินทรัพย์..."
+                    id="searchAsset" onchange="searchAsset()">
             </div>
         </div>
     </div>
-
+    {{-- <div class="border-bottom mb-3" style="border-bottom: 2px solid #87b4ff2e;"></div> --}}
     <div class=" search-bar row d-flex justify-content-center align-items-center" style="padding-right: .75rem;">
         <div class="col-md-6">
             <div class="count-search" style="text-align: end;height:24px;">
-                <span style="color: #3759be;">จำนวน 6 รายการ</span>
+                <span style="color: #3759be;">จำนวน <span id="amountResult"></span> รายการ</span>
             </div>
         </div>
     </div>
 
-    <div class="row justify-content-center align-items-center">
-        <div class="col-12 col-md-6 ">
-            <div class="card justify-content-center" style="height: 100px;">
+
+    <div class="row justify-content-center align-items-center" id="showResult">
+        <div class="col-12 col-md-6">
+            <div class="card justify-content-center mb-3" style="height: 100px;">
                 <div class="row m-0">
-                    <div class="col-3" style="">
-                        <img src="{{ asset('project/asset.png') }}" alt="" height="60px">
+                    <div class="col-3" style="text-align: center;">
+                        <img src="https://seedsgroup.dyndns.org/spm/Asset/PicAsset/+items.idAsset+_1.png"
+                            onerror="this.src = '{{ asset('project/no-photo.png') }}';" alt="" height="60px">
                     </div>
                     <div class="col-9" style="align-content: center;">
-                        <label style="font-size: 16px;">เตาอบ แก๊ส LK ใช้แก๊สเป็นเชื้อเพลิง - -</label>
-                        <span class="text-gray">1 เครื่อง</span>
+                        <h6 style="font-size: 16px;"> +items.AssetName+
+                        </h6>
+                        <span class="text-gray" style="font-size: 14px;">จำนวน +items.AssAmount+ </span>
                     </div>
                 </div>
 
             </div>
         </div>
+        <div class="col-12 col-md-6">
+            <div class="card justify-content-center mb-3" style="height: 100px;">
+                <div class="row m-0">
+                    <div class="col-3" style="text-align: center;">
+                        <img src="https://seedsgroup.dyndns.org/spm/Asset/PicAsset/+items.idAsset+_1.png"
+                            onerror="this.src = '{{ asset('project/no-photo.png') }}';" alt="" height="60px">
+                    </div>
+                    <div class="col-9" style="align-content: center;">
+                        <h6 style="font-size: 16px;"> +items.AssetName+
+                        </h6>
+                        {{-- <span class="text-gray" style="font-size: 14px;">จำนวน </span> --}}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
     </div>
 
 
@@ -111,5 +133,51 @@
 
 @endsection
 @push('script')
-    <script></script>
+    <script>
+        function searchAsset() {
+            var textInput = document.getElementById("searchAsset").value;
+
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                url: "/assets/search/text_query",
+                type: 'GET',
+                headers: {
+                    'X-CSRF-Token': csrfToken
+                },
+                data: {
+                    textInput: textInput
+                },
+                success: function(data) {
+                    console.log(data.length);
+                    document.getElementById("amountResult").innerText = data.length;
+
+                    $('#showResult').empty();
+
+                    $.each(data, function(index, items) {
+                        $('#showResult').append(`
+                            <div class="col-12 col-md-6">
+                                <div class="card justify-content-center mb-3" style="height: 100px;">
+                                    <div class="row m-0">
+                                        <div class="col-3" style="text-align: center;align-content: center;">
+                                            <img src="https://seedsgroup.dyndns.org/spm/Asset/PicAsset/${items.idAsset}_1.jpg"
+                                                onerror="this.src = '{{ asset('project/no-photo.png') }}';" alt="" height="60px">
+                                        </div>
+                                        <div class="col-9" style="align-content: center;">
+                                            <h6 style="font-size: 16px;">${items.AssetName}</h6>
+                                            <span class="text-gray" style="font-size: 14px;">จำนวน ${items.AssAmount}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    `);
+                    });
+
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        }
+    </script>
 @endpush

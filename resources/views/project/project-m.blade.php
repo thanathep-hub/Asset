@@ -2,6 +2,11 @@
 @section('title', 'โครงการ')
 @push('style')
     <style>
+        body {
+            background-image: linear-gradient(to bottom, #e0ebf9, #fde6e7);
+            min-height: 100vh;
+        }
+
         .invalid {
             border: 1px solid #ff0000 !important;
         }
@@ -92,7 +97,8 @@
         }
 
         .btn-not-approve:hover {
-            background-color: #808080;
+            /* background-color: #808080; */
+            background-color: #f7aab2;
             border-radius: 8px;
             color: #fff;
         }
@@ -112,19 +118,22 @@
         }
 
         .btn-approve-fixed:active {
-            background-color: #2d417b;
+            /* background-color: #2d417b; */
+            background-color: #416ccf;
             color: #fff;
         }
 
         .btn-not-approve-fixed {
             width: 160px;
             color: #212529;
-            background-color: #f8f9fa;
+            /* background-color: #f8f9fa; */
+            background-color: #8aaacb2e;
             border-color: #f8f9fa;
         }
 
         .btn-not-approve-fixed:hover {
-            background-color: #808080;
+            /* background-color: #808080; */
+            background-color: #f7aab2;
             color: #fff;
         }
 
@@ -171,6 +180,25 @@
 
         td:last-child {
             border-right: none;
+        }
+
+        .form-select option:hover {
+            padding: 1rem;
+            border-radius: 1rem;
+        }
+
+        /*  */
+
+        /* select option not approved */
+        .dropdown-toggle {
+            border: 1px solid #e7e7e7;
+            font-size: 14px;
+        }
+
+        .dropdown-toggle:hover,
+        .dropdown-toggle:active,
+        .dropdown-toggle:focus {
+            border: 1px solid #e7e7e7;
         }
 
         /*  */
@@ -250,6 +278,12 @@
                         <p class="f-14 m-0 color-gray d-inline align-items-center"><img class="pe-2"
                                 src="{{ asset('project/accounting.png') }}" height="24px"> งบประมาณ :
                         <p class="f-14 d-inline "> {{ number_format($query_mt->Budget, 2) ?? '-' }} บาท</p>
+                        </p>
+                        <div class="border-bm mb-3 d-lg-none"></div>
+                        <p class="f-14 m-0 color-gray mb-3">เอกสารที่แนบมา :
+                            <img src="{{ asset('project/copy.png') }}" height="40px" data-bs-toggle="modal"
+                                data-bs-target="#show-file-project"
+                                style="box-shadow: 0 0 .875rem 0 rgba(34, 46, 60, .05);">
                         </p>
                         <div class="border-bm mb-3 d-lg-none"></div>
                     </div>
@@ -445,16 +479,41 @@
                     <p class="f-14 color-gray">บริษัท :
                         <span class="f-14 text-dark"> {{ $query_mt->CompName ?? '-' }}</span>
                     </p>
+                    <div class="mb-3">
+                        {{-- <div class="dropdown">
+                            <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                รวมหมายเหตุทั้งหมด
+                            </a>
 
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" id="note_user">กำหนดเอง</a></li>
+                                <li><a class="dropdown-item" href="#" id="test1">ทดสอบ 1</a></li>
+                                <li><a class="dropdown-item" href="#" id="test2">ทดสอบ 2</a></li>
+                            </ul>
+                        </div> --}}
+                        <div class="form-group">
+                            <label for="noteSelect">รวมหมายเหตุทั้งหมด</label>
+                            <select class="form-control" id="noteSelect">
+                                <option value="note_user">กำหนดเอง</option>
+                                <option value="test1">ทดสอบ 1</option>
+                                <option value="test2">ทดสอบ 2</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="mb-3 f-15 color-gray">
                         <label class=" f-14 mb-1" for="note_project">หมายเหตุ(โปรดระบุ)</label>
-                        <textarea class="form-control f-14" id="note_project_1" rows="3" {{-- placeholder="เหตุผล : ในการอนุมัติ / ไม่อนุมัติ" --}}></textarea>
+                        <textarea class="form-control f-14" id="note_project_1" rows="3" readonly></textarea>
                     </div>
                 </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn w-100 btn-not-approve-fixed-modal disabled" style="color:#fff;"
+                <div class="modal-footer border-0 row" style="justify-content: space-evenly;">
+                    <button type="button" class="btn col-5 btn-not-approve-fixed-modal disabled" style="color:#fff;"
                         id="btnnotconfirm1" onclick="notConfirm('1')">
-                        ยืนยันการไม่อนุมัติโครงการ
+                        แก้ไข
+                    </button>
+                    <button type="button" class="btn col-5 btn-not-approve-fixed-modal" style="color:#fff;"
+                        id="cancel1" onclick="cancel('1')">
+                        ยกเลิก
                     </button>
                 </div>
             </div>
@@ -553,10 +612,61 @@
         </div>
     </div>
 
+    <div class="modal fade" id="show-file-project" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="border: unset">
+                <div class="modal-header border-0">
+                    <div class="text-start mb-1">
+                        <img class="pe-2" src="{{ asset('project/copy.png') }}" height="32px">
+                        <h6 class="text-b d-inline">เอกสารประกอบโครงการ</h6>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 @endsection
 @push('script')
     <script>
+        // document.addEventListener("DOMContentLoaded", function() {
+        //     const noteUser = document.getElementById("note_user");
+        //     const test1 = document.getElementById("test1");
+        //     const test2 = document.getElementById("test2");
+        //     const textarea = document.getElementById("note_project_1");
+
+        //     noteUser.addEventListener("click", function() {
+        //         textarea.readOnly = false;
+        //     });
+
+        //     test1.addEventListener("click", function() {
+        //         textarea.readOnly = true;
+        //     });
+
+        //     test2.addEventListener("click", function() {
+        //         textarea.readOnly = true;
+        //     });
+        // });
+        document.addEventListener("DOMContentLoaded", function() {
+            const noteSelect = document.getElementById("noteSelect");
+            const textarea = document.getElementById("note_project_1");
+
+            noteSelect.addEventListener("change", function() {
+                if (noteSelect.value === "note_user") {
+                    textarea.readOnly = false;
+                } else {
+                    textarea.readOnly = true;
+                }
+            });
+        });
+
+
         $(document).ready(function() {
             const textInput = $('#note_project_1');
             const submitButton = $('#btnnotconfirm1');
@@ -582,6 +692,7 @@
                     submitButton2.removeClass('disabled');
                 }
             });
+
         });
 
         function checkProject(permiss) {
@@ -660,6 +771,20 @@
                 }
             });
 
+        }
+
+        function cancel(cancel) {
+            if (cancel === '1') {
+                var note_status = 'Note_Reject';
+                var note = document.getElementById('note_project_1').value;
+
+            }
+            if (cancel === '2') {
+                var note_status = 'Note_Reject2';
+                var note = document.getElementById('note_project_2').value;
+            }
+            console.log("cancel");
+            $('#show-modal-not-approve-1').modal('hide');
         }
     </script>
 @endpush

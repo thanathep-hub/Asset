@@ -94,6 +94,8 @@ Route::group(['middleware' => 'CheckLogin'], function () {
 
     /* ---------------------------------------------- /Asset ---------------------------------------------- */
     Route::get('/assets', 'AssetsController@assets');
+    Route::get('/assets/search/text_query', 'AssetsController@assets_search');
+    Route::get('/assets/detail/{id}', 'AssetsController@assets_detail');
 
     /* ---------------------------------------------- Project ---------------------------------------------- */
 

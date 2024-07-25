@@ -3,8 +3,8 @@
 @push('style')
     <style>
         .content {
-            background-image: linear-gradient(to right, #d2e9ee8f, #d5d7e48a)
-                /* background-image: linear-gradient(to right, #d2e9ee, #d5d7e4); */
+            background-image: linear-gradient(to bottom, #e0ebf9, #fde6e7);
+            /* background-image: linear-gradient(to right, #d2e9ee, #d5d7e4); */
         }
 
         .card-list-card {
@@ -84,7 +84,7 @@
 
         tr.gridjs-tr:last-child td {
             /* background-color: yellow;
-                                                border-radius: 18px 18px 18px 18px; */
+                                                        border-radius: 18px 18px 18px 18px; */
             /* เปลี่ยนพื้นหลังเป็นสีเหลือง */
         }
 
