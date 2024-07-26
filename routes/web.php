@@ -34,7 +34,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
         return view('asset.asset_menu');
     });
     /* ---------------------------------------------- Asset All ---------------------------------------------- */
-    // Route::get('/asset', 'AssetController@index');
+    Route::get('/asset', 'AssetController@index');
     Route::get('/asset/{id}', 'AssetController@asset_detail');
 
     Route::post('/asset_active', 'AssetController@asset_active');
@@ -92,7 +92,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::get('/BahtText/{number}', 'BahtTextController@bahtText');
 
 
-    /* ---------------------------------------------- /Asset ---------------------------------------------- */
+    /* ---------------------------------------------- /Assets ---------------------------------------------- */
     Route::get('/assets', 'AssetsController@assets');
     Route::get('/assets/search/text_query', 'AssetsController@assets_search');
     Route::get('/assets/detail/{id}', 'AssetsController@assets_detail');
@@ -103,6 +103,9 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::get('/project/items/{id}', 'ProjectController@project_mt');
     Route::post('/project/items/{id}', 'ProjectController@projectMtApprove');
     Route::post('/project/reject/{id}', 'ProjectController@project_reject');
+
+    Route::post('/project/cancel/{id}', 'ProjectController@project_cancel');
+    // /project/cancel/
 
     Route::get('/api/project', 'ProjectController@api_project')->name('get_project');
 

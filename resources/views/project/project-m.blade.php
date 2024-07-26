@@ -12,7 +12,7 @@
         }
 
         #btnnotconfirm1.disabled {
-            background-color: #fb7a6e;
+            background-color: #f49d0c;
             cursor: not-allowed;
             pointer-events: none;
         }
@@ -147,6 +147,22 @@
             background-color: #fb7a6e;
         }
 
+        .btn-not-approve-fixed-modal-update {
+            background-color: #f49d0c;
+        }
+
+        .btn-not-approve-fixed-modal-update:hover {
+            background-color: #f49d0c;
+        }
+
+        .btn-not-approve-fixed-modal-update:active {
+            background-color: #f49d0c;
+        }
+
+        .btn-not-approve-fixed-modal-update:focus {
+            background-color: #f49d0c;
+        }
+
         .btn-not-approve-fixed-modal:hover {
             background-color: #e03222;
         }
@@ -201,7 +217,14 @@
             border: 1px solid #e7e7e7;
         }
 
-        /*  */
+        /* .dropdown-toggle::after {
+                                background-color: #000;
+                            } */
+
+        /* scroll */
+        ::-webkit-scrollbar {
+            width: 0px;
+        }
     </style>
 @endpush
 @section('content')
@@ -213,8 +236,8 @@
         </div>
     </div>
 
-    <div class="project-card card mt-4 mb-4 bg-white accent-blue">
-        <div class="row m-2 mt-4">
+    <div class="project-card card mt-4 mb-4 bg-white accent-blue" style="margin-bottom:3rem;">
+        <div class="row m-2 mt-4" style="margin-bottom:3rem;">
             <div class="col-lg-8">
                 <div class="">
                     <div class="project-title d-flex">
@@ -289,7 +312,7 @@
                     </div>
                 </div>
             </div>
-            @if ($permiss->check && $check_approve->idPsCheck == null)
+            @if ($permiss->check && $check_approve->idPsCheck == null && $check_approve->idPsCancel == null)
                 <div class="col-lg-4 card-approve d-none d-lg-block">
                     <div class="text-start pt-3 mb-1 ">
                         <img class="pe-2" src="{{ asset('project/quality-control-ap.png') }}" height="32px">
@@ -301,7 +324,7 @@
                             data-bs-target="#show-modal-check">ตรวจสอบโครงการ</button>
                     </div>
                 </div>
-            @elseif($permiss->accept && $check_approve->idPsAccept == null)
+            @elseif($permiss->accept && $check_approve->idPsAccept == null && $check_approve->idPsCancel == null)
                 <div class="col-lg-4 card-approve d-none d-lg-block">
                     <div class="text-start pt-3 mb-1 ">
                         <img class="pe-2" src="{{ asset('project/quality-control-ap.png') }}" height="32px">
@@ -313,7 +336,7 @@
                             data-bs-target="#show-modal-accept">รับทราบโครงการ</button>
                     </div>
                 </div>
-            @elseif($permiss->confirm_1 && $check_approve->idPsConfirm == null)
+            @elseif($permiss->confirm_1 && $check_approve->idPsConfirm == null && $check_approve->idPsCancel == null)
                 <div class="col-lg-4 card-approve d-none d-lg-block">
                     <div class="text-start pt-3 mb-1 ">
                         <img class="pe-2" src="{{ asset('project/quality-control-ap.png') }}" height="32px">
@@ -331,7 +354,7 @@
                             data-bs-target="#show-modal-not-approve-1">ไม่อนุมัติโครงการ(1)</button>
                     </div>
                 </div>
-            @elseif($permiss->confirm_2 && $check_approve->idPsConfirm2 == null)
+            @elseif($permiss->confirm_2 && $check_approve->idPsConfirm2 == null && $check_approve->idPsCancel == null)
                 <div class="col-lg-4 card-approve d-none d-lg-block">
                     <div class="text-start pt-3 mb-1 ">
                         <img class="pe-2" src="{{ asset('project/quality-control-ap.png') }}" height="32px">
@@ -392,14 +415,36 @@
             @endif
 
         </div>
-        <div class="d-block d-lg-none fixed-bottom">
+        @if ($permiss->check && $check_approve->idPsCheck == null)
+        @elseif($permiss->accept && $check_approve->idPsAccept == null)
+
+        @elseif($permiss->confirm_1 && $check_approve->idPsConfirm == null && $check_approve->idPsCancel == null)
+            <div class="d-block d-lg-none fixed-bottom">
+                <div class="row card-btn-approve m-0" style="justify-content: space-evenly;">
+                    <button type="button" class="col-6 btn btn-not-approve-fixed" data-bs-toggle="modal"
+                        data-bs-target="#show-modal-not-approve-1">แก้ไข</button>
+                    <button type="button" class="col-6 btn btn-approve-fixed" data-bs-toggle="modal"
+                        data-bs-target="#show-modal-approve-1">อนุมัติ</button>
+                </div>
+            </div>
+        @elseif($permiss->confirm_2 && $check_approve->idPsConfirm2 == null && $check_approve->idPsCancel == null)
+            <div class="d-block d-lg-none fixed-bottom">
+                <div class="row card-btn-approve m-0" style="justify-content: space-evenly;">
+                    <button type="button" class="col-6 btn btn-not-approve-fixed" data-bs-toggle="modal"
+                        data-bs-target="#show-modal-not-approve-2">แก้ไข</button>
+                    <button type="button" class="col-6 btn btn-approve-fixed" data-bs-toggle="modal"
+                        data-bs-target="#show-modal-approve-2">อนุมัติ</button>
+                </div>
+            </div>
+        @endif
+        {{-- <div class="d-block d-lg-none fixed-bottom">
             <div class="row card-btn-approve m-0" style="justify-content: space-evenly;">
                 <button type="button" class="col-6 btn btn-not-approve-fixed" data-bs-toggle="modal"
                     data-bs-target="#show-modal-not-approve-1">ยกเลิก</button>
                 <button type="button" class="col-6 btn btn-approve-fixed" data-bs-toggle="modal"
                     data-bs-target="#show-modal-approve-1">อนุมัติ</button>
             </div>
-        </div>
+        </div> --}}
 
     </div>
     <div class="modal fade" id="show-modal-check" tabindex="-1" aria-hidden="true">
@@ -480,39 +525,31 @@
                         <span class="f-14 text-dark"> {{ $query_mt->CompName ?? '-' }}</span>
                     </p>
                     <div class="mb-3">
-                        {{-- <div class="dropdown">
-                            <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                รวมหมายเหตุทั้งหมด
-                            </a>
-
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#" id="note_user">กำหนดเอง</a></li>
-                                <li><a class="dropdown-item" href="#" id="test1">ทดสอบ 1</a></li>
-                                <li><a class="dropdown-item" href="#" id="test2">ทดสอบ 2</a></li>
-                            </ul>
-                        </div> --}}
                         <div class="form-group">
                             <label for="noteSelect">รวมหมายเหตุทั้งหมด</label>
-                            <select class="form-control" id="noteSelect">
+                            <select class="form-control form-select" id="noteSelect" style="font-size:14px;">
                                 <option value="note_user">กำหนดเอง</option>
-                                <option value="test1">ทดสอบ 1</option>
-                                <option value="test2">ทดสอบ 2</option>
+                                @forelse ($note_reject as $item)
+                                    <option value="{{ $item->note }}">{{ $item->note }}</option>
+                                @empty
+                                    <option value="" disabled>ไม่มีหมายเหตุ</option>
+                                @endforelse
                             </select>
                         </div>
                     </div>
+
                     <div class="mb-3 f-15 color-gray">
                         <label class=" f-14 mb-1" for="note_project">หมายเหตุ(โปรดระบุ)</label>
-                        <textarea class="form-control f-14" id="note_project_1" rows="3" readonly></textarea>
+                        <textarea class="form-control f-14" id="note_project_1" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer border-0 row" style="justify-content: space-evenly;">
-                    <button type="button" class="btn col-5 btn-not-approve-fixed-modal disabled" style="color:#fff;"
-                        id="btnnotconfirm1" onclick="notConfirm('1')">
+                    <button type="button" class="btn col-5 btn-not-approve-fixed-modal-update disabled"
+                        style="color:#fff;" id="btnnotconfirm1" onclick="notConfirm('1')">
                         แก้ไข
                     </button>
                     <button type="button" class="btn col-5 btn-not-approve-fixed-modal" style="color:#fff;"
-                        id="cancel1" onclick="cancel('1')">
+                        id="cancel" onclick="cancel()">
                         ยกเลิก
                     </button>
                 </div>
@@ -570,7 +607,7 @@
 
                     <div class="mb-3 f-15 color-gray">
                         <label class=" f-14 mb-1" for="note_project">หมายเหตุ(โปรดระบุ)</label>
-                        <textarea class="form-control f-14" id="note_project_2" rows="3" {{-- placeholder="เหตุผล : ในการอนุมัติ / ไม่อนุมัติ" --}}></textarea>
+                        <textarea class="form-control f-14" id="note_project_2" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer border-0">
@@ -635,33 +672,26 @@
 @endsection
 @push('script')
     <script>
-        // document.addEventListener("DOMContentLoaded", function() {
-        //     const noteUser = document.getElementById("note_user");
-        //     const test1 = document.getElementById("test1");
-        //     const test2 = document.getElementById("test2");
-        //     const textarea = document.getElementById("note_project_1");
-
-        //     noteUser.addEventListener("click", function() {
-        //         textarea.readOnly = false;
-        //     });
-
-        //     test1.addEventListener("click", function() {
-        //         textarea.readOnly = true;
-        //     });
-
-        //     test2.addEventListener("click", function() {
-        //         textarea.readOnly = true;
-        //     });
-        // });
         document.addEventListener("DOMContentLoaded", function() {
             const noteSelect = document.getElementById("noteSelect");
             const textarea = document.getElementById("note_project_1");
 
             noteSelect.addEventListener("change", function() {
+                console.log(noteSelect.value);
                 if (noteSelect.value === "note_user") {
+                    console.log("กำหนดเอง");
                     textarea.readOnly = false;
+                    textarea.value = "";
                 } else {
+                    console.log("เลือก");
                     textarea.readOnly = true;
+                    textarea.value = noteSelect.options[noteSelect.selectedIndex].text;
+                }
+
+                if ($('#note_project_1').val().trim() === '') {
+                    $('#btnnotconfirm1').addClass('disabled');
+                } else {
+                    $('#btnnotconfirm1').removeClass('disabled');
                 }
             });
         });
@@ -773,18 +803,32 @@
 
         }
 
-        function cancel(cancel) {
-            if (cancel === '1') {
-                var note_status = 'Note_Reject';
-                var note = document.getElementById('note_project_1').value;
-
-            }
-            if (cancel === '2') {
-                var note_status = 'Note_Reject2';
-                var note = document.getElementById('note_project_2').value;
-            }
+        function cancel() {
+            $.ajax({
+                url: '/project/cancel/' + {{ $query_mt->idProject }},
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log(response);
+                    if (response.status == true) {
+                        Swal.fire({
+                            title: "สำเร็จ!",
+                            text: response.message,
+                            icon: "success"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
+                    } else {
+                        console.log(response, "tets");
+                    }
+                }
+            });
             console.log("cancel");
-            $('#show-modal-not-approve-1').modal('hide');
+            // $('#show-modal-not-approve-1').modal('hide');
         }
     </script>
 @endpush

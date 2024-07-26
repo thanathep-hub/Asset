@@ -85,7 +85,7 @@
     <div class=" search-bar row d-flex justify-content-center align-items-center" style="padding-right: .75rem;">
         <div class="col-md-6">
             <div class="count-search" style="text-align: end;height:24px;">
-                <span style="color: #3759be;">จำนวน <span id="amountResult"></span> รายการ</span>
+                <span style="color: #3759be;">ผลลัพย์ <span id="amountResult"></span> รายการ</span>
             </div>
         </div>
     </div>

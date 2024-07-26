@@ -18,6 +18,9 @@ class ProjectController extends Controller
     {
         $permiss = $this->project_permission();
         $check_approve = $this->checkApprove_status($id);
+        $note_reject = $this->note_reject_approve();
+
+        // dd($check_approve);
 
         if ($permiss && $check_approve) {
             $query_mt = $this->project_query($id);
@@ -26,7 +29,7 @@ class ProjectController extends Controller
             if ($query_mt === null) {
                 return redirect('/errors/404');
             }
-            return view('project.project-m', compact('query_mt', 'query_dt', 'permiss', 'check_approve'));
+            return view('project.project-m', compact('query_mt', 'query_dt', 'permiss', 'check_approve', 'note_reject'));
         } else {
             return view('project.no-access');
         }
@@ -144,7 +147,8 @@ class ProjectController extends Controller
                     pdda.idPsCheck,
                     pdda.idPsAccept,
                     pdda.idPsConfirm,
-                    pdda.idPsConfirm2
+                    pdda.idPsConfirm2,
+                    pdda.idPsCancel
                 FROM
                     PchInvAndProject.dbo.dProject_Approve AS pdda
                     WHERE pdda.idProject = $idProject
@@ -269,6 +273,14 @@ class ProjectController extends Controller
                 WHERE idProject = ?',
                     [$user->idPs, $note, $id]
                 );
+                $log_note = DB::insert("
+                INSERT INTO PchInvAndProject.dbo.dProject_Approve_Note(id_project, note, idPs)
+                VALUES (?, ?, ?)
+                ", [
+                    $id,
+                    $note,
+                    $user->idPs,
+                ]);
 
                 if ($update_status_project) {
                     return response()->json(['status' => true, 'message' => 'ยกเลิกโครงการเรียบร้อย!']);
@@ -287,6 +299,14 @@ class ProjectController extends Controller
                 WHERE idProject = ?',
                 [$user->idPs, $note, $id]
             );
+            $log_note = DB::insert("
+                INSERT INTO PchInvAndProject.dbo.dProject_Approve_Note(id_project, note, idPs)
+                VALUES (?, ?, ?)
+                ", [
+                $id,
+                $note,
+                $user->idPs,
+            ]);
             if ($update_status_project) {
                 return response()->json(['status' => true, 'message' => 'ยกเลิกโครงการเรียบร้อย!']);
             } else {
@@ -447,6 +467,50 @@ class ProjectController extends Controller
             }
         } catch (\Throwable $th) {
             //throw $th;
+        }
+    }
+
+    public function note_reject_approve()
+    {
+
+        try {
+            //code...
+            $query = DB::select("
+                SELECT
+                    pddpan.note_id_reject,
+                    pddpan.note
+                FROM
+                    PchInvAndProject.dbo.dProject_Approve_Note AS pddpan
+                ORDER BY
+                    pddpan.note_id_reject DESC
+        ");
+
+            if ($query) {
+                return $query;
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+    public function project_cancel($id)
+    {
+        $user = session('user');
+        try {
+            $update_status_project = DB::update(
+                'UPDATE PchInvAndProject.dbo.dProject_Approve
+                SET idPsCancel = ?
+                WHERE idProject = ?',
+                [$user->idPs, $id]
+            );
+
+            if ($update_status_project) {
+                return response()->json(['status' => true, 'message' => 'ยกเลิกโครงการเรียบร้อย!']);
+            } else {
+                return response()->json(['status' => false, 'message' => 'ยกเลิกโครงการไม่สำเร็จ!']);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json(['success' => false, 'message' => 'An error approve Prject', 'error' => $th->getMessage()], 500);
         }
     }
 }

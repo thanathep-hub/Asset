@@ -446,7 +446,7 @@ class AssetController extends Controller
             FROM
                 PchInvAndProject.dbo.AssAssetD a
                 LEFT JOIN PchInvAndProject.dbo.AssTypeD t ON a.idType = t.idAssType
-			WHERE a.idType != 17
+			WHERE (a.idType IS NULL OR a.idType != 17)
             AND a.idComp = $user->idComp
 			$input
             ORDER BY

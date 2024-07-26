@@ -29,8 +29,8 @@ class AssetsController extends Controller
                     PchInvAndProject.dbo.AssAssetD a
                     LEFT JOIN PchInvAndProject.dbo.AssTypeD t ON a.idType = t.idAssType
                 WHERE
-                    a.idType != 17
-                    AND a.idType != 30
+                    (a.idType IS NULL OR a.idType != 17)
+                    AND (a.idType IS NULL OR a.idType != 30)
                     AND a.AssetName LIKE ?
                 ORDER BY
                     a.idAsset DESC
