@@ -45,7 +45,7 @@
                 สินทรัพย์
             </li>
             <li class="sidebar-item">
-                <a href="/assets"
+                <a href="/asset"
                     class="sidebar-link sidebar-link-hover @if (session('routeIs') === 'assets') active @endif">
                     <i class="fa-solid fa-box pe-2"></i>
                     ASSET
