@@ -31,7 +31,7 @@ Route::get('/login', function () {
 Route::group(['middleware' => 'CheckLogin'], function () {
 
     Route::get('/', function () {
-        return view('asset.asset_menu');
+        return redirect('/assets');
     });
     /* ---------------------------------------------- Asset All ---------------------------------------------- */
     Route::get('/asset', 'AssetController@index');
@@ -96,6 +96,9 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::get('/assets', 'AssetsController@assets');
     Route::get('/assets/search/text_query', 'AssetsController@assets_search');
     Route::get('/assets/detail/{id}', 'AssetsController@assets_detail');
+
+    // api apiAsset_detail
+    Route::get('/api/asset/item/{id}', 'AssetsController@apiAsset_detail');
 
     /* ---------------------------------------------- Project ---------------------------------------------- */
 

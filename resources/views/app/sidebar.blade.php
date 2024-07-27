@@ -52,7 +52,7 @@
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="/project"
+                <a href="/project-all"
                     class="sidebar-link sidebar-link-hover @if (session('routeIs') === 'project') active @endif">
                     <i class="fa-solid fa-diagram-project pe-2"></i>
                     โครงการ

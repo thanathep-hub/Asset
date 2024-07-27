@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Throwable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -48,6 +49,59 @@ class AssetsController extends Controller
 
     public function assets_detail($id)
     {
-        return view('assets.detail');
+        $idAsset = $id;
+        return view('assets.detail', compact('idAsset'));
+    }
+
+    public function apiAsset_detail($id)
+    {
+        try {
+            $asset_detail = collect(DB::select("
+            SELECT
+                assT.idAssType,
+                assT.AssTypeName,
+                assT.AssPerc,
+                assT.AssYear AS AssYearType,
+                assD.*,
+                SUBSTRING ( assD.AssDate, 7, 2 ) + '/' + SUBSTRING ( assD.AssDate, 5, 2 ) + '/' + SUBSTRING ( assD.AssDate, 0, 5 ) AS AssDateT,
+                SUBSTRING ( assD.AssDate, 7, 2 ) + '/' + SUBSTRING ( assD.AssDate, 5, 2 ) + '/' + CAST ( YEAR ( CAST ( assD.AssDate AS DATE ) ) + assT.AssYear AS nvarchar ) AS AssDateTEnd,
+            CASE
+
+                    WHEN assD.idPsCancel IS NULL THEN
+                    'ใช้งาน' ELSE '-'
+                END AS statusUse,
+                assPD.PlaceName,
+                HR_Seeds.hr.employeename ( assD.idPsTs, 8005 ) AS PsName,
+                SUBSTRING ( assD.DateInsur1, 7, 2 ) + '/' + SUBSTRING ( assD.DateInsur1, 5, 2 ) + '/' + SUBSTRING ( assD.DateInsur1, 0, 5 ) AS DateInsurStrat,
+                SUBSTRING ( assD.DateInsur2, 7, 2 ) + '/' + SUBSTRING ( assD.DateInsur2, 5, 2 ) + '/' + SUBSTRING ( assD.DateInsur2, 0, 5 ) AS DateInsurEnd,
+            CASE
+
+                    WHEN YEAR ( assD.DateInsur2 ) < YEAR ( GETDATE( ) ) + 543 THEN
+                    'หมดประกัน'
+                    WHEN YEAR ( assD.DateInsur2 ) >= YEAR ( GETDATE( ) ) + 543 THEN
+                    'มีประกัน' ELSE 'ไม่มีประกัน'
+                END AS stIns,
+                YEAR ( assD.DateInsur1 ) - YEAR ( assD.DateInsur2 ) AS YearInsur,
+                YEAR ( GETDATE( ) ) + 543 AS YearDate,
+                YEAR ( assD.AssDate ) AS YearAss,
+                ( YEAR ( GETDATE( ) ) + 543 ) - YEAR ( assD.AssDate ) AS YearAsset,
+                synd.CompCode,
+                synd.CompName
+            FROM
+                PchInvAndProject.dbo.AssAssetD assD
+                LEFT JOIN PchInvAndProject.dbo.AssTypeD assT ON assD.idType = assT.idAssType
+                LEFT JOIN PchInvAndProject.dbo.AssPlaceD assPD ON assD.idPlace = assPD.idPlace
+                LEFT JOIN GR_Group.dbo.syndCompany synd ON assD.idComp = synd.idComp
+            WHERE
+                assD.idAsset = $id
+        "))->first();
+
+            if ($asset_detail) {
+                return response()->json($asset_detail);
+            }
+        } catch (Throwable $e) {
+            //throw $th; error
+            return view('404');
+        }
     }
 }
