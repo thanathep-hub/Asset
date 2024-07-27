@@ -199,7 +199,7 @@
         }
 
         function assetDetail(id) {
-            window.location.href = '/asset/' + id;
+            window.location.href = '/assets/detail/' + id;
         }
     </script>
 @endpush

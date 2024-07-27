@@ -31,10 +31,10 @@ Route::get('/login', function () {
 Route::group(['middleware' => 'CheckLogin'], function () {
 
     Route::get('/', function () {
-        return redirect('/assets');
+        return redirect('/asset');
     });
     /* ---------------------------------------------- Asset All ---------------------------------------------- */
-    Route::get('/asset', 'AssetController@index');
+    // Route::get('/asset', 'AssetController@index');
     Route::get('/asset/{id}', 'AssetController@asset_detail');
 
     Route::post('/asset_active', 'AssetController@asset_active');
@@ -93,7 +93,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
 
 
     /* ---------------------------------------------- /Assets ---------------------------------------------- */
-    Route::get('/assets', 'AssetsController@assets');
+    Route::get('/asset', 'AssetsController@assets');
     Route::get('/assets/search/text_query', 'AssetsController@assets_search');
     Route::get('/assets/detail/{id}', 'AssetsController@assets_detail');
 
