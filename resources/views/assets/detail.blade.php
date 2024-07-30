@@ -53,6 +53,14 @@
                 </div>
                 <div class="border-bottom mb-3" style="width: 95%;"></div>
                 <div class="col-12 row mb-2">
+                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">จำนวน</label>
+                    <label class="col-7 text-end" style="font-weight: 500;" id="AssetAmount"></label>
+                </div>
+                <div class="col-12 row mb-2">
+                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">Serial Number</label>
+                    <label class="col-7 text-end" style="font-weight: 500;" id="SerialNumber">mz62347-er2</label>
+                </div>
+                <div class="col-12 row mb-2">
                     <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">สถานะสินทรัพย์</label>
                     <label class="col-7 text-end" style="font-weight: 500;" id="AssetStatus">ใช้งานอยู่</label>
                 </div>
@@ -77,10 +85,7 @@
                     <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">ผู้รับผิดชอบ</label>
                     <label class="col-7 text-end" style="font-weight: 500;" id="ResponsiblePerson">เพชรินทร์ ชลูด</label>
                 </div>
-                <div class="col-12 row mb-2">
-                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">Serial Number</label>
-                    <label class="col-7 text-end" style="font-weight: 500;" id="SerialNumber">mz62347-er2</label>
-                </div>
+
                 <div class="border-bottom mb-3" style="width: 95%;"></div>
                 <div class="col-12 row mb-2">
                     <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">อายุการใช้งาน</label>
@@ -114,7 +119,6 @@
             console.log(id);
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
             $.ajax({
                 url: "/api/asset/item/" + id,
                 type: 'GET',
@@ -133,13 +137,14 @@
 
         function setData(data) {
             document.getElementById("AssetName").innerText = data.AssetName;
+            document.getElementById("AssetAmount").innerText = (parseInt(data.AssAmount, 10));;
             document.getElementById("AssetType").innerText = data.AssTypeName;
             document.getElementById("PurchaseDate").innerText = data.AssDateT;
             document.getElementById("StartDate").innerText = data.AssDateT;
             document.getElementById("Location").innerText = data.CompName;
             document.getElementById("ResponsiblePerson").innerText = "รอการอัพเดต";
             document.getElementById("SerialNumber").innerText = "#AS000x";
-            document.getElementById("Cost").innerText = data.Price;
+            document.getElementById("Cost").innerText = parseFloat(data.Price).toFixed(2) + " บาท";
             document.getElementById("Value").innerText = "รอการอัพเดต";
         }
     </script>
