@@ -30,7 +30,10 @@ Route::get('/login', function () {
 
 Route::group(['middleware' => 'CheckLogin'], function () {
 
-    Route::get('/', function () {
+    Route::get('/' or '/assets', function () {
+        return redirect('/asset');
+    });
+    Route::get('/assets', function () {
         return redirect('/asset');
     });
     /* ---------------------------------------------- Asset All ---------------------------------------------- */

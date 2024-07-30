@@ -29,13 +29,49 @@
             max-width: 150px;
             max-height: 150px;
         }
+
+        /* manage dropdow */
+        .dropdown-menu {
+            transition: 0.25s, height 0.25s;
+            border: 2px solid #eef1ff;
+            background-color: #eef1ff;
+        }
+
+        .dropdown-item:focus,
+        .dropdown-item:hover,
+        .dropdown-item:active {
+            background-color: #6857e8;
+        }
+
+        .dropup .dropdown-toggle::after {
+            display: none;
+        }
+
+        .border-image-upload {
+            border-radius: 12px;
+            border: 1px solid #d7f5f6;
+            background-color: #effcfc;
+        }
+
+        .btn-close {
+            border-radius: .5rem;
+            background-color: #80808042;
+        }
+
+        .image-upload {
+            border-radius: 12px;
+            max-height: 150px;
+            width: 100%;
+            /* max-width: 150px; */
+        }
     </style>
 @endpush
 @section('content')
     <div class="mt-4 mb-3 search-bar d-md-none">
         <div class="card" style="padding: .75rem 0rem 1.5rem 0rem;">
-            <div class="row d-flex justify-content-center align-items-center m-0">
-                <div class="col-12 mb-3 text-end">
+            <div class="row d-flex justify-content-center align-items-center m-0 mb-3">
+                <div class="col-12
+                mb-3 text-end">
                     <img class="" src="{{ asset('assets/unsuccess.png') }}" height="24px">
                     <span class="form-label" style="font-weight: 500;color:#262c40a8;">รอยืนยัน</span>
                 </div>
@@ -53,16 +89,16 @@
                 </div>
                 <div class="border-bottom mb-3" style="width: 95%;"></div>
                 <div class="col-12 row mb-2">
+                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">สถานะสินทรัพย์</label>
+                    <label class="col-7 text-end" style="font-weight: 500;" id="AssetStatus">ใช้งานอยู่</label>
+                </div>
+                <div class="col-12 row mb-2">
                     <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">จำนวน</label>
                     <label class="col-7 text-end" style="font-weight: 500;" id="AssetAmount"></label>
                 </div>
                 <div class="col-12 row mb-2">
                     <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">Serial Number</label>
                     <label class="col-7 text-end" style="font-weight: 500;" id="SerialNumber">mz62347-er2</label>
-                </div>
-                <div class="col-12 row mb-2">
-                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">สถานะสินทรัพย์</label>
-                    <label class="col-7 text-end" style="font-weight: 500;" id="AssetStatus">ใช้งานอยู่</label>
                 </div>
                 <div class="col-12 row mb-2">
                     <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">ประเภทสินทรัพย์</label>
@@ -72,10 +108,10 @@
                     <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">วันที่ซื้อ</label>
                     <label class="col-7 text-end" style="font-weight: 500;" id="PurchaseDate">29/06/2567</label>
                 </div>
-                <div class="col-12 row mb-2">
+                {{-- <div class="col-12 row mb-2">
                     <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">วันที่เริ่มใช้งาน</label>
                     <label class="col-7 text-end" style="font-weight: 500;" id="StartDate">29/06/2567</label>
-                </div>
+                </div> --}}
                 <div class="col-12 row mb-2">
                     <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">สถานที่จัดเก็บ</label>
                     <label class="col-7 text-end" style="font-weight: 500;" id="Location">บริษัท กรีนซีดส์ จำกัด</label>
@@ -97,12 +133,74 @@
                 </div>
                 <div class="col-12 row mb-2">
                     <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">มูลค่าคงเหลือ</label>
-                    <label class="col-7 text-end" style="font-weight: 500;color:#f8493b;" id="Value">1,000 บาท</label>
+                    <label class="col-7 text-end" style="font-weight: 500;color:#f8493b;" id="Value">1 บาท</label>
                 </div>
             </div>
+            <div class="border-bottom mb-3 mx-2" style="width: 95%;"></div>
 
+            <div class="text-end p-3">
+                <div class="btn-group dropup">
+                    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+                        style="min-width: 160px;min-height: 44px;background-color:#6857E8;color:#fff;">
+                        จัดการ <i class="fa-solid fa-pen ps-2"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="mb-1"><a class="dropdown-item" href="#">ผูกสินทรัพย์</a></li>
+                        <li class="mb-1"><a class="dropdown-item" href="#">อัพเดตสินทรัพย์ </a></li>
+                        <li class="mb-1"><a class="dropdown-item" data-bs-toggle="modal"
+                                data-bs-target="#add-new-asset">เพิ่มสินทรัพย์</a></li>
+                    </ul>
+                </div>
+                <button class="btn btn-primary border-0" hidden
+                    style="min-width: 160px;min-height: 44px;background-color:#6857E8;">จัดการ <i
+                        class="fa-solid fa-pen ps-2"></i></button>
+            </div>
         </div>
+    </div>
 
+    <div class="modal fade" id="add-new-asset" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="p-4">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="border-image-upload">
+                                <img id="imgFileUpload" class="image-upload" src="{{ asset('assets/image-upoad.png') }}"
+                                    style="object-fit: cover;" />
+                                <input type="file" name="" id="asset-image-upload" style="display: none">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="AssetName" class="form-label">ชื่อสินทรัพย์</label>
+                            <input type="text" class="form-control border-0" id="AssetName"
+                                style="background-color: #f2f3f5;font-size: .875rem;">
+                        </div>
+                        <div class="mb-3">
+                            <label for="AssetPrice" class="form-label">ราคา</label>
+                            <input type="number" class="form-control" id="AssetPrice">
+                        </div>
+                        <div class="mb-3">
+                            <label for="AssetAmount" class="form-label">จำนวน</label>
+                            <input type="number" class="form-control" id="AssetAmount">
+                        </div>
+                        <div class="mb-3">
+                            <label for="AssetTypeName" class="form-label">ประเภทสินทรัพย์</label>
+                            <input type="text" class="form-control" id="AssetTypeName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="AssetResponsiblePerson" class="form-label">ผู้รับผิดชอบ</label>
+                            <input type="text" class="form-control" id="AssetResponsiblePerson">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-primary">บันทึก</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -111,13 +209,21 @@
 @endsection
 @push('script')
     <script>
+        window.onload = function() {
+            var fileupload = document.getElementById("asset-image-upload");
+            var image = document.getElementById("imgFileUpload");
+            image.onclick = function() {
+                fileupload.click();
+            };
+            fileupload.onchange = function() {
+                var fileName = fileupload.value.split('\\')[fileupload.value.split('\\').length - 1];
+            };
+        };
         $(document).ready(function() {
-            callAssetDetail({{ $idAsset }})
+            callAssetDetail({{ $idAsset }});
         });
 
         function callAssetDetail(id) {
-            console.log(id);
-
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
                 url: "/api/asset/item/" + id,
@@ -136,16 +242,81 @@
         }
 
         function setData(data) {
+
+            let price = parseFloat(data.Price);
+
             document.getElementById("AssetName").innerText = data.AssetName;
             document.getElementById("AssetAmount").innerText = (parseInt(data.AssAmount, 10));;
-            document.getElementById("AssetType").innerText = data.AssTypeName;
+            document.getElementById("AssetType").innerText = (data.AssTypeName || 'ไม่ถูกระบุ');
             document.getElementById("PurchaseDate").innerText = data.AssDateT;
-            document.getElementById("StartDate").innerText = data.AssDateT;
+            // document.getElementById("StartDate").innerText = data.AssDateT;
             document.getElementById("Location").innerText = data.CompName;
             document.getElementById("ResponsiblePerson").innerText = "รอการอัพเดต";
             document.getElementById("SerialNumber").innerText = "#AS000x";
-            document.getElementById("Cost").innerText = parseFloat(data.Price).toFixed(2) + " บาท";
-            document.getElementById("Value").innerText = "รอการอัพเดต";
+            document.getElementById("Cost").innerText = new Intl.NumberFormat('th-TH', {
+                style: 'currency',
+                currency: 'THB'
+            }).format(parseFloat(data.Price)) + " บาท";
+
+            const lifespanDays = (parseInt(data.AssYearType) || 5) * 365;
+            const currentDays = calDate(data.AssDateT);
+            document.getElementById("AssetYear").innerText = (data.AssYearType || 'ไม่ถูกระบุ') + " ปี";
+            document.getElementById("Value").innerText = new Intl.NumberFormat('th-TH', {
+                style: 'currency',
+                currency: 'THB'
+            }).format(parseFloat(calculateAssetValue(price, lifespanDays, currentDays))) + " บาท";
         }
+
+        function calculateAssetValue(price, lifespanDays, currentDays) {
+            console.log(price, lifespanDays, currentDays);
+            const depreciationRatePerDay = 0.20 / lifespanDays; // มูลค่าลดลงคิดเป็น 20% ต่อวัน
+
+            if (currentDays >= lifespanDays) {
+                return 1; // หากเกินอายุการใช้งาน มูลค่าจะเหลือ 1 บาท
+
+            }
+
+            // คำนวณมูลค่าลดลง
+            const valueAfterDepreciation = price * Math.pow((1 - depreciationRatePerDay), currentDays);
+            return valueAfterDepreciation;
+        }
+
+        function calDate(dateString) { //let date = calDate("13/05/2567");
+            function convertBuddhistToGregorian(buddhistYear, month, day) {
+                const gregorianYear = buddhistYear - 543;
+                return new Date(gregorianYear, month - 1, day);
+            }
+
+            function daysBetweenDates(date1, date2) {
+                const diffTime = Math.abs(date2 - date1);
+                return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            }
+
+            // แปลง string เป็นวันที่ในรูปแบบเกรกอเรียน
+            const [day, month, buddhistYear] = dateString.split('/').map(Number);
+            const dateBuddhist = convertBuddhistToGregorian(buddhistYear, month, day);
+            const today = new Date();
+
+            const daysDiff = daysBetweenDates(dateBuddhist, today);
+
+            return daysDiff;
+        }
+
+        document.getElementById('asset-image-upload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const previewImage = document.getElementById('imgFileUpload');
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block'; // Show the image
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please select a valid image file.');
+            }
+        });
     </script>
 @endpush
