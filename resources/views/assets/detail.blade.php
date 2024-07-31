@@ -21,6 +21,11 @@
             border-radius: 12px;
         }
 
+        .card-asset-detail {
+            box-shadow: 0 0.5rem 1rem #00000026, inset 0 -1px 0 #ffffff26;
+            /* box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+        }
+
         .asset-box-img {
             width: 150px;
             height: 150px;
@@ -30,6 +35,7 @@
             /* box-shadow: 0 0 .875rem 0 rgba(34, 46, 60, .05); */
             max-width: 150px;
             max-height: 150px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
         }
 
         /* manage dropdow */
@@ -37,6 +43,8 @@
             transition: 0.25s, height 0.25s;
             border: 2px solid #eef1ff;
             background-color: #eef1ff;
+            margin-bottom: .125rem !important;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
 
         .dropdown-item:focus,
@@ -66,6 +74,7 @@
             max-height: 100px;
             width: 100%;
             /* max-width: 150px; */
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
         }
 
         .form-label {
@@ -173,7 +182,7 @@
 @endpush
 @section('content')
     <div class="mt-4 search-bar d-md-none">
-        <div class="card" style="padding: .75rem 0rem 1.5rem 0rem;">
+        <div class="card card-asset-detail" style="padding: .75rem 0rem 1.5rem 0rem;">
             <div class="row d-flex justify-content-center align-items-center m-0 mb-3">
                 <div class="col-12
                 mb-3 text-end">
@@ -214,7 +223,7 @@
                     <label class="col-7 text-end" style="font-weight: 500;" id="PurchaseDate">29/06/2567</label>
                 </div>
                 <div class="col-12 row mb-2">
-                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">สถานที่จัดเก็บ</label>
+                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">สถานที่ใช้งาน</label>
                     <label class="col-7 text-end" style="font-weight: 500;" id="Location">บริษัท กรีนซีดส์ จำกัด</label>
                 </div>
 
@@ -260,15 +269,15 @@
     </div>
 
     <div class="modal fade" id="add-new-asset" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down"> {{-- modal-fullscreen-sm-down --}}
             <div class="modal-content border-0">
-                <div class="modal-header border-0 p-4 pb-0 justify-content-end">
+                <div class="modal-header border-0 p-4 justify-content-end">
                     <button type="button" class="btn p-0 border-0" data-bs-dismiss="modal" aria-label="Close">
                         <img class="btn-left-arrow" src="{{ asset('assets/left-arrow.png') }}" alt="">
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="p-4">
+                    <form class="p-4 pt-0">
                         <div class="d-flex justify-content-center mb-3">
                             <div class="border-image-upload">
                                 <img id="imgFileUpload" class="image-upload" src="{{ asset('assets/image-upoad.png') }}"
@@ -277,7 +286,7 @@
                                     id="asset-image-upload" style="display: none">
                             </div>
                             <div class="align-content-center">
-                                <label class="ps-2 text-gray">คลิกที่ <kbd>รูปภาพ</kbd></label>
+                                <label class="ps-2 text-gray">คลิก <kbd>รูปภาพ</kbd> เพื่ออัพโหลด</label>
                             </div>
 
                         </div>
@@ -307,6 +316,23 @@
                             <label for="AssetResponsiblePerson" class="form-label">ผู้รับผิดชอบ</label>
                             <input type="text" class="form-control" id="AssetResponsiblePerson" value="">
                         </div> --}}
+                        <div class="mb-3">
+                            <label for="AssetStatus" class="form-label">สถานะ</label>
+                            <select class="form-select" id="AssetStatus">
+                                <option value="1">ใช้งานอยู่</option>
+                                <option value="2">เสียหาย</option>
+                                <option value="3">เปลี่ยน</option>
+                                <option value="4">ขายแล้ว</option>
+                                <option value="5">ซ่อมบำรุง</option>
+                                <option value="6">หมดอายุการใช้งาน</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="AssetPlace" class="form-label">สถานที่ใช้งาน</label>
+                            <input type="text" class="form-control" id="AssetPlace" placeholder="(ตัวอย่าง ห้อง IT)"
+                                style="background-color: #f2f3f5;font-size: .875rem;">
+                        </div>
+
                         <div class="mb-3">
                             <label for="getResponsiblePerson" class="form-label">ผู้รับผิดชอบ</label>
                             <select class="form-select" id="getResponsiblePerson" placeholder="ค้นหารายชื่อ...">
