@@ -102,6 +102,8 @@ Route::group(['middleware' => 'CheckLogin'], function () {
 
     // api apiAsset_detail
     Route::get('/api/asset/item/{id}', 'AssetsController@apiAsset_detail');
+    Route::get('/api/asset/catagory', 'AssetsController@apiAsset_catagory');
+    Route::get('/api/user/fullname', 'AssetsController@apiUser_fullname');
 
     /* ---------------------------------------------- Project ---------------------------------------------- */
 

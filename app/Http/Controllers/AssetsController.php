@@ -104,4 +104,53 @@ class AssetsController extends Controller
             return view('404');
         }
     }
+
+    public function apiAsset_catagory()
+    {
+        try {
+            $query = DB::select("
+                SELECT
+                    pchat.idAssType,
+                    pchat.AssTypeName,
+                    pchat.AssPerc,
+                    pchat.AssYear
+                FROM
+                    PchInvAndProject.dbo.AssTypeD pchat
+                WHERE
+                    ( pchat.idAssType IS NULL OR pchat.idAssType != 17 )
+                    AND ( pchat.idAssType IS NULL OR pchat.idAssType != 30 )
+                ORDER BY
+                    pchat.idAssType DESC
+            ");
+
+            if ($query) {
+                return response()->json($query);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    public function apiUser_fullname()
+    {
+        $user = session('user');
+        try {
+            $query = DB::select("
+                SELECT
+                    gddem.idPs,
+                    gddem.PsNameFS
+                FROM
+                    GR_Group.dbo.dEmployee gddem
+                WHERE
+                    gddem.idStWork = 1
+                    AND gddem.idCompb = $user->idCompb
+            ");
+
+            if ($query) {
+                return response()->json($query);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
 }
