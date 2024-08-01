@@ -82,9 +82,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
 
     // asset ที่ดิน --------------------------------------------------------------------------------------------------------
     Route::get('/asset_land', 'AssetController@LandIndex');
-
     Route::get('/asset_land/search', 'AssetController@searchLand')->name('searchLand');
-    // search_filter_land
     Route::get('/asset_land/search_filter_land', 'AssetController@search_filter_land')->name('search_filter_land');
 
     /* ---------------------------------------------- /PO ---------------------------------------------- */

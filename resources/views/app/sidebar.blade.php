@@ -28,6 +28,19 @@
         color: #24615a;
         border-right: 3px solid #2b7f75;
     }
+
+    .sidebar-logo a {
+        color: #000000 !important;
+    }
+
+    a.sidebar-link {
+        color: #000000 !important;
+        font-size: 1rem !important;
+    }
+
+    a.sidebar-link:hover {
+        font-weight: 700;
+    }
 </style>
 
 <aside id="sidebar" class="js-sidebar">
@@ -35,7 +48,7 @@
     <div class="h-100">
         <div class="sidebar-logo">
 
-            <a href="/">
+            <a href="/" class="title-text">
                 <img class="pe-2" src="{{ asset('imges/property.png') }}" alt="" style="width: 40px;">
                 สินทรัพย์ (Asset)
             </a>

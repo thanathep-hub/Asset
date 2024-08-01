@@ -178,10 +178,21 @@
         }
 
         /* /tom select */
+
+        /* check input  */
+        .invalid {
+            /* background-color: ivory; */
+            border: none;
+            outline: 1px solid #ff5858;
+        }
+
+        .input-invalid {
+            color: #ff0000;
+        }
     </style>
 @endpush
 @section('content')
-    <div class="mt-4 search-bar d-md-none">
+    <div class="mt-4 search-bar d-md-none"> {{-- d-md-none --}}
         <div class="card card-asset-detail" style="padding: .75rem 0rem 1.5rem 0rem;">
             <div class="row d-flex justify-content-center align-items-center m-0 mb-3">
                 <div class="col-12
@@ -269,7 +280,7 @@
     </div>
 
     <div class="modal fade" id="add-new-asset" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down"> {{-- modal-fullscreen-sm-down --}}
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-fullscreen-sm-down"> {{-- modal-fullscreen-sm-down --}}
             <div class="modal-content border-0">
                 <div class="modal-header border-0 p-4 justify-content-end">
                     <button type="button" class="btn p-0 border-0" data-bs-dismiss="modal" aria-label="Close">
@@ -291,21 +302,24 @@
 
                         </div>
                         <div class="mb-3">
-                            <label for="AssetName" class="form-label">ชื่อสินทรัพย์</label>
-                            <input type="text" class="form-control" id="AssetName"
-                                placeholder="(ตัวอย่าง จอมอนิเตอร์ MSI MAG 275F)"
+                            <label for="inputAssetName" class="form-label">ชื่อสินทรัพย์</label>
+                            <input type="text" class="form-control" id="inAssetName" oninput="checkInputs()"
+                                placeholder="เช่น จอมอนิเตอร์ MSI MAG 275F"
                                 style="background-color: #f2f3f5;font-size: .875rem;">
+                            <span class="input-invalid" id="span-valid-asset-name">กรุณากรอกข้อมูลให้ครบ</span>
                         </div>
                         <div class="mb-3">
-                            <label for="AssetPrice" class="form-label">ราคา</label>
+                            <label for="inAssetPrice" class="form-label">ราคา</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" id="AssetPrice">
+                                <input type="number" class="form-control" id="inAssetPrice" oninput="checkInputs()">
                                 <span class="input-group-text" style="color:#808080">฿</span>
                             </div>
+                            <span class="input-invalid" id="span-valid-asset-price">กรุณากรอกข้อมูลให้ครบ</span>
                         </div>
                         <div class="mb-3">
-                            <label for="AssetAmount" class="form-label">จำนวน</label>
-                            <input type="number" class="form-control" id="AssetAmount">
+                            <label for="inAssetAmount" class="form-label">จำนวน</label>
+                            <input type="number" class="form-control" id="inAssetAmount" oninput="checkInputs()">
+                            <span class="input-invalid" id="span-valid-asset-amount">กรุณากรอกข้อมูลให้ครบ</span>
                         </div>
                         <div class="mb-3">
                             <label for="AssetTypeName" class="form-label">ประเภทสินทรัพย์</label>
@@ -317,8 +331,8 @@
                             <input type="text" class="form-control" id="AssetResponsiblePerson" value="">
                         </div> --}}
                         <div class="mb-3">
-                            <label for="AssetStatus" class="form-label">สถานะ</label>
-                            <select class="form-select" id="AssetStatus">
+                            <label for="inAssetStatus" class="form-label">สถานะ</label>
+                            <select class="form-select" id="inAssetStatus">
                                 <option value="1">ใช้งานอยู่</option>
                                 <option value="2">เสียหาย</option>
                                 <option value="3">เปลี่ยน</option>
@@ -328,9 +342,10 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="AssetPlace" class="form-label">สถานที่ใช้งาน</label>
-                            <input type="text" class="form-control" id="AssetPlace" placeholder="(ตัวอย่าง ห้อง IT)"
-                                style="background-color: #f2f3f5;font-size: .875rem;">
+                            <label for="inAssetPlace" class="form-label">สถานที่ใช้งาน</label>
+                            <input type="text" class="form-control" id="inAssetPlace" placeholder="เช่น ห้อง IT"
+                                style="background-color: #f2f3f5;font-size: .875rem;" oninput="checkInputs()">
+                            <span class="input-invalid" id="span-valid-asset-place">กรุณากรอกข้อมูลให้ครบ</span>
                         </div>
 
                         <div class="mb-3">
@@ -338,13 +353,17 @@
                             <select class="form-select" id="getResponsiblePerson" placeholder="ค้นหารายชื่อ...">
                             </select>
                         </div>
+                        <button type="button" class="btn w-full btn-save-asset mt-3"
+                            style="height: 44px;color:#fff;background-color:#6857E8;" onclick="SaveNewAsset()">
+                            <i class="fa-regular fa-floppy-disk pe-2"></i>บันทึก</button>
+
                     </form>
                 </div>
-                <div class="modal-footer border-0 p-4">
-                    <button type="button" class="btn w-full btn-save-asset"
-                        style="height: 44px;color:#fff;background-color:#6857E8;">
+                {{-- <div class="modal-footer border-0 p-4">
+                    <button type="submit" class="btn w-full btn-save-asset"
+                        style="height: 44px;color:#fff;background-color:#6857E8;" onclick="SaveNewAsset()">
                         <i class="fa-regular fa-floppy-disk pe-2"></i>บันทึก</button>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -502,9 +521,6 @@
                 },
                 success: function(user) {
                     $('#getResponsiblePerson').empty();
-                    $('#getResponsiblePerson').append(`
-                        <option value=""></option>
-                        `);
 
                     $.each(user, function(index, users) {
                         $('#getResponsiblePerson').append(`
@@ -516,6 +532,11 @@
                             field: "text",
                             direction: "asc",
                         },
+                        render: {
+                            no_results: function(data, escape) {
+                                return '<option class="no-results">ไม่พบชื่อพนักงาน</option>';
+                            }
+                        }
                     });
                 },
                 error: function(xhr, status, error) {
@@ -553,7 +574,121 @@
             });
         });
 
-
         /* /addEven */
+
+
+        /* resize image */
+        let images;
+
+        function ManageImage() {
+            const fileInput = document.getElementById('asset-image-upload');
+            const files = fileInput.files;
+
+
+            if (files.length > 0) {
+                resizeImage(files[0]).then(resizedFile => {
+                    images = resizedFile;
+                    console.log("ขนาดของภาพ : ", images.size);
+                }).catch(error => {
+                    console.error("Error resizing image:", error);
+                });
+            } else {
+                console.error("No file selected");
+            }
+        }
+
+        function resizeImage(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+
+                        let width = img.width;
+                        let height = img.height;
+
+                        // Resize logic
+                        const maxWidth = 800;
+                        const maxHeight = 800;
+
+                        if (width > height) {
+                            if (width > maxWidth) {
+                                height *= maxWidth / width;
+                                width = maxWidth;
+                            }
+                        } else {
+                            if (height > maxHeight) {
+                                width *= maxHeight / height;
+                                height = maxHeight;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        canvas.toBlob((blob) => {
+                            if (blob) {
+                                const resizedFile = new File([blob], file.name, {
+                                    type: file.type
+                                });
+                                resolve(resizedFile);
+                            } else {
+                                reject(new Error("Canvas is empty"));
+                            }
+                        }, file.type);
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        /* /resize image */
+
+        function SaveNewAsset() {
+            // ManageImage();
+            checkInputs();
+            let assetData = {
+                inputAssetName: document.getElementById('inAssetName').value,
+                inAssetPrice: document.getElementById('inAssetPrice').value,
+                inAssetAmount: document.getElementById('inAssetAmount').value,
+                inputAssetCatagory: document.getElementById('showAssetCatagory').value,
+                inAssetStatus: document.getElementById('inAssetStatus').value,
+                inAssetPlace: document.getElementById('inAssetPlace').value,
+                inAssetRSP: document.getElementById('getResponsiblePerson').value,
+            };
+            console.log(assetData);
+        }
+
+
+        function checkInputs() {
+
+            if (document.getElementById('inAssetName').value === '') {
+                document.getElementById('span-valid-asset-name').classList.remove('d-none');
+            } else {
+                document.getElementById('span-valid-asset-name').classList.add('d-none');
+            }
+
+            if (document.getElementById('inAssetPrice').value === '') {
+                document.getElementById('span-valid-asset-price').classList.remove('d-none');
+            } else {
+                document.getElementById('span-valid-asset-price').classList.add('d-none');
+            }
+
+            if (document.getElementById('inAssetAmount').value === '') {
+                document.getElementById('span-valid-asset-amount').classList.remove('d-none');
+            } else {
+                document.getElementById('span-valid-asset-amount').classList.add('d-none');
+            }
+
+            if (document.getElementById('inAssetPlace').value === '') {
+                document.getElementById('span-valid-asset-place').classList.remove('d-none');
+            } else {
+                document.getElementById('span-valid-asset-place').classList.add('d-none');
+            }
+        }
     </script>
 @endpush
