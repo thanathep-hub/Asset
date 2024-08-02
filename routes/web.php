@@ -97,6 +97,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::get('/asset', 'AssetsController@assets');
     Route::get('/assets/search/text_query', 'AssetsController@assets_search');
     Route::get('/assets/detail/{id}', 'AssetsController@assets_detail');
+    Route::post('/assets/new-asset', 'AssetsController@assets_new');
 
     // api apiAsset_detail
     Route::get('/api/asset/item/{id}', 'AssetsController@apiAsset_detail');
@@ -105,7 +106,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
 
     /* ---------------------------------------------- Project ---------------------------------------------- */
 
-    Route::get('/project-all', 'ProjectController@project_home');
+    Route::get('/project-all', 'ProjectController@project');
     Route::get('/project/items/{id}', 'ProjectController@project_mt');
     Route::post('/project/items/{id}', 'ProjectController@projectMtApprove');
     Route::post('/project/reject/{id}', 'ProjectController@project_reject');

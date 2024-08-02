@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Dotenv\Store\File\Reader;
 use Throwable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -152,5 +153,12 @@ class AssetsController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
         }
+    }
+
+    public function assets_new(Request $request)
+    {
+        $data = $request->input('assetData');
+
+        return response()->json($data);
     }
 }

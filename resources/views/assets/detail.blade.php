@@ -72,7 +72,9 @@
         .image-upload {
             border-radius: 12px;
             max-height: 100px;
-            width: 100%;
+            width: 100px;
+            max-width: 150px;
+            max-height: 100px;
             /* max-width: 150px; */
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
         }
@@ -660,7 +662,20 @@
                 inAssetPlace: document.getElementById('inAssetPlace').value,
                 inAssetRSP: document.getElementById('getResponsiblePerson').value,
             };
-            console.log(assetData);
+            // console.log(assetData);
+            console.log("test");
+
+            $.ajax({
+                type: "POST",
+                url: "/assets/new-asset",
+                data: assetData,
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log(response);
+                }
+            });
         }
 
 

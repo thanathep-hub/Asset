@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
 
 class ProjectController extends Controller
 {
-    public function project_home()
+    public function project()
     {
         session()->put("routeIs", 'project');
         return view('project.project');
