@@ -2,13 +2,19 @@
     .sidebar-link-hover:hover {
         background-color: #e9fff9;
         color: #24615a;
-        border-right: 3px solid #2b7f75;
+        border-right: 4px solid #2b7f75;
+        font-weight: 700;
     }
 
     .sidebar-item a.active {
         background-color: #e9fff9;
         color: #24615a;
-        border-right: 3px solid #2b7f75;
+        border-right: 4px solid #2b7f75;
+        font-weight: 700;
+    }
+
+    .sidebar-header {
+        font-size: .825rem;
     }
 
     th.gridjs-th {
@@ -41,6 +47,12 @@
     a.sidebar-link:hover {
         font-weight: 700;
     }
+
+    .sidebar-icon {
+        width: 32px;
+        height: 32px;
+        margin-right: .5rem;
+    }
 </style>
 
 <aside id="sidebar" class="js-sidebar">
@@ -60,21 +72,21 @@
             <li class="sidebar-item">
                 <a href="/asset"
                     class="sidebar-link sidebar-link-hover @if (session('routeIs') === 'assets') active @endif">
-                    <i class="fa-solid fa-box pe-2"></i>
+                    <img class="sidebar-icon" src="{{ asset('icons/box.png') }}">
                     ASSET
                 </a>
             </li>
             <li class="sidebar-item">
                 <a href="/project-all"
                     class="sidebar-link sidebar-link-hover @if (session('routeIs') === 'project') active @endif">
-                    <i class="fa-solid fa-diagram-project pe-2"></i>
+                    <img class="sidebar-icon" src="{{ asset('icons/project-management.png') }}">
                     โครงการ
                 </a>
             </li>
             <li class="sidebar-item">
                 <a href="#"
                     class="sidebar-link sidebar-link-hover @if (session('routeIs') === 'po') active @endif">
-                    <i class="fa-solid fa-cart-shopping pe-2"></i>
+                    <img class="sidebar-icon" src="{{ asset('icons/check-list.png') }}">
                     PO
                 </a>
             </li>
@@ -82,8 +94,10 @@
                 สมาชิก
             </li>
             <li class="sidebar-item">
-                <a href="/logout" class="sidebar-link sidebar-link-hover" style="font-size: 0.875rem;"><i <i
-                        class="fa-solid fa-right-from-bracket pe-2"></i>ออกจากระบบ</a>
+                <a href="/logout" class="sidebar-link sidebar-link-hover" style="font-size: 0.875rem;">
+                    <img class="sidebar-icon" src="{{ asset('icons/out.png') }}">
+                    {{-- <i <i class="fa-solid fa-right-from-bracket pe-2"></i> --}}
+                    ออกจากระบบ</a>
             </li>
         </ul>
     </div>

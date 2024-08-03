@@ -157,8 +157,30 @@ class AssetsController extends Controller
 
     public function assets_new(Request $request)
     {
-        $data = $request->input('assetData');
 
-        return response()->json($data);
+        // $file = $request->file('assetFile');
+
+        // $filenames = $file->storeAs('/Asset/testpic/', $file, 'ftp');
+        // $name = $request->input('inputAssetName');
+        // if ($request->hasFile('assetFile')) {
+        //     return response()->json(['message' => 'Asset created successfully!', 'name' => $name], 201);
+        // } else {
+        //     return response()->json(['message' => 'Asset No Has Files!'], 201);
+        // }
+
+        // Return a response
+        $name = $request->input('inputAssetName');
+        $fileName = null;
+        if ($request->hasFile('assetFile')) {
+            $file = $request->file('assetFile');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('/Asset/testpic/', $fileName, 'ftp');
+            $fileNames = $fileName;
+        }
+        return response()->json([
+            'message' => 'Asset created successfully!',
+            'name' => $name,
+            'assetFiles' => $fileNames
+        ], 201);
     }
 }

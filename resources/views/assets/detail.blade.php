@@ -5,7 +5,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
     <style>
         .content {
-            background-image: linear-gradient(to right, #effbfc, #d5d7e48a)
+            background-image: linear-gradient(to right, #d4e5ed, #d5d7e48a)
                 /* background-image: linear-gradient(to right, #d2e9ee, #d5d7e4); */
         }
 
@@ -15,6 +15,9 @@
         }
 
         /*  */
+        .search-bar {
+            max-width: 600px;
+        }
 
         .card {
             --bs-card-border-color: none;
@@ -194,7 +197,7 @@
     </style>
 @endpush
 @section('content')
-    <div class="mt-4 search-bar d-md-none"> {{-- d-md-none --}}
+    <div class="mt-4 search-bar"> {{-- d-md-none --}}
         <div class="card card-asset-detail" style="padding: .75rem 0rem 1.5rem 0rem;">
             <div class="row d-flex justify-content-center align-items-center m-0 mb-3">
                 <div class="col-12
@@ -286,7 +289,7 @@
             <div class="modal-content border-0">
                 <div class="modal-header border-0 p-4 justify-content-end">
                     <button type="button" class="btn p-0 border-0" data-bs-dismiss="modal" aria-label="Close">
-                        <img class="btn-left-arrow" src="{{ asset('assets/left-arrow.png') }}" alt="">
+                        <img class="btn-left-arrow" src="{{ asset('assets/close.png') }}" alt="">
                     </button>
                 </div>
                 <div class="modal-body">
@@ -370,7 +373,7 @@
         </div>
     </div>
 
-    <div class="fixed-bottom d-md-none">
+    <div class="fixed-bottom "> {{-- d-md-none --}}
         <div class="text-end p-3 mb-3">
             <div class="btn-group dropup">
                 <button type="button" class="btn dropdown-toggle btn-manage-asset border-0" data-bs-toggle="dropdown"
@@ -580,22 +583,22 @@
 
 
         /* resize image */
-        let images;
+        var images;
 
-        function ManageImage() {
+        async function ManageImage() {
             const fileInput = document.getElementById('asset-image-upload');
             const files = fileInput.files;
 
 
             if (files.length > 0) {
-                resizeImage(files[0]).then(resizedFile => {
+                const resizedFile = await resizeImage(files[0]);
+                if (resizedFile.size < 2 * 1024 * 1024) {
                     images = resizedFile;
                     console.log("ขนาดของภาพ : ", images.size);
-                }).catch(error => {
-                    console.error("Error resizing image:", error);
-                });
-            } else {
-                console.error("No file selected");
+                } else {
+                    console.log(
+                        `Resized file size exceeds 2MB limit: ${resizedFile.size} bytes`);
+                }
             }
         }
 
@@ -650,32 +653,34 @@
 
         /* /resize image */
 
-        function SaveNewAsset() {
-            // ManageImage();
+        async function SaveNewAsset() {
+            $waitResize = await ManageImage();
             checkInputs();
-            let assetData = {
-                inputAssetName: document.getElementById('inAssetName').value,
-                inAssetPrice: document.getElementById('inAssetPrice').value,
-                inAssetAmount: document.getElementById('inAssetAmount').value,
-                inputAssetCatagory: document.getElementById('showAssetCatagory').value,
-                inAssetStatus: document.getElementById('inAssetStatus').value,
-                inAssetPlace: document.getElementById('inAssetPlace').value,
-                inAssetRSP: document.getElementById('getResponsiblePerson').value,
-            };
-            // console.log(assetData);
-            console.log("test");
 
-            $.ajax({
-                type: "POST",
-                url: "/assets/new-asset",
-                data: assetData,
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    console.log(response);
-                }
-            });
+            // let formData = new FormData();
+            // formData.append('inputAssetName', document.getElementById('inAssetName').value);
+            // formData.append('inAssetPrice', document.getElementById('inAssetPrice').value);
+            // formData.append('inAssetAmount', document.getElementById('inAssetAmount').value);
+            // formData.append('inputAssetCatagory', document.getElementById('showAssetCatagory').value);
+            // formData.append('inAssetStatus', document.getElementById('inAssetStatus').value);
+            // formData.append('inAssetPlace', document.getElementById('inAssetPlace').value);
+            // formData.append('inAssetRSP', document.getElementById('getResponsiblePerson').value);
+
+            // formData.append('assetFile', images);
+
+            // $.ajax({
+            //     type: "POST",
+            //     url: "/assets/new-asset",
+            //     data: formData,
+            //     processData: false,
+            //     contentType: false,
+            //     headers: {
+            //         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            //     },
+            //     success: function(response) {
+            //         console.log(response);
+            //     }
+            // });
         }
 
 

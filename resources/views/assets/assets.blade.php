@@ -21,6 +21,10 @@
             position: relative;
         }
 
+        input#searchAsset {
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+        }
+
         .form .fa-search {
 
             position: absolute;
@@ -175,7 +179,7 @@
                     $.each(data, function(index, items) {
                         $('#showResult').append(`
                             <div class="col-md-6 list-out-card" onclick="assetDetail(${items.idAsset})">
-                                <div class="card list-asset-items justify-content-center mb-3" style="height: 100px;">
+                                <div class="card list-asset-items justify-content-center mb-2" style="height: 100px;">
                                     <div class="row m-0">
                                         <div class="col-3" style="text-align: center;align-content: center;">
                                             <img src="https://seedsgroup.dyndns.org/spm/Asset/PicAsset/${items.idAsset}_1.jpg"

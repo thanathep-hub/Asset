@@ -12,7 +12,8 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
+    {{-- <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="true"></script> --}}
+    <script src="https://kit.fontawesome.com/ce56e0f8fa.js" crossorigin="anonymous"></script>
 
     <!-- Fonts Family Kanit -->
     <link
