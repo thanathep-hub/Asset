@@ -6,6 +6,8 @@ use Dotenv\Store\File\Reader;
 use Throwable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Ramsey\Uuid\Type\Decimal;
 
 class AssetsController extends Controller
 {
@@ -51,7 +53,8 @@ class AssetsController extends Controller
     public function assets_detail($id)
     {
         $idAsset = $id;
-        return view('assets.detail', compact('idAsset'));
+        $comAsset = $this->assetComp();
+        return view('assets.detail', compact('idAsset', 'comAsset'));
     }
 
     public function apiAsset_detail($id)
@@ -157,30 +160,104 @@ class AssetsController extends Controller
 
     public function assets_new(Request $request)
     {
-
-        // $file = $request->file('assetFile');
-
-        // $filenames = $file->storeAs('/Asset/testpic/', $file, 'ftp');
-        // $name = $request->input('inputAssetName');
+        // Return a response
+        // $fileName = null;
         // if ($request->hasFile('assetFile')) {
-        //     return response()->json(['message' => 'Asset created successfully!', 'name' => $name], 201);
+        //     $file = $request->file('assetFile');
+        //     $fileName = time() . '_' . $file->getClientOriginalName();
+        //     $file->storeAs('/Asset/testpic/', $fileName, 'ftp');
+        //     $fileNames = $fileName;
         // } else {
-        //     return response()->json(['message' => 'Asset No Has Files!'], 201);
+        //     $fileNames = null;
         // }
 
-        // Return a response
-        $name = $request->input('inputAssetName');
-        $fileName = null;
-        if ($request->hasFile('assetFile')) {
-            $file = $request->file('assetFile');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('/Asset/testpic/', $fileName, 'ftp');
-            $fileNames = $fileName;
-        }
+        //
+
+        $assetCode = $this->fetchAssetCode(); //(int)
+        $assetName = $request->input('inputAssetName');
+        $assetComp = $request->input('inputAssetComp');
+        $assetCategory = (int)$request->input('inputAssetCategory');
+        $assetPsts = (int)session('user')->idPs;
+        $assetDateTs = $this->thaiDate();
+        $assetRSP = (int)$request->input('inAssetRSP'); //ผู้รับผิดชอบ
+        $assetAmount = (int)$request->input('inAssetAmount');
+        $assetPrice = (float)$request->input('inAssetPrice');
+
+        DB::insert("
+            INSERT INTO AssAssetD_test (AssetCode, AssetName,idComp,idType,idPsTs,DateTs,idPsRp,AssAmount,Price,idStAss)
+            VALUES ('$assetCode', '$assetName','$assetComp','$assetCategory','$assetPsts','$assetDateTs','$assetRSP','$assetAmount','$assetPrice',1)
+        ");
+
+
+
         return response()->json([
             'message' => 'Asset created successfully!',
-            'name' => $name,
-            'assetFiles' => $fileNames
+            'assetRSP' => $assetRSP,
+            'assetCode' => $assetCode,
+            'assetName' => $assetName,
+            'assetComp' => $assetComp,
+            'assetCategory' => $assetCategory,
+            'assetPsts' => $assetPsts,
+            'assetDateTs' => $assetDateTs,
+            'assetAmount' => $assetAmount,
+            'assetPrice' => $assetPrice,
         ], 201);
+    }
+
+    public function fetchAssetCode()
+    {
+        $query = collect(DB::select("
+            SELECT TOP
+                1 RIGHT ( pdas.AssetCode, LEN( pdas.AssetCode ) - 2 ) AS AssetNumber
+            FROM
+                PchInvAndProject.dbo.AssAssetD_test pdas
+            ORDER BY
+                pdas.AssetCode DESC
+        "))->first();
+
+        if ($query) {
+            // return $query->AssetNumber;
+            if (preg_match('/^\d{4}$/', $query->AssetNumber)) {
+                // แปลง assetid เป็นจำนวนเต็มและเพิ่มค่า 1
+                $number = intval($query->AssetNumber) + 1;
+                // แปลงค่าเป็น string ที่มีรูปแบบ AS000x
+                $formattedId = 'AS' . str_pad($number, 4, '0', STR_PAD_LEFT);
+                return $formattedId;
+            }
+        } else {
+            return 'AS0001';
+        }
+    }
+
+    public function assetComp()
+    {
+        try {
+            $Comp = DB::select("
+            SELECT DISTINCT
+                ass.idComp,
+                synd.CompCode,
+                synd.CompName
+            FROM
+                PchInvAndProject.dbo.AssAssetD AS ass
+                LEFT JOIN GR_Group.dbo.syndCompany synd ON ass.idComp = synd.idComp
+            WHERE
+                ass.idComp IS NOT NULL
+        ");
+
+            if ($Comp) {
+                return $Comp;
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    public function thaiDate()
+    {
+        $Date = Carbon::now();
+        $thaiYear = $Date->year + 543;
+        $formattedDate = $thaiYear . $Date->format('md');
+
+        return $formattedDate;
     }
 }

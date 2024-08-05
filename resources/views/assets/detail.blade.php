@@ -328,7 +328,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="AssetTypeName" class="form-label">ประเภทสินทรัพย์</label>
-                            <select class="form-select" id="showAssetCatagory">
+                            <select class="form-select" id="showAssetCategory">
                             </select>
                         </div>
                         {{-- <div class="mb-3">
@@ -346,6 +346,18 @@
                                 <option value="6">หมดอายุการใช้งาน</option>
                             </select>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="inAssetStatus" class="form-label">บริษัท</label>
+                            <select class="form-select" id="inAssetComp">
+                                @forelse ($comAsset as $items)
+                                    <option value="{{ $items->idComp }}">{{ $items->CompName }}</option>
+                                @empty
+                                @endforelse
+
+                            </select>
+                        </div>
+
                         <div class="mb-3">
                             <label for="inAssetPlace" class="form-label">สถานที่ใช้งาน</label>
                             <input type="text" class="form-control" id="inAssetPlace" placeholder="เช่น ห้อง IT"
@@ -440,7 +452,6 @@
             document.getElementById("AssetAmount").innerText = (parseInt(data.AssAmount, 10));;
             document.getElementById("AssetType").innerText = (data.AssTypeName || 'ไม่ถูกระบุ');
             document.getElementById("PurchaseDate").innerText = data.AssDateT;
-            // document.getElementById("StartDate").innerText = data.AssDateT;
             document.getElementById("Location").innerText = data.CompName;
             document.getElementById("ResponsiblePerson").innerText = "รอการอัพเดต";
             document.getElementById("SerialNumber").innerText = "#AS000x";
@@ -505,7 +516,7 @@
                 success: function(catagory) {
                     console.log(catagory);
                     $.each(catagory, function(index, items) {
-                        $('#showAssetCatagory').append(`
+                        $('#showAssetCategory').append(`
                         <option value="${items.idAssType}" selected>${items.AssTypeName}</option>
                         `);
                     });
@@ -595,10 +606,14 @@
                 if (resizedFile.size < 2 * 1024 * 1024) {
                     images = resizedFile;
                     console.log("ขนาดของภาพ : ", images.size);
+                    return true;
                 } else {
                     console.log(
                         `Resized file size exceeds 2MB limit: ${resizedFile.size} bytes`);
+                    // return false;
                 }
+            } else {
+                return false;
             }
         }
 
@@ -654,33 +669,43 @@
         /* /resize image */
 
         async function SaveNewAsset() {
-            $waitResize = await ManageImage();
-            checkInputs();
+            let waitResize = await ManageImage();
+            if (waitResize === true) {
+                checkInputs();
+                let formData = new FormData();
+                formData.append('inputAssetName', document.getElementById('inAssetName').value);
+                formData.append('inAssetPrice', document.getElementById('inAssetPrice').value);
+                formData.append('inAssetAmount', document.getElementById('inAssetAmount').value);
+                formData.append('inputAssetCategory', document.getElementById('showAssetCategory').value);
+                formData.append('inAssetStatus', document.getElementById('inAssetStatus').value);
+                formData.append('inAssetComp', document.getElementById('inAssetComp').value);
+                formData.append('inAssetPlace', document.getElementById('inAssetPlace').value);
+                formData.append('inAssetRSP', document.getElementById('getResponsiblePerson').value);
 
-            // let formData = new FormData();
-            // formData.append('inputAssetName', document.getElementById('inAssetName').value);
-            // formData.append('inAssetPrice', document.getElementById('inAssetPrice').value);
-            // formData.append('inAssetAmount', document.getElementById('inAssetAmount').value);
-            // formData.append('inputAssetCatagory', document.getElementById('showAssetCatagory').value);
-            // formData.append('inAssetStatus', document.getElementById('inAssetStatus').value);
-            // formData.append('inAssetPlace', document.getElementById('inAssetPlace').value);
-            // formData.append('inAssetRSP', document.getElementById('getResponsiblePerson').value);
+                formData.append('assetFile', images);
 
-            // formData.append('assetFile', images);
+                // console.log(formData.inputAssetName);
+                $.ajax({
+                    type: "POST",
+                    url: "/assets/new-asset",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        console.log("log : ", response);
+                    }
+                });
+            } else {
+                $('#add-new-asset').modal('hide');
+                Swal.fire({
+                    title: "กรุณากดเพิ่มรูปภาพ!",
+                    icon: "warning"
+                });
+            }
 
-            // $.ajax({
-            //     type: "POST",
-            //     url: "/assets/new-asset",
-            //     data: formData,
-            //     processData: false,
-            //     contentType: false,
-            //     headers: {
-            //         'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            //     },
-            //     success: function(response) {
-            //         console.log(response);
-            //     }
-            // });
         }
 
 

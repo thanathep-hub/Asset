@@ -41,7 +41,7 @@
 
     a.sidebar-link {
         color: #000000 !important;
-        font-size: 1rem !important;
+        font-size: 0.825rem !important;
     }
 
     a.sidebar-link:hover {
@@ -49,8 +49,8 @@
     }
 
     .sidebar-icon {
-        width: 32px;
-        height: 32px;
+        width: 24px;
+        height: 24px;
         margin-right: .5rem;
     }
 </style>
