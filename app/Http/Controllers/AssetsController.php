@@ -174,34 +174,72 @@ class AssetsController extends Controller
         //
 
         $assetCode = $this->fetchAssetCode(); //(int)
-        $assetName = $request->input('inputAssetName');
-        $assetComp = $request->input('inputAssetComp');
-        $assetCategory = (int)$request->input('inputAssetCategory');
+        $assetName = $request->input('inAssetName');
+        $assetComp = $request->input('inAssetComp');
+        $assetStatus = $request->input('inAssetStatus');
+        $assetCategory = (int)$request->input('inAssetCategory');
         $assetPsts = (int)session('user')->idPs;
         $assetDateTs = $this->thaiDate();
         $assetRSP = (int)$request->input('inAssetRSP'); //ผู้รับผิดชอบ
         $assetAmount = (int)$request->input('inAssetAmount');
         $assetPrice = (float)$request->input('inAssetPrice');
+        $assetPlace = $request->input('inAssetPlace');
 
-        DB::insert("
-            INSERT INTO AssAssetD_test (AssetCode, AssetName,idComp,idType,idPsTs,DateTs,idPsRp,AssAmount,Price,idStAss)
-            VALUES ('$assetCode', '$assetName','$assetComp','$assetCategory','$assetPsts','$assetDateTs','$assetRSP','$assetAmount','$assetPrice',1)
-        ");
+        $insertAsset = DB::insert(
+            "
+            INSERT INTO AssAssetD_test (AssetCode, AssetName, idComp, idType, idPsTs, DateTs, idPsRp, AssAmount, Price, idStAss)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [$assetCode, $assetName, $assetComp, $assetCategory, $assetPsts, $assetDateTs, $assetRSP, $assetAmount, $assetPrice, 1]
+        );
 
+        if ($insertAsset) {
+            $AssetInvInsert_id = DB::getPdo()->lastInsertId();
+            $insertAssetDt = DB::insert(
+                "
+                    INSERT INTO AssAssetDt_test (idAsset, stAssBuyDt)
+                    VALUES (?, ?)",
+                [$AssetInvInsert_id, 0]
+            );
 
+            if ($insertAssetDt) {
+                $fileName = null;
+                if ($request->hasFile('assetFile')) {
+                    $file = $request->file('assetFile');
+                    $fileName = $AssetInvInsert_id . time() . '_1' . "." . $file->extension();
+                    $file->storeAs('/Asset/testpic/', $fileName, 'ftp');
+                    $fileNames = $fileName;
+                } else {
+                    $fileNames = null;
+                }
 
-        return response()->json([
-            'message' => 'Asset created successfully!',
-            'assetRSP' => $assetRSP,
-            'assetCode' => $assetCode,
-            'assetName' => $assetName,
-            'assetComp' => $assetComp,
-            'assetCategory' => $assetCategory,
-            'assetPsts' => $assetPsts,
-            'assetDateTs' => $assetDateTs,
-            'assetAmount' => $assetAmount,
-            'assetPrice' => $assetPrice,
-        ], 201);
+                $insertAssetComponent = DB::insert(
+                    "
+                    INSERT INTO Asset_Components (component_name, asset_d,acs_id, created_by, location, image_url)
+                    VALUES (?, ?, ?, ?, ?, ?)",
+                    [$assetName, $AssetInvInsert_id, $assetStatus, (int)session('user')->idPs, $assetPlace, $fileNames]
+                );
+
+                if ($insertAssetComponent) {
+                    $AssetComponent_id = DB::getPdo()->lastInsertId();
+                    $insertAssetComponent_his = DB::insert(
+                        "
+                    INSERT INTO Asset_Component_History (acs_id, ac_id, acs_name, location_history)
+                    VALUES (?, ?, ?, ?)",
+                        [$assetStatus, $AssetComponent_id, $assetName, $assetPlace]
+                    );
+
+                    if ($insertAssetComponent_his && $insertAsset && $insertAssetDt && $insertAssetComponent) {
+                        return response()->json([
+                            'status' => 'success',
+                        ], 201);
+                    } else {
+                        return response()->json([
+                            'status' => 'error',
+                        ], 400);
+                    }
+                }
+            }
+        }
     }
 
     public function fetchAssetCode()

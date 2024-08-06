@@ -331,10 +331,6 @@
                             <select class="form-select" id="showAssetCategory">
                             </select>
                         </div>
-                        {{-- <div class="mb-3">
-                            <label for="AssetResponsiblePerson" class="form-label">ผู้รับผิดชอบ</label>
-                            <input type="text" class="form-control" id="AssetResponsiblePerson" value="">
-                        </div> --}}
                         <div class="mb-3">
                             <label for="inAssetStatus" class="form-label">สถานะ</label>
                             <select class="form-select" id="inAssetStatus">
@@ -376,11 +372,6 @@
 
                     </form>
                 </div>
-                {{-- <div class="modal-footer border-0 p-4">
-                    <button type="submit" class="btn w-full btn-save-asset"
-                        style="height: 44px;color:#fff;background-color:#6857E8;" onclick="SaveNewAsset()">
-                        <i class="fa-regular fa-floppy-disk pe-2"></i>บันทึก</button>
-                </div> --}}
             </div>
         </div>
     </div>
@@ -409,7 +400,7 @@
 @push('script')
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     <script>
-        window.onload = function() {
+        window.onload = function() { // modal new asset
             var fileupload = document.getElementById("asset-image-upload");
             var image = document.getElementById("imgFileUpload");
             image.onclick = function() {
@@ -421,8 +412,8 @@
         };
         $(document).ready(function() {
             callAssetDetail({{ $idAsset }});
-            apiCallCatagory_asset();
-            apiUserFullName();
+            apiCallCatagory_asset(); // modal new asset
+            apiUserFullName(); // modal new asset
 
         });
 
@@ -504,7 +495,7 @@
             return daysDiff;
         }
 
-        /* Api */
+        /* Api */ // modal new asset
         function apiCallCatagory_asset() {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
@@ -527,7 +518,7 @@
             });
         }
 
-        function apiUserFullName() {
+        function apiUserFullName() { // modal new asset
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
                 url: "/api/user/fullname",
@@ -673,18 +664,16 @@
             if (waitResize === true) {
                 checkInputs();
                 let formData = new FormData();
-                formData.append('inputAssetName', document.getElementById('inAssetName').value);
+                formData.append('inAssetName', document.getElementById('inAssetName').value);
                 formData.append('inAssetPrice', document.getElementById('inAssetPrice').value);
                 formData.append('inAssetAmount', document.getElementById('inAssetAmount').value);
-                formData.append('inputAssetCategory', document.getElementById('showAssetCategory').value);
+                formData.append('inAssetCategory', document.getElementById('showAssetCategory').value);
                 formData.append('inAssetStatus', document.getElementById('inAssetStatus').value);
                 formData.append('inAssetComp', document.getElementById('inAssetComp').value);
                 formData.append('inAssetPlace', document.getElementById('inAssetPlace').value);
                 formData.append('inAssetRSP', document.getElementById('getResponsiblePerson').value);
 
                 formData.append('assetFile', images);
-
-                // console.log(formData.inputAssetName);
                 $.ajax({
                     type: "POST",
                     url: "/assets/new-asset",
@@ -694,8 +683,26 @@
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
-                    success: function(response) {
-                        console.log("log : ", response);
+                    success: function(response, textStatus, xhr) {
+                        if (xhr.status === 201) {
+                            $('#add-new-asset').modal('hide');
+                            Swal.fire({
+                                icon: "success",
+                                title: "บันทีกรายการสำเร็จ!",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "เกิดข้อผิดพลาด...",
+                                text: "กรุณาตรวจสอบข้อมูลก่อนบันทึก!",
+                            });
+                        }
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log("Error: ", xhr.responseText);
+                        console.log("Status: ", xhr.status);
                     }
                 });
             } else {
@@ -735,5 +742,6 @@
                 document.getElementById('span-valid-asset-place').classList.add('d-none');
             }
         }
+        // // modal new asset
     </script>
 @endpush
