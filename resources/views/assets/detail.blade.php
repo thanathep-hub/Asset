@@ -76,7 +76,7 @@
             border-radius: 12px;
             max-height: 100px;
             width: 100px;
-            max-width: 150px;
+            max-width: 100px;
             max-height: 100px;
             /* max-width: 150px; */
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
@@ -200,8 +200,7 @@
     <div class="mt-4 search-bar"> {{-- d-md-none --}}
         <div class="card card-asset-detail" style="padding: .75rem 0rem 1.5rem 0rem;">
             <div class="row d-flex justify-content-center align-items-center m-0 mb-3">
-                <div class="col-12
-                mb-3 text-end">
+                <div class="col-12 mb-3 text-end">
                     <img class="" src="{{ asset('assets/unsuccess.png') }}" height="24px">
                     <span class="form-label" style="font-weight: 500;color:#262c40a8;">รอยืนยัน</span>
                 </div>
@@ -376,6 +375,8 @@
         </div>
     </div>
 
+    @include('assets.active')
+
     <div class="fixed-bottom "> {{-- d-md-none --}}
         <div class="text-end p-3 mb-3">
             <div class="btn-group dropup">
@@ -384,6 +385,8 @@
                     จัดการ <i class="fa-solid fa-pen ps-2"></i>
                 </button>
                 <ul class="dropdown-menu">
+                    <li class="mb-1"><a class="dropdown-item" data-bs-toggle="modal"
+                            data-bs-target="#active-old-asset">Active</a></li>
                     <li class="mb-1"><a class="dropdown-item" href="#">ผูกสินทรัพย์</a></li>
                     <li class="mb-1"><a class="dropdown-item" href="#">อัพเดตสินทรัพย์ </a></li>
                     <li class="mb-1"><a class="dropdown-item" data-bs-toggle="modal"
@@ -440,6 +443,8 @@
             let price = parseFloat(data.Price);
 
             document.getElementById("AssetName").innerText = data.AssetName;
+            document.getElementById("inAssetName_active").value = data.AssetName;
+
             document.getElementById("AssetAmount").innerText = (parseInt(data.AssAmount, 10));;
             document.getElementById("AssetType").innerText = (data.AssTypeName || 'ไม่ถูกระบุ');
             document.getElementById("PurchaseDate").innerText = data.AssDateT;
@@ -740,6 +745,15 @@
                 document.getElementById('span-valid-asset-place').classList.remove('d-none');
             } else {
                 document.getElementById('span-valid-asset-place').classList.add('d-none');
+            }
+        }
+
+        function checkInputsActive() {
+
+            if (document.getElementById('inAssetName_active').value === '') {
+                document.getElementById('span-valid-asset-name-active').classList.remove('d-none');
+            } else {
+                document.getElementById('span-valid-asset-name-active').classList.add('d-none');
             }
         }
         // // modal new asset
