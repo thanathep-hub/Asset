@@ -8,12 +8,18 @@
     }
 
     .modal-content-active {
-        border-radius: 32px !important;
+        /* border-radius: 32px !important; */
+    }
+
+    @media only screen and (max-width: 600px) {
+        .modal-dialog-centered {
+            align-items: flex-end;
+        }
     }
 </style>
 
 <div class="modal fade" id="active-old-asset" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" style="align-items: flex-end;"> {{-- modal-fullscreen-sm-down --}}
+    <div class="modal-dialog modal-lg modal-dialog-centered"> {{-- modal-fullscreen-sm-down --}}
         <div class="modal-content modal-content-active border-0">
             {{-- <div class="modal-header border-0 p-4 pb-0 justify-content-end">
                 <button type="button" class="btn p-0 border-0" data-bs-dismiss="modal" aria-label="Close">
@@ -84,16 +90,16 @@
     document.addEventListener('DOMContentLoaded', function() {
         console.log('Active component loaded');
         // Add more JavaScript here
-        window.onload = function() {
-            let fileuploadac = document.getElementById("asset-image-upload-active");
-            let imageac = document.getElementById("imgFileUpload-active");
-            imageac.onclick = function() {
-                fileuploadac.click();
-            };
-            fileuploadac.onchange = function() {
-                let fileNameac = fileuploadac.value.split('\\').pop();
-            };
+        // window.onload = function() {
+        let fileuploadac = document.getElementById("asset-image-upload-active");
+        let imageac = document.getElementById("imgFileUpload-active");
+        imageac.onclick = function() {
+            fileuploadac.click();
         };
+        fileuploadac.onchange = function() {
+            let fileNameac = fileuploadac.value.split('\\').pop();
+        };
+        // };
 
         document.getElementById('asset-image-upload-active').addEventListener('change', function(event) {
             const file = event.target.files[0];

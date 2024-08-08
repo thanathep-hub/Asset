@@ -179,7 +179,6 @@
 
         .form-select {
             height: 40px;
-            ;
         }
 
         /* /tom select */
@@ -403,7 +402,9 @@
 @push('script')
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     <script>
-        window.onload = function() { // modal new asset
+        document.addEventListener('DOMContentLoaded', function() {
+            // window.onload = function() { // modal new asset
+            console.log('Active component loaded กำะฟรส');
             var fileupload = document.getElementById("asset-image-upload");
             var image = document.getElementById("imgFileUpload");
             image.onclick = function() {
@@ -412,7 +413,9 @@
             fileupload.onchange = function() {
                 var fileName = fileupload.value.split('\\')[fileupload.value.split('\\').length - 1];
             };
-        };
+
+            // };
+        });
         $(document).ready(function() {
             callAssetDetail({{ $idAsset }});
             apiCallCatagory_asset(); // modal new asset

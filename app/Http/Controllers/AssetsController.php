@@ -158,6 +158,28 @@ class AssetsController extends Controller
         }
     }
 
+    public function apiCompany()
+    {
+        try {
+            $company = DB::select("
+                SELECT DISTINCT
+                ass.idComp,
+                synd.CompCode,
+                synd.CompName
+            FROM
+                PchInvAndProject.dbo.AssAssetD AS ass
+                LEFT JOIN GR_Group.dbo.syndCompany synd ON ass.idComp = synd.idComp
+            WHERE
+                ass.idComp IS NOT NULL
+            ");
+
+            if ($company) {
+                return response()->json($company);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
     public function assets_new(Request $request)
     {
         // Return a response

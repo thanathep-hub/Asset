@@ -98,7 +98,7 @@
             <div class="form">
                 <i class="fa fa-search"></i>
                 <input type="search" class="form-control form-input border-0" placeholder="ค้นหารายการสินทรัพย์..."
-                    id="searchAsset" style="font-size: 16px">
+                    id="searchAsset" style="font-size: 16px;height:44px;">
             </div>
         </div>
     </div>
@@ -133,6 +133,9 @@
 
 
     </div>
+
+
+    @include('assets.btn-new-asset')
 
 
 
