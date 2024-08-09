@@ -142,6 +142,7 @@
 
 @endsection
 @push('script')
+    <script src="{{ asset('js/assets/custom.js') }}"></script>
     <script>
         const inputElement = document.getElementById('searchAsset');
         let timeoutId;

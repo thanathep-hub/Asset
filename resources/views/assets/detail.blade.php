@@ -388,8 +388,8 @@
                             data-bs-target="#active-old-asset">Active</a></li>
                     <li class="mb-1"><a class="dropdown-item" href="#">ผูกสินทรัพย์</a></li>
                     <li class="mb-1"><a class="dropdown-item" href="#">อัพเดตสินทรัพย์ </a></li>
-                    <li class="mb-1"><a class="dropdown-item" data-bs-toggle="modal"
-                            data-bs-target="#add-new-asset">เพิ่มสินทรัพย์</a></li>
+                    {{-- <li class="mb-1"><a class="dropdown-item" data-bs-toggle="modal"
+                            data-bs-target="#add-new-asset">เพิ่มสินทรัพย์</a></li> --}}
                 </ul>
             </div>
         </div>
@@ -404,7 +404,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // window.onload = function() { // modal new asset
-            console.log('Active component loaded กำะฟรส');
             var fileupload = document.getElementById("asset-image-upload");
             var image = document.getElementById("imgFileUpload");
             image.onclick = function() {

@@ -145,7 +145,7 @@
     }
 </style>
 
-<div class="fixed-bottom "> {{-- d-md-none --}}
+<div class="fixed-bottom"> {{-- d-md-none --}}
     <div class="text-end p-3 mb-3">
         <div class="btn-group dropup">
             <button type="button" class="btn btn-new-asset border-0" data-bs-toggle="modal"
@@ -157,7 +157,7 @@
 </div>
 
 <div class="modal fade" id="add-new-asset" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-fullscreen-sm-down"> {{-- modal-fullscreen-sm-down --}}
+    <div class="modal-dialog modal-lg modal-dialog-centered "> {{-- modal-fullscreen-sm-down --}}
         <div class="modal-content border-0">
             {{-- <div class="modal-header border-0 p-4 justify-content-end">
                 <button type="button" class="btn p-0 border-0" data-bs-dismiss="modal" aria-label="Close">
@@ -168,8 +168,6 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">เพิ่มสินทรัพย์ใหม่</h1>
                 <button type="button" class="btn-close-new-asset" data-bs-dismiss="modal" aria-label="Close"><i
                         class="fa-solid fa-xmark"></i></button>
-                {{-- <button type="button" class="btn-closes" data-bs-dismiss="modal" aria-label="Close"><i
-                        class="fa-solid fa-xmark"></i></button> --}}
             </div>
             <div class="modal-body">
                 <form class="p-4 pt-0">
@@ -224,7 +222,7 @@
 
                     <div class="mb-3">
                         <label for="inAssetStatus" class="form-label">บริษัท</label>
-                        <select class="form-select" id="inAssetComp">
+                        <select class="form-select" id="inAssetComp" placeholder="ค้นหาบริษัท...">
                             {{-- @forelse ($comAsset as $items)
                                 <option value="{{ $items->idComp }}">{{ $items->CompName }}</option>
                             @empty
