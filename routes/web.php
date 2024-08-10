@@ -39,57 +39,47 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     /* ---------------------------------------------- Asset All ---------------------------------------------- */
     // Route::get('/asset', 'AssetController@index');
     Route::get('/asset/{id}', 'AssetController@asset_detail');
+    Route::get('/asset-qr/{id}', 'AssetController@assetQrcode');
 
-    Route::post('/asset_active', 'AssetController@asset_active');
-    Route::get('/asset_act', 'AssetController@asset_act');
-    Route::get('/asset_act_ex', 'AssetController@asset_act_ex')->name('asset_act_ex');
-    Route::get('/asset_act/search', 'AssetController@asset_act_search')->name('asset_act_search');
-    Route::get('/asset-repair', 'AssetController@asset_repair')->name('asset-repair');
-    ///asset_ytm/
-    Route::get('/asset_ytm', 'AssetController@asset_ytm')->name('asset_ytm');
-    Route::get('/asset_menu', function () {
-        return view('asset.asset_menu');
-    });
-    Route::get('/asset_graph', function () {
+    // Route::post('/asset_active', 'AssetController@asset_active');
+    // Route::get('/asset_act', 'AssetController@asset_act');
+    // Route::get('/asset_act_ex', 'AssetController@asset_act_ex')->name('asset_act_ex');
+    // Route::get('/asset_act/search', 'AssetController@asset_act_search')->name('asset_act_search');
+    // Route::get('/asset-repair', 'AssetController@asset_repair')->name('asset-repair');
+    // ///asset_ytm/
+    // Route::get('/asset_ytm', 'AssetController@asset_ytm')->name('asset_ytm');
+    // Route::get('/asset_menu', function () {
+    //     return view('asset.asset_menu');
+    // });
 
-        $assetController = new AssetController();
-        $asset_category = $assetController->asset_category();
-        return view('asset.asset_graph', ['asset_category' => $asset_category]);
-    });
-
-    Route::get('/asset_bill_repair', function () {
-        $assetController = new AssetController();
-        $asset_category = $assetController->asset_comp_repair();
-        return view('asset.asset_repair', ['Comp' => $asset_category]);
-    });
+    // Route::get('/asset_bill_repair', function () {
+    //     $assetController = new AssetController();
+    //     $asset_category = $assetController->asset_comp_repair();
+    //     return view('asset.asset_repair', ['Comp' => $asset_category]);
+    // });
 
     // page asset repair bill
-    Route::get('/search_repair', 'AssetController@search_repair')->name('search_repair');
-    // page asset
-    Route::get('/search_filter', 'AssetController@FilterSearch')->name('search_filter_date');
-    Route::get('/search_filter_asset', 'AssetController@search_filter_asset')->name('search_filter_asset');
+    // Route::get('/search_repair', 'AssetController@search_repair')->name('search_repair');
+    // Route::get('/search_filter', 'AssetController@FilterSearch')->name('search_filter_date');
+    // Route::get('/search_filter_asset', 'AssetController@search_filter_asset')->name('search_filter_asset');
 
     /* ---------------------------------------------- Asset Category ---------------------------------------------- */
 
     // Route::get('/chart-data/{value}/{category}', 'AssetController@asset_query');
-
-    Route::get('/asset/type/{id}', 'AssetController@asset_blank');
-
-    Route::get('/chart-data/{value}/{category}', 'AssetController@asset_query');
-    Route::get('/asset/all', 'AssetController@asset_all')->name('asset_all');
-    Route::get('/asset_search/asset_search', 'AssetController@asset_search')->name('asset_search');
-    Route::get('/asset-qr/{id}', 'AssetController@assetQrcode');
+    // Route::get('/asset/type/{id}', 'AssetController@asset_blank');
+    // Route::get('/chart-data/{value}/{category}', 'AssetController@asset_query');
+    // Route::get('/asset/all', 'AssetController@asset_all')->name('asset_all');
+    // Route::get('/asset_search/asset_search', 'AssetController@asset_search')->name('asset_search');
 
     // asset ที่ดิน --------------------------------------------------------------------------------------------------------
-    Route::get('/asset_land', 'AssetController@LandIndex');
-    Route::get('/asset_land/search', 'AssetController@searchLand')->name('searchLand');
-    Route::get('/asset_land/search_filter_land', 'AssetController@search_filter_land')->name('search_filter_land');
+    // Route::get('/asset_land', 'AssetController@LandIndex');
+    // Route::get('/asset_land/search', 'AssetController@searchLand')->name('searchLand');
+    // Route::get('/asset_land/search_filter_land', 'AssetController@search_filter_land')->name('search_filter_land');
 
     /* ---------------------------------------------- /PO ---------------------------------------------- */
     Route::get('/po/items/{id_po}', 'POController@showPO');
     Route::get('/po/list', 'POController@showPO_list');
     Route::post('/po/confirm', 'POController@confirmPO');
-
     Route::get('/BahtText/{number}', 'BahtTextController@bahtText');
 
 
@@ -98,6 +88,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::get('/assets/search/text_query', 'AssetsController@assets_search');
     Route::get('/assets/detail/{id}', 'AssetsController@assets_detail');
     Route::post('/assets/new-asset', 'AssetsController@assets_new');
+    Route::post('/assets/detail/active', 'AssetsController@assets_active');
 
     // api apiAsset_detail
     Route::get('/api/asset/item/{id}', 'AssetsController@apiAsset_detail');
@@ -111,10 +102,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::get('/project/items/{id}', 'ProjectController@project_mt');
     Route::post('/project/items/{id}', 'ProjectController@projectMtApprove');
     Route::post('/project/reject/{id}', 'ProjectController@project_reject');
-
     Route::post('/project/cancel/{id}', 'ProjectController@project_cancel');
-    // /project/cancel/
-
     Route::get('/api/project', 'ProjectController@api_project')->name('get_project');
 
     // Route::get('/test-view', function () {
@@ -124,32 +112,16 @@ Route::group(['middleware' => 'CheckLogin'], function () {
 
     /* ---------------------------------------------- /Project ---------------------------------------------- */
 
-    Route::get('/vam', 'VamController@index');
-    Route::get('/vam/search', 'VamController@vamSearch')->name('vamSearch');
-    Route::get('/vam/{id}', 'VamController@vam_detail');
-    Route::post('/vam/car_maintenance', 'VamController@car_maintenance');
-    Route::get('/vam/car_maintenance/list', 'VamController@maintenance_list');
-    Route::get('/vam/car_maintenance/listAll', 'VamController@listAll');
-    Route::get('/vam/car_maintenance/listOwner', 'VamController@listOwner')->name('listOwner');
-    Route::get('/vam/car_maintenance/search', 'VamController@listSearch')->name('listSearch');
-    Route::get('/vam/car_maintenance/cm_detail', 'VamController@cm_detail')->name('cm_detail');
+    // Route::get('/storage-link', function () {
+    //     Artisan::call('storage:link');
+    // });
 
-    Route::get('/vam-qr/qr-code/{id}', 'VamController@vamQrcode');
-    Route::get('/vam_menu', function () {
-        return view('vam.vam_menu');
-    });
-
-
-    Route::get('/storage-link', function () {
-        Artisan::call('storage:link');
-    });
-
-    Route::get('/config-clear', function () {
-        Artisan::call('config:clear');
-    });
-    Route::get('/config-cache', function () {
-        Artisan::call('config:cache');
-    });
+    // Route::get('/config-clear', function () {
+    //     Artisan::call('config:clear');
+    // });
+    // Route::get('/config-cache', function () {
+    //     Artisan::call('config:cache');
+    // });
 });
 
 Route::get('/checkLogin', 'AuthController@Login');

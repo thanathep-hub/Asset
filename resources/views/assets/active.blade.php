@@ -212,10 +212,44 @@
             if (data === true) {
                 let activeData = new FormData();
                 activeData.append('idAsset', {{ $idAsset }});
+                activeData.append('active_name', document.getElementById('inAssetName_active').value);
                 activeData.append('active_place', document.getElementById('active_place').value);
                 activeData.append('active_status', document.getElementById('inAssetStatus').value);
                 activeData.append('active_rsp', document.getElementById('ResponsiblePerson-active').value);
 
+                $.ajax({
+                    type: "POST",
+                    url: "/assets/detail/active",
+                    data: activeData,
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response, textStatus, xhr) {
+                        console.log(response);
+
+                        if (xhr.status === 201) {
+                            $('#active-old-asset').modal('hide');
+                            Swal.fire({
+                                icon: "success",
+                                title: "ACtive สำเร็จ!",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "เกิดข้อผิดพลาด...",
+                                text: "กรุณาตรวจสอบข้อมูลก่อนบันทึก!",
+                            });
+                        }
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log("Error: ", xhr.responseText);
+                        console.log("Status: ", xhr.status);
+                    }
+                });
             }
         }
     </script>

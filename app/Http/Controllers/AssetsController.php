@@ -264,6 +264,90 @@ class AssetsController extends Controller
         }
     }
 
+    public function assets_active(Request $request)
+    {
+        $idAsset = $request->input('idAsset');
+        $active_place = $request->input('active_place');
+        $active_name = $request->input('active_name');
+        $active_status = $request->input('active_status');
+        $active_rsp = $request->input('active_rsp');
+
+        $q = $this->checkAssetComponent($idAsset);
+
+        if ($q) {
+            return response()->json("have");
+        } else {
+            return response()->json("not have");
+        }
+
+
+        // try {
+        //     $UpdateAssetPsRp = DB::update("
+        //         UPDATE PchInvAndProject.dbo.AssAssetD
+        //         SET idPsRp = $active_rsp
+        //         WHERE
+        //             idAsset = $idAsset
+        //         ");
+        // } catch (\Throwable $th) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'throw' => $th,
+        //     ], 400);
+        // }
+
+        // if ($UpdateAssetPsRp) {
+        //     $insertAssetComponents = DB::insert(
+        //         "
+        //             INSERT INTO PchInvAndProject.dbo.Asset_Components (component_name, asset_d, acs_id, location, created_by)
+        //             VALUES (?, ?, ?, ?, ?)",
+        //         [$active_name, $idAsset, $active_status, $active_place, (int)session('user')->idPs]
+        //     );
+        //     if ($insertAssetComponents) {
+        //         $AssetComponent_id = DB::getPdo()->lastInsertId();
+        //         try {
+        //             //code...
+        //             $insertAssetComponent_his = DB::insert(
+        //                 "
+        //             INSERT INTO Asset_Component_History (acs_id, ac_id, acs_name, location_history)
+        //             VALUES (?, ?, ?, ?)",
+        //                 [$active_status, $AssetComponent_id, $active_name, $active_place]
+        //             );
+        //         } catch (\Throwable $th) {
+        //             //throw $th;
+        //             return response()->json([
+        //                 'status' => 'error',
+        //                 'msg' => $th,
+        //             ], 400);
+        //         }
+        //         if ($UpdateAssetPsRp && $insertAssetComponents && $insertAssetComponent_his) {
+        //             return response()->json([
+        //                 'status' => 'success',
+        //                 'idAsset' => $idAsset,
+        //                 'active_place' => $active_place,
+        //                 'active_status' => $active_status,
+        //                 'active_rsp' => $active_rsp,
+        //             ], 201);
+        //         } else {
+        //             return response()->json([
+        //                 'status' => 'error',
+        //             ], 400);
+        //         }
+        //     }
+        // }
+    }
+
+    public function checkAssetComponent($id)
+    {
+        $checkAssetComponent = collect(DB::select("
+                SELECT
+                    *
+                FROM
+                    PchInvAndProject.dbo.Asset_Components
+                    WHERE PchInvAndProject.dbo.Asset_Components.asset_d = $id
+            "))->first();
+        return $checkAssetComponent;
+    }
+
     public function fetchAssetCode()
     {
         $query = collect(DB::select("
