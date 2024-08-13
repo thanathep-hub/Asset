@@ -182,18 +182,6 @@ class AssetsController extends Controller
     }
     public function assets_new(Request $request)
     {
-        // Return a response
-        // $fileName = null;
-        // if ($request->hasFile('assetFile')) {
-        //     $file = $request->file('assetFile');
-        //     $fileName = time() . '_' . $file->getClientOriginalName();
-        //     $file->storeAs('/Asset/testpic/', $fileName, 'ftp');
-        //     $fileNames = $fileName;
-        // } else {
-        //     $fileNames = null;
-        // }
-
-        //
 
         $assetCode = $this->fetchAssetCode(); //(int)
         $assetName = $request->input('inAssetName');
@@ -224,21 +212,25 @@ class AssetsController extends Controller
             );
 
             if ($insertAssetDt) {
-                $fileName = null;
-                if ($request->hasFile('assetFile')) {
-                    $file = $request->file('assetFile');
-                    $fileName = $AssetInvInsert_id . time() . '_1' . "." . $file->extension();
+                $i = 1;
+                foreach ($request->file('assetFile') as $file) {
+                    $fileName = $AssetInvInsert_id . time() . '_' . $i . "." . $file->getClientOriginalExtension();
                     $file->storeAs('/Asset/testpic/', $fileName, 'ftp');
-                    $fileNames = $fileName;
-                } else {
-                    $fileNames = null;
+
+                    $insertImagPath = DB::insert(
+                        "
+                    INSERT INTO Asset_img_path (asset_id, name_img)
+                    VALUES (?, ?)",
+                        [$AssetInvInsert_id, $fileName]
+                    );
+                    $i++;
                 }
 
                 $insertAssetComponent = DB::insert(
                     "
-                    INSERT INTO Asset_Components (component_name, asset_d,acs_id, created_by, location, image_url)
-                    VALUES (?, ?, ?, ?, ?, ?)",
-                    [$assetName, $AssetInvInsert_id, $assetStatus, (int)session('user')->idPs, $assetPlace, $fileNames]
+                    INSERT INTO Asset_Components (component_name, asset_d,acs_id, created_by, location)
+                    VALUES (?, ?, ?, ?, ?)",
+                    [$assetName, $AssetInvInsert_id, $assetStatus, (int)session('user')->idPs, $assetPlace]
                 );
 
                 if ($insertAssetComponent) {

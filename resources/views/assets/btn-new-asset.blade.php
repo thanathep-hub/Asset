@@ -157,7 +157,7 @@
 </div>
 
 <div class="modal fade" id="add-new-asset" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered "> {{-- modal-fullscreen-sm-down --}}
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"> {{-- modal-fullscreen-sm-down --}}
         <div class="modal-content border-0">
             {{-- <div class="modal-header border-0 p-4 justify-content-end">
                 <button type="button" class="btn p-0 border-0" data-bs-dismiss="modal" aria-label="Close">
@@ -176,7 +176,7 @@
                             <img id="imgFileUpload" class="image-upload" src="{{ asset('assets/image-upoad.png') }}"
                                 style="object-fit: cover;" />
                             <input type="file" accept="image/png, image/jpeg" name="img_asset"
-                                id="asset-image-upload" style="display: none">
+                                id="asset-image-upload" style="display: none" multiple>
                         </div>
                         <div class="align-content-center">
                             <label class="ps-2 text-gray">คลิก <kbd>รูปภาพ</kbd> เพื่ออัพโหลด</label>
@@ -256,8 +256,8 @@
 @push('script')
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     <script>
+        let images = [];
         document.addEventListener('DOMContentLoaded', function() {
-
             var fileupload = document.getElementById("asset-image-upload");
             var image = document.getElementById("imgFileUpload");
             image.onclick = function() {
@@ -276,6 +276,10 @@
 
             if (checkInput() === true) {
                 let waitResize = await ManageImage();
+                console.log(images);
+                console.log(waitResize);
+
+
                 if (waitResize === true) {
                     checkInputs();
                     let formData = new FormData();
@@ -288,7 +292,9 @@
                     formData.append('inAssetPlace', document.getElementById('inAssetPlace').value);
                     formData.append('inAssetRSP', document.getElementById('getResponsiblePerson').value);
 
-                    formData.append('assetFile', images);
+                    images.forEach((image, index) => {
+                        formData.append('assetFile[]', image, image.name);
+                    });
                     $.ajax({
                         type: "POST",
                         url: "/assets/new-asset",
@@ -299,6 +305,8 @@
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         },
                         success: function(response, textStatus, xhr) {
+                            console.log(response);
+
                             if (xhr.status === 201) {
                                 $('#add-new-asset').modal('hide');
                                 Swal.fire({
@@ -311,7 +319,7 @@
                                 Swal.fire({
                                     icon: "error",
                                     title: "เกิดข้อผิดพลาด...",
-                                    text: "กรุณาตรวจสอบข้อมูลก่อนบันทึก!",
+                                    text: "กรุณาตรวจสอบข้อมูลก่อนบันทึก!" + xhr,
                                 });
                             }
                         },
@@ -335,24 +343,57 @@
         }
 
         async function ManageImage() {
-            const fileInput = document.getElementById('asset-image-upload');
-            const files = fileInput.files;
+            const files = $('#asset-image-upload')[0].files;
+            let formData = new FormData();
 
-
-            if (files.length > 0) {
-                const resizedFile = await resizeImage(files[0]);
-                if (resizedFile.size < 2 * 1024 * 1024) {
-                    images = resizedFile;
-                    console.log("ขนาดของภาพ : ", images.size);
-                    return true;
-                } else {
-                    console.log(
-                        `Resized file size exceeds 2MB limit: ${resizedFile.size} bytes`);
-                    // return false;
-                }
-            } else {
+            if (files.length < 1) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'ใบเสร็จ ?',
+                    text: 'กรุณาเพิ่มรายการอย่างน้อย 1 รายการ!',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#009688'
+                });
                 return false;
+            } else {
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    try {
+                        const resizedFile = await resizeImage(file);
+
+                        // Check if resized file is less than 2MB
+                        if (resizedFile.size < 2 * 1024 * 1024) {
+                            // console.log(`Resized file size: ${resizedFile.size} bytes`);
+                            images.push(resizedFile);
+                        } else {
+                            console.log(
+                                `Resized file size exceeds 2MB limit: ${resizedFile.size} bytes`);
+                        }
+                    } catch (error) {
+                        console.error(`Error resizing file ${file.name}:`, error);
+                    }
+                }
+                return true;
             }
+
+            // const fileInput = document.getElementById('asset-image-upload');
+            // const files = fileInput.files;
+
+
+            // if (files.length > 0) {
+            //     const resizedFile = await resizeImage(files[0]);
+            //     if (resizedFile.size < 2 * 1024 * 1024) {
+            //         images = resizedFile;
+            //         console.log("ขนาดของภาพ : ", images.size);
+            //         return true;
+            //     } else {
+            //         console.log(
+            //             `Resized file size exceeds 2MB limit: ${resizedFile.size} bytes`);
+            //         // return false;
+            //     }
+            // } else {
+            //     return false;
+            // }
         }
 
         function resizeImage(file) {
