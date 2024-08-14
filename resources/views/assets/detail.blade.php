@@ -198,11 +198,11 @@
 @section('content')
     <div class="mt-4 search-bar"> {{-- d-md-none --}}
         <div class="card card-asset-detail" style="padding: .75rem 0rem 1.5rem 0rem;">
-            <div class="row d-flex justify-content-center align-items-center m-0 mb-3">
-                <div class="col-12 mb-3 text-end">
+            <div class="row d-flex justify-content-center align-items-center m-0 mb-3 mt-3">
+                {{-- <div class="col-12 mb-3 text-end">
                     <img class="" src="{{ asset('assets/unsuccess.png') }}" height="24px">
                     <span class="form-label" style="font-weight: 500;color:#262c40a8;">รอยืนยัน</span>
-                </div>
+                </div> --}}
                 <div class="col-md-8">
                     <div class="align-items-center" style="text-align: -webkit-center;">
                         <div class="asset-box-img mb-3">
@@ -260,25 +260,6 @@
                     <label class="col-7 text-end" style="font-weight: 500;color:#f8493b;" id="Value">1 บาท</label>
                 </div>
             </div>
-            {{-- <div class="border-bottom mb-3 mx-2" style="width: 95%;"></div> --}}
-
-            {{-- <div class="text-end p-3">
-                <div class="btn-group dropup">
-                    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
-                        style="min-width: 160px;min-height: 44px;background-color:#6857E8;color:#fff;">
-                        จัดการ <i class="fa-solid fa-pen ps-2"></i>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li class="mb-1"><a class="dropdown-item" href="#">ผูกสินทรัพย์</a></li>
-                        <li class="mb-1"><a class="dropdown-item" href="#">อัพเดตสินทรัพย์ </a></li>
-                        <li class="mb-1"><a class="dropdown-item" data-bs-toggle="modal"
-                                data-bs-target="#add-new-asset">เพิ่มสินทรัพย์</a></li>
-                    </ul>
-                </div>
-                <button class="btn btn-primary border-0" hidden
-                    style="min-width: 160px;min-height: 44px;background-color:#6857E8;">จัดการ <i
-                        class="fa-solid fa-pen ps-2"></i></button>
-            </div> --}}
         </div>
     </div>
 
@@ -375,12 +356,14 @@
     </div>
 
     @include('assets.active')
+    @include('assets.qr-code')
 
     <div class="fixed-bottom "> {{-- d-md-none --}}
         <div class="text-end p-3 mb-3">
             <div class="btn-group dropup">
                 <button type="button" class="btn dropdown-toggle btn-manage-asset border-0" data-bs-toggle="dropdown"
-                    aria-expanded="false" style="min-width: 160px;min-height: 44px;background-color:#6857E8;color:#fff;">
+                    aria-expanded="false" style="min-width: 160px;min-height: 44px;background-color: #369689;color:#fff;">
+                    {{-- background-color:#6857E8; --}}
                     จัดการ <i class="fa-solid fa-pen ps-2"></i>
                 </button>
                 <ul class="dropdown-menu">
@@ -388,8 +371,8 @@
                             data-bs-target="#active-old-asset">Active</a></li>
                     <li class="mb-1"><a class="dropdown-item" href="#">ผูกสินทรัพย์</a></li>
                     <li class="mb-1"><a class="dropdown-item" href="#">อัพเดตสินทรัพย์ </a></li>
-                    {{-- <li class="mb-1"><a class="dropdown-item" data-bs-toggle="modal"
-                            data-bs-target="#add-new-asset">เพิ่มสินทรัพย์</a></li> --}}
+                    <li class="mb-1"><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                            data-bs-target="#qr-code-asset">qr-code</a></li>
                 </ul>
             </div>
         </div>

@@ -3,7 +3,8 @@
 @push('style')
     <style>
         .content {
-            background-image: linear-gradient(to right, #effbfc, #d5d7e48a)
+            background-image: linear-gradient(to right, #d4e5ed, #d5d7e48a)
+                /* background-image: linear-gradient(to right, #effbfc, #d5d7e48a) */
                 /* background-image: linear-gradient(to right, #d2e9ee, #d5d7e4); */
         }
 

@@ -5,7 +5,8 @@
     .btn-new-asset {
         min-width: 160px;
         min-height: 44px;
-        background-color: #6857E8;
+        /* background-color: #6857E8; */
+        background-color: #369689;
         color: #fff;
         box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
@@ -510,10 +511,12 @@
                 headers: {
                     'X-CSRF-Token': csrfToken
                 },
-                success: function(user) {
+                success: function(data) {
+                    console.log(data);
+
                     $('#inAssetComp').empty();
 
-                    $.each(user, function(index, comp) {
+                    $.each(data, function(index, comp) {
                         $('#inAssetComp').append(`
                         <option value="${comp.idComp}">${comp.CompName}</option>
                         `);
@@ -525,7 +528,7 @@
                         },
                         render: {
                             no_results: function(data, escape) {
-                                return '<option class="no-results">ไม่พบชื่อพนักงาน</option>';
+                                return '<option class="no-results">ไม่พบข้อมูล</option>';
                             }
                         }
                     });
