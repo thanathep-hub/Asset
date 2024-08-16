@@ -28,10 +28,11 @@
             </div>
             <div class="modal-body">
                 <div class="layout-qr-code" style="text-align: -webkit-center;">
-                    <div class="mt-3 mb-3" id="qrcode"></div>
+                    <div class="mt-3 mb-4" id="qrcode"></div>
                 </div>
                 <button type="button" id="download" class="btn form-control"
-                    style="height:40px;background-color: #369689;color:#fff;" onclick="downloadQRCode()">บันทึก</button>
+                    style="border-radius: 24px;height: 40px;background-color: #369689;color:#fff;"
+                    onclick="downloadQRCode()">บันทึก</button>
             </div>
         </div>
     </div>
