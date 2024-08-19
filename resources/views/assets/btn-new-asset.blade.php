@@ -146,7 +146,7 @@
     }
 </style>
 
-<div class="fixed-bottom"> {{-- d-md-none --}}
+{{-- <div class="fixed-bottom">
     <div class="text-end p-3 mb-3">
         <div class="btn-group dropup">
             <button type="button" class="btn btn-new-asset border-0" data-bs-toggle="modal"
@@ -155,7 +155,7 @@
             </button>
         </div>
     </div>
-</div>
+</div> --}}
 
 <div class="modal fade" id="add-new-asset" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"> {{-- modal-fullscreen-sm-down --}}

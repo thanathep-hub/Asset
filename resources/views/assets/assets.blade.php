@@ -131,11 +131,31 @@
 
             </div>
         </div> --}}
-
-
     </div>
 
-
+    <div class="fixed-bottom "> {{-- d-md-none --}}
+        <div class="text-end p-3 mb-3">
+            <div class="btn-group dropup">
+                <button type="button" class="btn dropdown-toggle btn-manage-asset border-0" data-bs-toggle="dropdown"
+                    aria-expanded="false" style="min-width: 160px;min-height: 44px;background-color: #369689;color:#fff;">
+                    {{-- background-color:#6857E8; --}}
+                    จัดการ <i class="fa-solid fa-pen ps-2"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="mb-1">
+                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#genarateQR">
+                            <i class="fa-solid fa-qrcode pe-2"></i>
+                            สร้าง QRCode</a>
+                    </li>
+                    <li class="mb-1">
+                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#add-new-asset"><i
+                                class="fa-solid fa-plus pe-2"></i>สินทรัพย์ใหม่</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    @include('assets.generateQR')
     @include('assets.btn-new-asset')
 
 
