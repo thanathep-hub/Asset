@@ -90,6 +90,10 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::post('/assets/new-asset', 'AssetsController@assets_new');
     Route::post('/assets/detail/active', 'AssetsController@assets_active');
 
+    // generate QR code to asset component
+    Route::get('/assets/create-component/', 'AssetsController@Create_component');
+    Route::get('/assets/link/id-component/{id}', 'AssetsController@linkAssetComponent');
+
     // api apiAsset_detail
     Route::get('/api/asset/item/{id}', 'AssetsController@apiAsset_detail');
     Route::get('/api/asset/catagory', 'AssetsController@apiAsset_catagory');

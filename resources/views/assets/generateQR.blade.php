@@ -31,7 +31,6 @@
                             class="fa-solid fa-print pe-2"></i>พิมพ์</button>
                 </div>
 
-
             </div>
         </div>
     </div>
@@ -40,7 +39,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
         $(document).ready(function() {
-            generateQRCode();
+            // generateQRCode();
         });
 
         function generateQRCode() {
@@ -68,6 +67,54 @@
             downloadLink.href = dataURL;
             downloadLink.download = 'test' + '.png ';
             downloadLink.click();
+        }
+
+        function createQR() {
+            let timerInterval;
+            Swal.fire({
+                title: "Auto close alert!",
+                html: "I will close in <b></b> milliseconds.",
+                timer: 1000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    const timer = Swal.getPopup().querySelector("b");
+                    timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                    }, 100);
+                },
+                willClose: () => {
+                    clearInterval(timerInterval);
+                }
+            }).then((result) => {
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    console.log("I was closed by the timer");
+
+                    $.ajax({
+                        type: "get",
+                        url: "/assets/create-component/",
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                // console.log(response.asset_id);
+                                document.getElementById('generateQR').innerHTML = "";
+
+                                // Generate the QR code
+                                const qrCode = new QRCode(document.getElementById("generateQR"), {
+                                    text: 'https://assets.advanceseeds.com/assets/link/id-component/' +
+                                        response.asset_id,
+                                    width: 200,
+                                    height: 200,
+                                    margin: 5
+                                });
+
+                                $('#genarateQR').modal('show');
+
+                            }
+                        }
+                    });
+
+                }
+            });
         }
     </script>
 @endpush

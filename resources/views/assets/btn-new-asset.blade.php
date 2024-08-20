@@ -19,10 +19,10 @@
 
     .image-upload {
         border-radius: 12px;
-        max-height: 100px;
-        width: 100px;
-        max-width: 100px;
-        max-height: 100px;
+        max-height: 60px;
+        width: 60px;
+        max-width: 60px;
+        max-height: 60px;
         /* max-width: 150px; */
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
     }
@@ -160,11 +160,6 @@
 <div class="modal fade" id="add-new-asset" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"> {{-- modal-fullscreen-sm-down --}}
         <div class="modal-content border-0">
-            {{-- <div class="modal-header border-0 p-4 justify-content-end">
-                <button type="button" class="btn p-0 border-0" data-bs-dismiss="modal" aria-label="Close">
-                    <img class="btn-left-arrow" src="{{ asset('assets/close.png') }}" alt="">
-                </button>
-            </div> --}}
             <div class="modal-header border-0" style="background-color: #f3f1ff;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">เพิ่มสินทรัพย์ใหม่</h1>
                 <button type="button" class="btn-close-new-asset" data-bs-dismiss="modal" aria-label="Close"><i

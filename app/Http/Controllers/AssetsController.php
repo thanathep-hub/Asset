@@ -256,6 +256,51 @@ class AssetsController extends Controller
         }
     }
 
+    public function Create_component()
+    {
+        $wait_create = "รอสร้างสินทรัพย์";
+
+        try {
+            $create_component = DB::insert(
+                "
+                    INSERT INTO Asset_Components (component_name,created_by)
+                    VALUES (?,?)",
+                [$wait_create, (int)session('user')->idPs]
+            );
+            $AssetComponentLast_id = DB::getPdo()->lastInsertId();
+            if ($create_component) {
+                return response()->json([
+                    'status' => 'success',
+                    'asset_id' => $AssetComponentLast_id
+                ], 201);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    public function linkAssetComponent($id)
+    {
+        $checkAsset = collect(DB::select("
+            SELECT
+                *
+            FROM
+                PchInvAndProject.dbo.Asset_Components pdac
+            WHERE
+                pdac.component_id = :id
+        ", ['id' => $id]))->first();
+
+        if ($checkAsset) {
+            if (!empty($checkAsset->asset_d)) {
+                return redirect("/assets/detail/{$checkAsset->asset_d}");
+            }
+            return view('assets.qrcode.new-asset');
+        }
+
+        return view('errors.404');
+    }
+
+
     public function assets_active(Request $request)
     {
         $idAsset = $request->input('idAsset');
@@ -271,61 +316,6 @@ class AssetsController extends Controller
         } else {
             return response()->json("not have");
         }
-
-
-        // try {
-        //     $UpdateAssetPsRp = DB::update("
-        //         UPDATE PchInvAndProject.dbo.AssAssetD
-        //         SET idPsRp = $active_rsp
-        //         WHERE
-        //             idAsset = $idAsset
-        //         ");
-        // } catch (\Throwable $th) {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'throw' => $th,
-        //     ], 400);
-        // }
-
-        // if ($UpdateAssetPsRp) {
-        //     $insertAssetComponents = DB::insert(
-        //         "
-        //             INSERT INTO PchInvAndProject.dbo.Asset_Components (component_name, asset_d, acs_id, location, created_by)
-        //             VALUES (?, ?, ?, ?, ?)",
-        //         [$active_name, $idAsset, $active_status, $active_place, (int)session('user')->idPs]
-        //     );
-        //     if ($insertAssetComponents) {
-        //         $AssetComponent_id = DB::getPdo()->lastInsertId();
-        //         try {
-        //             //code...
-        //             $insertAssetComponent_his = DB::insert(
-        //                 "
-        //             INSERT INTO Asset_Component_History (acs_id, ac_id, acs_name, location_history)
-        //             VALUES (?, ?, ?, ?)",
-        //                 [$active_status, $AssetComponent_id, $active_name, $active_place]
-        //             );
-        //         } catch (\Throwable $th) {
-        //             //throw $th;
-        //             return response()->json([
-        //                 'status' => 'error',
-        //                 'msg' => $th,
-        //             ], 400);
-        //         }
-        //         if ($UpdateAssetPsRp && $insertAssetComponents && $insertAssetComponent_his) {
-        //             return response()->json([
-        //                 'status' => 'success',
-        //                 'idAsset' => $idAsset,
-        //                 'active_place' => $active_place,
-        //                 'active_status' => $active_status,
-        //                 'active_rsp' => $active_rsp,
-        //             ], 201);
-        //         } else {
-        //             return response()->json([
-        //                 'status' => 'error',
-        //             ], 400);
-        //         }
-        //     }
-        // }
     }
 
     public function checkAssetComponent($id)

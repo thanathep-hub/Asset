@@ -89,6 +89,10 @@
             }
         }
 
+        .dropup .dropdown-toggle::after {
+            display: none;
+        }
+
         /* list  asset items */
     </style>
 @endpush
@@ -139,11 +143,11 @@
                 <button type="button" class="btn dropdown-toggle btn-manage-asset border-0" data-bs-toggle="dropdown"
                     aria-expanded="false" style="min-width: 160px;min-height: 44px;background-color: #369689;color:#fff;">
                     {{-- background-color:#6857E8; --}}
-                    จัดการ <i class="fa-solid fa-pen ps-2"></i>
+                    New <i class="fa-solid fa-pen ps-2"></i>
                 </button>
                 <ul class="dropdown-menu">
                     <li class="mb-1">
-                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#genarateQR">
+                        <a class="dropdown-item" {{-- data-bs-toggle="modal" data-bs-target="#genarateQR"  --}} onclick="createQR()">
                             <i class="fa-solid fa-qrcode pe-2"></i>
                             สร้าง QRCode</a>
                     </li>
