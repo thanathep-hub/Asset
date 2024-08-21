@@ -72,8 +72,8 @@
         function createQR() {
             let timerInterval;
             Swal.fire({
-                title: "Auto close alert!",
-                html: "I will close in <b></b> milliseconds.",
+                title: "กำลังสร้าง QR Code!",
+                html: "กำลังดำเนินการใน <b></b> วินาที.",
                 timer: 1000,
                 timerProgressBar: true,
                 didOpen: () => {
