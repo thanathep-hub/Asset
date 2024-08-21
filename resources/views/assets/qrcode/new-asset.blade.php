@@ -63,7 +63,7 @@
                 <form class="">
                     <div class="mb-3">
                         <label for="name-asset" class="form-label">ชื่อสินทรัพย์ใหม่</label>
-                        <input type="email" class="form-control" id="name-asset" placeholder="">
+                        <input type="text" class="form-control" id="name-asset" placeholder="">
                     </div>
                     <div class="mb-3">
                         <label for="new-asset-img" class="form-label">เลือกรูปภาพ</label>
@@ -73,7 +73,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="name-asset-place" class="form-label">สถานที่</label>
-                        <input type="email" class="form-control" id="name-asset-place"
+                        <input type="text" class="form-control" id="name-asset-place"
                             placeholder="เช่น ห้องไอที, ห้องบัญชี">
                     </div>
                     <div class="border-bottom mb-3"></div>
