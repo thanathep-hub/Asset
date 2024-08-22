@@ -118,11 +118,11 @@
 
             check_input();
 
-            function check_input() {
+            async function check_input() {
                 const assetName = document.getElementById('name-asset').value.trim();
                 const assetPlace = document.getElementById('name-asset-place').value.trim();
                 const assetImages = document.getElementById('new-asset-img').files;
-
+                let qrimage = [];
                 // Check if the input fields or file inputs are empty
                 if (!assetName) {
                     Swal.fire({
@@ -147,6 +147,37 @@
                 // If all fields are filled, you can proceed with further logic
                 if (assetName && assetPlace && assetImages.length > 0) {
                     // รออัพเดต resize รูปก่อนอัพโหลด
+
+                    const files = $('#new-asset-img')[0].files;
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        const resizedFile = await resizeImage(file);
+                        qrimage.push(resizedFile);
+                    }
+                    console.log(qrimage);
+
+                    let qrDataAsset = new FormData();
+                    qrDataAsset.append('qrAssetName', document.getElementById('name-asset').value);
+                    qrDataAsset.append('qrAssetPlace', document.getElementById('name-asset-place').value);
+
+                    qrimage.forEach((image, index) => {
+                        qrDataAsset.append('qrAssetImg[]', image, image.name);
+                    });
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/assets/qr-new-assets",
+                        data: qrDataAsset,
+                        processData: false,
+                        contentType: false,
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            console.log(response);
+
+                        }
+                    });
                     console.log('All fields are filled. Proceed with saving...');
                     // Additional logic to save the asset
                 }
@@ -163,6 +194,55 @@
             } else {
                 errorMessage.textContent = "";
             }
+        }
+
+        function resizeImage(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+
+                        let width = img.width;
+                        let height = img.height;
+
+                        // Resize logic
+                        const maxWidth = 800;
+                        const maxHeight = 800;
+
+                        if (width > height) {
+                            if (width > maxWidth) {
+                                height *= maxWidth / width;
+                                width = maxWidth;
+                            }
+                        } else {
+                            if (height > maxHeight) {
+                                width *= maxHeight / height;
+                                height = maxHeight;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        canvas.toBlob((blob) => {
+                            if (blob) {
+                                const resizedFile = new File([blob], file.name, {
+                                    type: file.type
+                                });
+                                resolve(resizedFile);
+                            } else {
+                                reject(new Error("Canvas is empty"));
+                            }
+                        }, file.type);
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
         }
     </script>
 @endpush

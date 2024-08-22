@@ -300,6 +300,75 @@ class AssetsController extends Controller
         return view('errors.404');
     }
 
+    public function qr_new_asset(Request $request)
+    {
+        $qrAssetName = $request->input('qrAssetName');
+        $qrAssetPlace = $request->input('qrAssetPlace');
+
+        $assetCode = $this->fetchAssetCode();
+        $assetPsts = (int)session('user')->idPs;
+        $assetDateTs = $this->thaiDate();
+
+        $insert_assetD = DB::insert(
+            "
+            INSERT INTO AssAssetD_test (AssetCode, AssetName, idComp, idPsTs, DateTs, idPsRp, AssAmount, idStAss)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            [$assetCode, $qrAssetName, (int)session('user')->idComp, $assetPsts, $assetDateTs, $assetPsts, 1, 1]
+        );
+
+        if ($insert_assetD) {
+            $AssetInvInsert_id = DB::getPdo()->lastInsertId();
+            $insertAssetDt = DB::insert(
+                "
+                    INSERT INTO AssAssetDt_test (idAsset, stAssBuyDt)
+                    VALUES (?, ?)",
+                [$AssetInvInsert_id, 0]
+            );
+            if ($insertAssetDt) {
+                $i = 1;
+                foreach ($request->file('qrAssetImg') as $file) {
+                    $fileName = $AssetInvInsert_id . time() . '_' . $i . "." . $file->getClientOriginalExtension();
+                    $file->storeAs('/Asset/testpic/', $fileName, 'ftp');
+
+                    $insertImagPath = DB::insert(
+                        "
+                    INSERT INTO Asset_img_path (asset_id, name_img)
+                    VALUES (?, ?)",
+                        [$AssetInvInsert_id, $fileName]
+                    );
+                    $i++;
+                }
+
+                $insertAssetComponent = DB::insert(
+                    "
+                    INSERT INTO Asset_Components (component_name, asset_d,acs_id, created_by, location)
+                    VALUES (?, ?, ?, ?, ?)",
+                    [$qrAssetName, $AssetInvInsert_id, 1, (int)session('user')->idPs, $qrAssetPlace]
+                );
+
+                if ($insertAssetComponent) {
+                    $AssetComponent_id = DB::getPdo()->lastInsertId();
+                    $insertAssetComponent_his = DB::insert(
+                        "
+                    INSERT INTO Asset_Component_History (acs_id, ac_id, acs_name, location_history)
+                    VALUES (?, ?, ?, ?)",
+                        [1, $AssetComponent_id, $qrAssetName, $qrAssetPlace]
+                    );
+
+                    if ($insertAssetComponent_his && $insert_assetD && $insertAssetDt && $insertAssetComponent) {
+                        return response()->json([
+                            'status' => 'success',
+                        ], 201);
+                    } else {
+                        return response()->json([
+                            'status' => 'error',
+                        ], 400);
+                    }
+                }
+            }
+        }
+    }
+
 
     public function assets_active(Request $request)
     {
