@@ -256,7 +256,7 @@ class AssetsController extends Controller
         }
     }
 
-    public function Create_component()
+    public function Create_component(Request $request)
     {
         $wait_create = "รอสร้างสินทรัพย์";
 
@@ -294,7 +294,7 @@ class AssetsController extends Controller
             if (!empty($checkAsset->asset_d)) {
                 return redirect("/assets/detail/{$checkAsset->asset_d}");
             }
-            return view('assets.qrcode.new-asset');
+            return view('assets.qrcode.new-asset', compact('id'));
         }
 
         return view('errors.404');
@@ -304,6 +304,7 @@ class AssetsController extends Controller
     {
         $qrAssetName = $request->input('qrAssetName');
         $qrAssetPlace = $request->input('qrAssetPlace');
+        $qrAssetId = $request->input('qrAssetId');
 
         $assetCode = $this->fetchAssetCode();
         $assetPsts = (int)session('user')->idPs;
@@ -339,14 +340,23 @@ class AssetsController extends Controller
                     $i++;
                 }
 
-                $insertAssetComponent = DB::insert(
+                // $insertAssetComponent = DB::insert(
+                //     "
+                //     INSERT INTO Asset_Components (component_name, asset_d,acs_id, created_by, location)
+                //     VALUES (?, ?, ?, ?, ?)",
+                //     [$qrAssetName, $AssetInvInsert_id, 1, (int)session('user')->idPs, $qrAssetPlace]
+                // );
+
+                $updateAssetComponent = DB::update(
                     "
-                    INSERT INTO Asset_Components (component_name, asset_d,acs_id, created_by, location)
-                    VALUES (?, ?, ?, ?, ?)",
-                    [$qrAssetName, $AssetInvInsert_id, 1, (int)session('user')->idPs, $qrAssetPlace]
+                        UPDATE Asset_Components
+                        SET component_name = ?, asset_d = ?, acs_id = ?, created_by = ?, location = ?
+                        WHERE component_id = ?",
+                    [$qrAssetName, $AssetInvInsert_id, 1, (int)session('user')->idPs, $qrAssetPlace, $qrAssetId]
                 );
 
-                if ($insertAssetComponent) {
+
+                if ($updateAssetComponent) {
                     $AssetComponent_id = DB::getPdo()->lastInsertId();
                     $insertAssetComponent_his = DB::insert(
                         "
@@ -355,9 +365,10 @@ class AssetsController extends Controller
                         [1, $AssetComponent_id, $qrAssetName, $qrAssetPlace]
                     );
 
-                    if ($insertAssetComponent_his && $insert_assetD && $insertAssetDt && $insertAssetComponent) {
+                    if ($insertAssetComponent_his && $insert_assetD && $insertAssetDt && $updateAssetComponent) {
                         return response()->json([
                             'status' => 'success',
+                            'idAsset' => $AssetInvInsert_id
                         ], 201);
                     } else {
                         return response()->json([

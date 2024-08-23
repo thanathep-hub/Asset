@@ -27,8 +27,8 @@
                         <i class="fa-solid fa-download pe-2"></i>
                         บันทึก</button>
                     <button type="button" id="generateQRPrint" class="btn w-50"
-                        style="border-radius: 24px;height: 40px;background-color: #369689;color:#fff;" onclick=""><i
-                            class="fa-solid fa-print pe-2"></i>พิมพ์</button>
+                        style="border-radius: 24px;height: 40px;background-color: #369689;color:#fff;"
+                        onclick="printQR()"><i class="fa-solid fa-print pe-2"></i>พิมพ์</button>
                 </div>
 
             </div>
@@ -38,6 +38,7 @@
 @push('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
+        let idAssetQR = '';
         $(document).ready(function() {
             // generateQRCode();
         });
@@ -91,11 +92,15 @@
                     console.log("I was closed by the timer");
 
                     $.ajax({
-                        type: "get",
+                        type: "post",
                         url: "/assets/create-component/",
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
                         success: function(response) {
                             if (response.status === 'success') {
                                 // console.log(response.asset_id);
+                                idAssetQR = response.asset_id;
                                 document.getElementById('generateQR').innerHTML = "";
 
                                 // Generate the QR code
@@ -115,6 +120,10 @@
 
                 }
             });
+        }
+
+        function printQR() {
+            window.location.href = '/assets/link/id-component/' + idAssetQR + '/print';
         }
     </script>
 @endpush

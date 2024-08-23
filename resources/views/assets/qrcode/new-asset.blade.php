@@ -157,6 +157,7 @@
                     console.log(qrimage);
 
                     let qrDataAsset = new FormData();
+                    qrDataAsset.append('qrAssetId', {{ $id }});
                     qrDataAsset.append('qrAssetName', document.getElementById('name-asset').value);
                     qrDataAsset.append('qrAssetPlace', document.getElementById('name-asset-place').value);
 
@@ -174,8 +175,16 @@
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         },
                         success: function(response) {
-                            console.log(response);
-
+                            Swal.fire({
+                                text: "บันทึกเรียบร้อยแล้ว", // "Saved successfully"
+                                confirmButtonText: 'ตกลง', // "OK"
+                                confirmButtonColor: '#369689'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Redirect to the asset detail page
+                                    window.location.href = '/assets/detail/' + response.idAsset;
+                                }
+                            });
                         }
                     });
                     console.log('All fields are filled. Proceed with saving...');

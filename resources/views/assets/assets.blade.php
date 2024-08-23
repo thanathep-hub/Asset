@@ -94,6 +94,11 @@
         }
 
         /* list  asset items */
+
+        /* for print */
+        @media print {
+            /*  */
+        }
     </style>
 @endpush
 @section('content')
