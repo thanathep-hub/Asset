@@ -66,7 +66,7 @@
 
             const downloadLink = document.createElement('a');
             downloadLink.href = dataURL;
-            downloadLink.download = 'test' + '.png ';
+            downloadLink.download = 'AS' + idAssetQR + '.png ';
             downloadLink.click();
         }
 
@@ -92,7 +92,7 @@
                     console.log("I was closed by the timer");
 
                     $.ajax({
-                        type: "post",
+                        type: "get",
                         url: "/assets/create-component/",
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'

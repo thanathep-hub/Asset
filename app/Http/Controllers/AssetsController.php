@@ -256,7 +256,7 @@ class AssetsController extends Controller
         }
     }
 
-    public function Create_component(Request $request)
+    public function Create_component()
     {
         $wait_create = "รอสร้างสินทรัพย์";
 
@@ -392,9 +392,9 @@ class AssetsController extends Controller
         $q = $this->checkAssetComponent($idAsset);
 
         if ($q) {
-            return response()->json("have");
+            return response()->json("true");
         } else {
-            return response()->json("not have");
+            return response()->json("flase");
         }
     }
 

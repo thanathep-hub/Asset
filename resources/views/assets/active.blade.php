@@ -58,7 +58,7 @@
 </style>
 
 <div class="modal fade" id="active-old-asset" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered"> {{-- modal-fullscreen-sm-down --}}
+    <div class="modal-dialog modal-md modal-dialog-centered"> {{-- modal-fullscreen-sm-down --}}
         <div class="modal-content modal-content-active border-0">
             <div class="modal-header border-0" style="background-color: #f3f1ff;">
                 <h1 class="modal-title fs-5" id="exampleModalLabel" style="font-weight: 700;color: #58d090;"><img
