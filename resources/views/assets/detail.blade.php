@@ -357,6 +357,7 @@
 
     @include('assets.active')
     @include('assets.qr-code')
+    @include('assets.edit')
 
     <div class="fixed-bottom "> {{-- d-md-none --}}
         <div class="text-end p-3 mb-3">
@@ -369,8 +370,9 @@
                 <ul class="dropdown-menu">
                     <li class="mb-1"><a class="dropdown-item" data-bs-toggle="modal"
                             data-bs-target="#active-old-asset">Active</a></li>
-                    <li class="mb-1"><a class="dropdown-item" href="#">ผูกสินทรัพย์</a></li>
-                    <li class="mb-1"><a class="dropdown-item" href="#">อัพเดตสินทรัพย์ </a></li>
+                    <li class="mb-1"><a class="dropdown-item" onclick="waitUpdate()">ผูกสินทรัพย์</a></li>
+                    <li class="mb-1"><a class="dropdown-item" onclick="editAssetM()">อัพเดตสินทรัพย์ </a></li>
+
                     <li class="mb-1"><a class="dropdown-item" href="#" data-bs-toggle="modal"
                             data-bs-target="#qr-code-asset">qr-code</a></li>
                 </ul>
@@ -385,8 +387,8 @@
 @push('script')
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     <script>
+        let asset = '';
         document.addEventListener('DOMContentLoaded', function() {
-            // window.onload = function() { // modal new asset
             var fileupload = document.getElementById("asset-image-upload");
             var image = document.getElementById("imgFileUpload");
             image.onclick = function() {
@@ -395,8 +397,6 @@
             fileupload.onchange = function() {
                 var fileName = fileupload.value.split('\\')[fileupload.value.split('\\').length - 1];
             };
-
-            // };
         });
         $(document).ready(function() {
             callAssetDetail({{ $idAsset }});
@@ -414,6 +414,7 @@
                     'X-CSRF-Token': csrfToken
                 },
                 success: function(data) {
+                    asset = data;
                     console.log(data);
                     setData(data);
                 },
@@ -434,7 +435,7 @@
             document.getElementById("AssetType").innerText = (data.AssTypeName || 'ไม่ถูกระบุ');
             document.getElementById("PurchaseDate").innerText = data.AssDateT;
             document.getElementById("Location").innerText = data.CompName;
-            document.getElementById("ResponsiblePerson").innerText = "รอการอัพเดต";
+            document.getElementById("ResponsiblePerson").innerText = data.emp_PsName;
             document.getElementById("SerialNumber").innerText = "#AS000x";
             document.getElementById("Cost").innerText = new Intl.NumberFormat('th-TH', {
                 style: 'currency',
@@ -742,5 +743,15 @@
             }
         }
         // // modal new asset
+
+
+        function waitUpdate() {
+            Swal.fire({
+                icon: "warning",
+                title: "รอการอัพเดท",
+                showConfirmButton: true,
+                confirmButtonText: 'ตกลง',
+            });
+        }
     </script>
 @endpush

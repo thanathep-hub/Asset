@@ -67,6 +67,7 @@ class AssetsController extends Controller
                 assT.AssPerc,
                 assT.AssYear AS AssYearType,
                 assD.*,
+                emp.PsNameFS AS emp_PsName,
                 SUBSTRING ( assD.AssDate, 7, 2 ) + '/' + SUBSTRING ( assD.AssDate, 5, 2 ) + '/' + SUBSTRING ( assD.AssDate, 0, 5 ) AS AssDateT,
                 SUBSTRING ( assD.AssDate, 7, 2 ) + '/' + SUBSTRING ( assD.AssDate, 5, 2 ) + '/' + CAST ( YEAR ( CAST ( assD.AssDate AS DATE ) ) + assT.AssYear AS nvarchar ) AS AssDateTEnd,
             CASE
@@ -96,6 +97,7 @@ class AssetsController extends Controller
                 LEFT JOIN PchInvAndProject.dbo.AssTypeD assT ON assD.idType = assT.idAssType
                 LEFT JOIN PchInvAndProject.dbo.AssPlaceD assPD ON assD.idPlace = assPD.idPlace
                 LEFT JOIN GR_Group.dbo.syndCompany synd ON assD.idComp = synd.idComp
+                LEFT JOIN GR_Group.dbo.dEmployee emp ON assD.idPsRp = emp.idPs
             WHERE
                 assD.idAsset = $id
         "))->first();
@@ -163,14 +165,14 @@ class AssetsController extends Controller
         try {
             $company = DB::select("
                 SELECT DISTINCT
-                ass.idComp,
-                synd.CompCode,
-                synd.CompName
-            FROM
-                PchInvAndProject.dbo.AssAssetD AS ass
-                LEFT JOIN GR_Group.dbo.syndCompany synd ON ass.idComp = synd.idComp
-            WHERE
-                ass.idComp IS NOT NULL
+                    ass.idComp,
+                    synd.CompCode,
+                    synd.CompName
+                FROM
+                    PchInvAndProject.dbo.AssAssetD AS ass
+                    LEFT JOIN GR_Group.dbo.syndCompany synd ON ass.idComp = synd.idComp
+                WHERE
+                    ass.idComp IS NOT NULL
             ");
 
             if ($company) {
@@ -391,10 +393,53 @@ class AssetsController extends Controller
 
         $q = $this->checkAssetComponent($idAsset);
 
-        if ($q) {
-            return response()->json("true");
-        } else {
-            return response()->json("flase");
+        if ($q) { // active แล้ว
+            return response()->json([
+                'status' => 'wn',
+                'msg' => 'สินทรัพย์ถูกยืนยันแล้ว'
+            ], 201);
+        } else { // ดำเนินการ active
+            $insertAssetComponent = DB::insert(
+                "
+                    INSERT INTO Asset_Components (component_name, asset_d,acs_id, created_by, location)
+                    VALUES (?, ?, ?, ?, ?)",
+                [
+                    $active_name,
+                    $idAsset,
+                    $active_status,
+                    (int)session('user')->idPs,
+                    $active_place
+                ]
+            );
+
+            // รอ เปิดตอนใช้งานจริง
+            // $updateAsset = DB::update(
+            //     "
+            //         UPDATE AssAssetD
+            //         SET idPsRp = ?
+            //         WHERE idAsset = ?",
+            //     [$active_rsp, $idAsset]
+            // );
+
+            if ($insertAssetComponent) {
+                $AssetComponent_id = DB::getPdo()->lastInsertId();
+                $insertAssetComponent_his = DB::insert(
+                    "
+                    INSERT INTO Asset_Component_History (acs_id, ac_id, acs_name, location_history)
+                    VALUES (?, ?, ?, ?)",
+                    [$active_status, $AssetComponent_id, $active_name, $active_place]
+                );
+
+                if ($insertAssetComponent_his && $insertAssetComponent) {
+                    return response()->json([
+                        'status' => 'success',
+                    ], 201);
+                } else {
+                    return response()->json([
+                        'status' => 'error',
+                    ], 400);
+                }
+            }
         }
     }
 

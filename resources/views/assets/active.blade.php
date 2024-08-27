@@ -227,15 +227,25 @@
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
                     success: function(response, textStatus, xhr) {
-                        console.log(response);
-
-                        if (xhr.status === 201) {
+                        // console.log(response);
+                        if (xhr.status === 201 && response.status === 'success') {
                             $('#active-old-asset').modal('hide');
                             Swal.fire({
                                 icon: "success",
                                 title: "ACtive สำเร็จ!",
                                 showConfirmButton: false,
                                 timer: 1500
+                            });
+                        } else if (xhr.status === 201 && response.status === 'wn') {
+                            $('#active-old-asset').modal('hide');
+                            Swal.fire({
+                                icon: "warning",
+                                title: "สินทรัพย์ถูกยืนยันแล้ว",
+                                showConfirmButton: true,
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
                             });
                         } else {
                             Swal.fire({
@@ -244,6 +254,7 @@
                                 text: "กรุณาตรวจสอบข้อมูลก่อนบันทึก!",
                             });
                         }
+
                     },
                     error: function(xhr, textStatus, errorThrown) {
                         console.log("Error: ", xhr.responseText);
