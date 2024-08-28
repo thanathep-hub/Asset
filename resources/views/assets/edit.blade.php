@@ -69,26 +69,26 @@
                 <form action="javascript:updateAsset()">
                     <div class="mb-3">
                         <label for="edit-name-asset" class="form-label">ชื่อสินทรัพย์</label>
-                        <input type="text" class="form-control" id="edit-name-asset">
+                        <input type="text" class="form-control" id="edit-name-asset" required>
                     </div>
                     <div class="mb-3 row">
                         <div class="col-6">
                             <label for="edit-price-asset" class="form-label">ราคา</label>
-                            <input type="number" class="form-control" id="edit-price-asset">
+                            <input type="number" class="form-control" id="edit-price-asset" required>
                         </div>
                         <div class="col-6">
                             <label for="edit-amount-asset" class="form-label">จำนวน</label>
-                            <input type="number" class="form-control" id="edit-amount-asset">
+                            <input type="number" class="form-control" id="edit-amount-asset" required>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="edit-category-asset" class="form-label">ประเภทสินทรัพย์</label>
-                        <select class="form-select" id="edit-category-asset">
+                        <select class="form-select" id="edit-category-asset" required>
                         </select>
                     </div>
                     <div class="mb-3 row">
-                        <div class="col-6"><label for="inAssetStatus" class="form-label">สถานะ</label>
-                            <select class="form-select" id="inAssetStatus">
+                        <div class="col-6"><label for="edit-status-asset" class="form-label">สถานะ</label>
+                            <select class="form-select" id="edit-status-asset" required>
                                 <option value="1">ใช้งานอยู่</option>
                                 <option value="2">เสียหาย</option>
                                 <option value="3">เปลี่ยน</option>
@@ -263,8 +263,54 @@
         }
 
         function updateAsset() {
+            let dataUpdate = new FormData();
+            dataUpdate.append('id-asset', {{ $idAsset }});
+            dataUpdate.append('name-asset', document.getElementById('edit-name-asset').value);
+            dataUpdate.append('price-asset', document.getElementById('edit-price-asset').value);
+            dataUpdate.append('amount-asset', document.getElementById('edit-amount-asset').value);
+            dataUpdate.append('category-asset', document.getElementById('edit-category-asset').value);
+            dataUpdate.append('status-asset', document.getElementById('edit-status-asset').value);
+            dataUpdate.append('company-asset', document.getElementById('edit-company-asset').value);
+            dataUpdate.append('psrp-asset', document.getElementById('edit-psrp-asset').value);
+            dataUpdate.append('place-asset', document.getElementById('edit-place-asset').value);
             $('#edit-asset').modal('hide');
-            location.reload();
+
+            $.ajax({
+                type: "post",
+                url: "/assets/detail/update",
+                data: dataUpdate,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log(response);
+
+                    if (response.status === 'warning') {
+                        Swal.fire({
+                            icon: "warning",
+                            title: response.msg,
+                            showConfirmButton: true,
+                            confirmButtonText: 'ตกลง',
+                        });
+                    }
+
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            title: "บันทึกเรียบร้อยแล้ว", // "Saved successfully"
+                            confirmButtonText: 'ตกลง', // "OK"
+                            confirmButtonColor: '#369689'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
+                    }
+
+                }
+            });
+            // location.reload();
         }
     </script>
 @endpush

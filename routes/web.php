@@ -87,8 +87,10 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::get('/asset', 'AssetsController@assets');
     Route::get('/assets/search/text_query', 'AssetsController@assets_search');
     Route::get('/assets/detail/{id}', 'AssetsController@assets_detail');
+
     Route::post('/assets/new-asset', 'AssetsController@assets_new');
     Route::post('/assets/detail/active', 'AssetsController@assets_active');
+    Route::post('/assets/detail/update', 'AssetsController@assets_update');
 
     // generate QR code to asset component
     Route::get('/assets/create-component/', 'AssetsController@Create_component');

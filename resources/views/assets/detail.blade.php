@@ -369,7 +369,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li class="mb-1"><a class="dropdown-item" data-bs-toggle="modal"
-                            data-bs-target="#active-old-asset">Active</a></li>
+                            data-bs-target="#active-old-asset">ยืนยันสินทรัพย์</a></li>
                     <li class="mb-1"><a class="dropdown-item" onclick="waitUpdate()">ผูกสินทรัพย์</a></li>
                     <li class="mb-1"><a class="dropdown-item" onclick="editAssetM()">อัพเดตสินทรัพย์ </a></li>
 

@@ -199,7 +199,7 @@ class AssetsController extends Controller
 
         $insertAsset = DB::insert(
             "
-            INSERT INTO AssAssetD_test (AssetCode, AssetName, idComp, idType, idPsTs, DateTs, idPsRp, AssAmount, Price, idStAss)
+            INSERT INTO AssAssetD (AssetCode, AssetName, idComp, idType, idPsTs, DateTs, idPsRp, AssAmount, Price, idStAss)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [$assetCode, $assetName, $assetComp, $assetCategory, $assetPsts, $assetDateTs, $assetRSP, $assetAmount, $assetPrice, 1]
         );
@@ -208,7 +208,7 @@ class AssetsController extends Controller
             $AssetInvInsert_id = DB::getPdo()->lastInsertId();
             $insertAssetDt = DB::insert(
                 "
-                    INSERT INTO AssAssetDt_test (idAsset, stAssBuyDt)
+                    INSERT INTO AssAssetDt (idAsset, stAssBuyDt)
                     VALUES (?, ?)",
                 [$AssetInvInsert_id, 0]
             );
@@ -216,8 +216,8 @@ class AssetsController extends Controller
             if ($insertAssetDt) {
                 $i = 1;
                 foreach ($request->file('assetFile') as $file) {
-                    $fileName = $AssetInvInsert_id . time() . '_' . $i . "." . $file->getClientOriginalExtension();
-                    $file->storeAs('/Asset/testpic/', $fileName, 'ftp');
+                    $fileName = 'AS' . $AssetInvInsert_id . '_' . $i . "." . $file->getClientOriginalExtension();
+                    $file->storeAs('/Asset/newPath/', $fileName, 'ftp');
 
                     $insertImagPath = DB::insert(
                         "
@@ -314,7 +314,7 @@ class AssetsController extends Controller
 
         $insert_assetD = DB::insert(
             "
-            INSERT INTO AssAssetD_test (AssetCode, AssetName, idComp, idPsTs, DateTs, idPsRp, AssAmount, idStAss)
+            INSERT INTO AssAssetD (AssetCode, AssetName, idComp, idPsTs, DateTs, idPsRp, AssAmount, idStAss)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             [$assetCode, $qrAssetName, (int)session('user')->idComp, $assetPsts, $assetDateTs, $assetPsts, 1, 1]
         );
@@ -323,15 +323,15 @@ class AssetsController extends Controller
             $AssetInvInsert_id = DB::getPdo()->lastInsertId();
             $insertAssetDt = DB::insert(
                 "
-                    INSERT INTO AssAssetDt_test (idAsset, stAssBuyDt)
+                    INSERT INTO AssAssetDt (idAsset, stAssBuyDt)
                     VALUES (?, ?)",
                 [$AssetInvInsert_id, 0]
             );
             if ($insertAssetDt) {
                 $i = 1;
                 foreach ($request->file('qrAssetImg') as $file) {
-                    $fileName = $AssetInvInsert_id . time() . '_' . $i . "." . $file->getClientOriginalExtension();
-                    $file->storeAs('/Asset/testpic/', $fileName, 'ftp');
+                    $fileName = 'AS' . $AssetInvInsert_id . '_' . $i . "." . $file->getClientOriginalExtension();
+                    $file->storeAs('/Asset/newPath/', $fileName, 'ftp');
 
                     $insertImagPath = DB::insert(
                         "
@@ -341,14 +341,6 @@ class AssetsController extends Controller
                     );
                     $i++;
                 }
-
-                // $insertAssetComponent = DB::insert(
-                //     "
-                //     INSERT INTO Asset_Components (component_name, asset_d,acs_id, created_by, location)
-                //     VALUES (?, ?, ?, ?, ?)",
-                //     [$qrAssetName, $AssetInvInsert_id, 1, (int)session('user')->idPs, $qrAssetPlace]
-                // );
-
                 $updateAssetComponent = DB::update(
                     "
                         UPDATE Asset_Components
@@ -413,13 +405,13 @@ class AssetsController extends Controller
             );
 
             // รอ เปิดตอนใช้งานจริง
-            // $updateAsset = DB::update(
-            //     "
-            //         UPDATE AssAssetD
-            //         SET idPsRp = ?
-            //         WHERE idAsset = ?",
-            //     [$active_rsp, $idAsset]
-            // );
+            $updateAsset = DB::update(
+                "
+                    UPDATE AssAssetD
+                    SET idPsRp = ?
+                    WHERE idAsset = ?",
+                [$active_rsp, $idAsset]
+            );
 
             if ($insertAssetComponent) {
                 $AssetComponent_id = DB::getPdo()->lastInsertId();
@@ -443,6 +435,94 @@ class AssetsController extends Controller
         }
     }
 
+    public function assets_update(Request $request)
+    {
+        $check = $this->checkAssetComponent($request->input('id-asset'));
+
+        if (!$check) {
+            return response()->json([
+                'status' => 'warning',
+                'msg' => 'กรุณา active สินทรัพย์ก่อนอัพเดท',
+            ], 200);
+        }
+        $validated = $request->validate([
+            'name-asset' => 'required|string|max:255',
+            'price-asset' => 'required|numeric|min:0',
+            'amount-asset' => 'required|integer|min:1',
+            'category-asset' => 'required|string|max:255',
+            'status-asset' => 'required|string|max:50',
+            'company-asset' => 'required|string|max:255',
+            'psrp-asset' => 'nullable|numeric|min:0',
+            'place-asset' => 'required|string|max:255',
+        ]);
+
+        $_idAsset = $request->input('id-asset');
+        $_name = $request->input('name-asset');
+        $_price = number_format((float)$request->input('price-asset'), 2, '.', '');
+        $_amount = intval($request->input('amount-asset'));
+        $_category = $request->input('category-asset');
+        $_status = $request->input('status-asset');
+        $_company = $request->input('company-asset');
+        $_psrp = $request->input('psrp-asset');
+        $_place = $request->input('place-asset');
+
+        $update_assetD = DB::update(
+            "
+                UPDATE AssAssetD
+                SET AssetName = ?, Price = ?, AssAmount = ?, idType = ?, idComp = ?, idPsRp = ?
+                WHERE idAsset = ?",
+            [$_name, $_price, $_amount, $_category, $_company, $_psrp, $_idAsset]
+        );
+
+        if ($update_assetD) {
+            $update_component = DB::update(
+                "
+                UPDATE Asset_Components
+                SET component_name = ?, acs_id = ?, location = ?, updated_by= ?
+                WHERE asset_d = ?",
+                [$_name, $_status, $_place, (int)session('user')->idPs, $_idAsset]
+            );
+
+            if ($update_component) {
+
+                $select_asc_id = collect(DB::select("
+                    SELECT
+                        component_id
+                    FROM
+                        PchInvAndProject.dbo.Asset_Components
+                    WHERE
+                        asset_d = $_idAsset
+                "))->first();
+
+                if ($select_asc_id != null) {
+                    $insertAssetComponent_his = DB::insert(
+                        "
+                    INSERT INTO Asset_Component_History (acs_id, ac_id, acs_name, location_history)
+                    VALUES (?, ?, ?, ?)",
+                        [$_status, $select_asc_id->component_id, $_name, $_place]
+                    );
+
+                    if ($insertAssetComponent_his) {
+                        return response()->json([
+                            'status' => 'success',
+                            'msg' => 'Asset updated successfully',
+                        ], 200);
+                    } else {
+                        return response()->json([
+                            'status' => 'error',
+                            'msg' => 'has something error.',
+                        ], 200);
+                    }
+                }
+            }
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'has something error(update_assetD).',
+            ], 200);
+        }
+    }
+
     public function checkAssetComponent($id)
     {
         $checkAssetComponent = collect(DB::select("
@@ -461,7 +541,7 @@ class AssetsController extends Controller
             SELECT TOP
                 1 RIGHT ( pdas.AssetCode, LEN( pdas.AssetCode ) - 2 ) AS AssetNumber
             FROM
-                PchInvAndProject.dbo.AssAssetD_test pdas
+                PchInvAndProject.dbo.AssAssetD pdas
             ORDER BY
                 pdas.AssetCode DESC
         "))->first();
