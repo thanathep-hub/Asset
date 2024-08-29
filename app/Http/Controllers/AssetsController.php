@@ -50,6 +50,54 @@ class AssetsController extends Controller
         }
     }
 
+    public function search_query(Request $request)
+    {
+        $company = $request->input('company');
+        $category = $request->input('category');
+        $textQuery = $request->input('textQuery');
+
+        $cate = '';
+        $comp = '';
+
+        if ($company != 0) {
+            $comp = " AND a.idComp = $company ";
+        }
+        if ($category != 0) {
+            $cate = "AND a.idType = $category ";
+        }
+        try {
+            $query = DB::select(
+                "
+                SELECT top 10
+                    a.idAsset,
+                    a.AssetCode,
+                    SUBSTRING(a.AssetName,0,60) AS AssetName,
+                    a.AssAmount,
+                    t.AssTypeName,
+                    synd.CompCode
+                FROM
+                    PchInvAndProject.dbo.AssAssetD a
+                    LEFT JOIN PchInvAndProject.dbo.AssTypeD t ON a.idType = t.idAssType
+                    LEFT JOIN GR_Group.dbo.syndCompany synd ON a.idComp = synd.idComp
+                WHERE
+                    (a.idType IS NULL OR a.idType != 17)
+                    AND (a.idType IS NULL OR a.idType != 30)
+                    $comp
+                    $cate
+                    AND a.AssetName LIKE ?
+                ORDER BY
+                    a.idAsset DESC
+        ",
+                ["%$textQuery%"]
+            );
+
+            if ($query) {
+                return response()->json($query);
+            }
+        } catch (\Throwable $th) {
+        }
+    }
+
     public function assets_detail($id)
     {
         $idAsset = $id;

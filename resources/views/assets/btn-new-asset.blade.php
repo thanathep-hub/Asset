@@ -161,7 +161,9 @@
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"> {{-- modal-fullscreen-sm-down --}}
         <div class="modal-content border-0">
             <div class="modal-header border-0" style="background-color: #f3f1ff;">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">เพิ่มสินทรัพย์ใหม่</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel" style="color: #172554;"><img class="pe-2"
+                        src="{{ asset('assets/write.png') }}" height="28px">เพิ่มสินทรัพย์ใหม่
+                </h1>
                 <button type="button" class="btn-close-new-asset" data-bs-dismiss="modal" aria-label="Close"><i
                         class="fa-solid fa-xmark"></i></button>
             </div>

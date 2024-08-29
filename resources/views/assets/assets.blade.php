@@ -102,53 +102,38 @@
     </style>
 @endpush
 @section('content')
-    <div class="mt-4 mb-3 search-bar row d-flex justify-content-center align-items-center">
-        <div class="col-md-6">
+    @include('assets.search')
+    <div class="d-none">
+        <div class="mt-4 mb-3 search-bar row d-flex justify-content-center align-items-center">
+            <div class="col-md-6">
 
-            <div class="form">
-                <i class="fa fa-search"></i>
-                <input type="search" class="form-control form-input border-0" placeholder="ค้นหารายการสินทรัพย์..."
-                    id="searchAsset" style="font-size: 16px;height:44px;">
-            </div>
-        </div>
-    </div>
-
-    {{-- <div class="border-bottom mb-3" style="border-bottom: 2px solid #87b4ff2e;"></div> --}}
-    <div class=" search-bar row d-flex justify-content-center align-items-center" style="padding-right: .75rem;">
-        <div class="col-md-6">
-            <div class="count-search" style="text-align: end;height:24px;">
-                <span style="color: #3759be;">ผลลัพย์ <span id="amountResult">0</span> รายการ</span>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="justify-content-center align-items-center" id="showResult" style="text-align: -webkit-center;">
-        {{-- <div class="col-md-6">
-            <div class="card justify-content-center mb-3" style="height: 100px;">
-                <div class="row m-0">
-                    <div class="col-3" style="text-align: center;">
-                        <img src="https://seedsgroup.dyndns.org/spm/Asset/PicAsset/+items.idAsset+_1.png"
-                            onerror="this.src = '{{ asset('project/no-photo.png') }}';" alt="" height="60px">
-                    </div>
-                    <div class="col-9" style="align-content: center;">
-                        <h6 style="font-size: 16px;"> +items.AssetName+
-                        </h6>
-                        <span class="text-gray" style="font-size: 14px;">จำนวน +items.AssAmount+ </span>
-                    </div>
+                <div class="form">
+                    <i class="fa fa-search"></i>
+                    <input type="search" class="form-control form-input border-0" placeholder="ค้นหารายการสินทรัพย์..."
+                        id="searchAsset" style="font-size: 16px;height:44px;">
                 </div>
-
             </div>
-        </div> --}}
+        </div>
+
+        <div class=" search-bar row d-flex justify-content-center align-items-center" style="padding-right: .75rem;">
+            <div class="col-md-6">
+                <div class="count-search" style="text-align: end;height:24px;">
+                    <span style="color: #3759be;">ผลลัพย์ <span id="amountResult">0</span> รายการ</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="justify-content-center align-items-center" id="showResult" style="text-align: -webkit-center;">
+        </div>
     </div>
+
 
     <div class="fixed-bottom "> {{-- d-md-none --}}
         <div class="text-end p-3 mb-3">
             <div class="btn-group dropup">
                 <button type="button" class="btn dropdown-toggle btn-manage-asset border-0" data-bs-toggle="dropdown"
                     aria-expanded="false" style="min-width: 160px;min-height: 44px;background-color: #369689;color:#fff;">
-                    {{-- background-color:#6857E8; --}}
-                    New <i class="fa-solid fa-pen ps-2"></i>
+                    <i class="fa-solid fa-pen pe-2"></i> New
                 </button>
                 <ul class="dropdown-menu">
                     <li class="mb-1">
