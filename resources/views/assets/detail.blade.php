@@ -193,16 +193,153 @@
         .input-invalid {
             color: #ff0000;
         }
+
+        /* Accordion */
+
+        .accordion {
+            border: none;
+            --bs-accordion-border-color: unset;
+            --bs-accordion-border-width: unset;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: #ffffff;
+            color: unset;
+            box-shadow: unset;
+        }
+
+        .accordion-button:focus {
+            border-color: unset;
+        }
     </style>
 @endpush
 @section('content')
-    <div class="mt-4 search-bar"> {{-- d-md-none --}}
+
+    <div class="mt-4">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapseOne">
+                                <h5>
+                                    ข้อมูลพื้นฐานของสินทรัพย์
+                                </h5>
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                <div class="row px-4">
+                                    <div class="col-2 p-1">
+                                        <label for="asset-name" class="form-label">ชื่อสินทรัพย์</label>
+                                    </div>
+                                    <div class="col-10 p-1">
+                                        <label id="asset-name" class="form-label">จอLED Monitor 23.8 VIEWSONIC
+                                            VA2432</label>
+                                    </div>
+
+                                    <div class="col-2 p-1">
+                                        <label for="company" class="form-label">บริษัท</label>
+                                    </div>
+                                    <div class="col-10 p-1">
+                                        <label id="company" class="form-label">บริษัท กรีนซีดส์ จำกัด</label>
+                                    </div>
+
+                                    <div class="col-2 p-1">
+                                        <label for="type" class="form-label">ประเภท</label>
+                                    </div>
+                                    <div class="col-10 p-1">
+                                        <label id="type" class="form-label">อุปกรณ์อื่นๆ</label>
+                                    </div>
+
+                                    <div class="col-2 p-1">
+                                        <label for="location" class="form-label">สถานที่</label>
+                                    </div>
+                                    <div class="col-10 p-1">
+                                        <label id="location" class="form-label">บริษัท กรีนซีดส์ จำกัด</label>
+                                    </div>
+
+                                    <div class="col-2 p-1">
+                                        <label for="quantity" class="form-label">จำนวน</label>
+                                    </div>
+                                    <div class="col-10 p-1">
+                                        <label id="quantity" class="form-label">1</label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseTwo">
+                                <h5>การจัดซื้อและสถานะ</h5>
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <strong>This is the second item's accordion body.</strong> It is hidden by default, until
+                                the collapse plugin adds the appropriate classes that we use to style each element. These
+                                classes control the overall appearance, as well as the showing and hiding via CSS
+                                transitions. You can modify any of this with custom CSS or overriding our default variables.
+                                It's also worth noting that just about any HTML can go within the
+                                <code>.accordion-body</code>, though the transition does limit overflow.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseThree">
+                                <h5>การเงินและการคำนวณค่าเสื่อม</h5>
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <strong>This is the third item's accordion body.</strong> It is hidden by default, until the
+                                collapse plugin adds the appropriate classes that we use to style each element. These
+                                classes control the overall appearance, as well as the showing and hiding via CSS
+                                transitions. You can modify any of this with custom CSS or overriding our default variables.
+                                It's also worth noting that just about any HTML can go within the
+                                <code>.accordion-body</code>, though the transition does limit overflow.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseThree">
+                                <h5>ข้อมูลประกัน</h5>
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <strong>This is the third item's accordion body.</strong> It is hidden by default, until the
+                                collapse plugin adds the appropriate classes that we use to style each element. These
+                                classes control the overall appearance, as well as the showing and hiding via CSS
+                                transitions. You can modify any of this with custom CSS or overriding our default variables.
+                                It's also worth noting that just about any HTML can go within the
+                                <code>.accordion-body</code>, though the transition does limit overflow.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4"></div>
+        </div>
+    </div>
+
+
+    <div class="mt-4 search-bar d-none">
         <div class="card card-asset-detail" style="padding: .75rem 0rem 1.5rem 0rem;">
             <div class="row d-flex justify-content-center align-items-center m-0 mb-3 mt-3">
-                {{-- <div class="col-12 mb-3 text-end">
-                    <img class="" src="{{ asset('assets/unsuccess.png') }}" height="24px">
-                    <span class="form-label" style="font-weight: 500;color:#262c40a8;">รอยืนยัน</span>
-                </div> --}}
                 <div class="col-md-8">
                     <div class="align-items-center" style="text-align: -webkit-center;">
                         <div class="asset-box-img mb-3">
@@ -218,7 +355,8 @@
                 <div class="border-bottom mb-3" style="width: 95%;"></div>
                 <div class="col-12 row mb-2">
                     <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">สถานะสินทรัพย์</label>
-                    <label class="col-7 text-end" style="font-weight: 500;" id="AssetStatus"><samp>ใช้งานอยู่</samp></label>
+                    <label class="col-7 text-end" style="font-weight: 500;"
+                        id="AssetStatus"><samp>ใช้งานอยู่</samp></label>
                 </div>
                 <div class="col-12 row mb-2">
                     <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">จำนวน</label>
