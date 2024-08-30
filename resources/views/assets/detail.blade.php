@@ -197,9 +197,9 @@
         /* Accordion */
 
         .accordion {
-            border: none;
-            --bs-accordion-border-color: unset;
-            --bs-accordion-border-width: unset;
+            /* border: none; */
+            /* --bs-accordion-border-color: unset; */
+            /* --bs-accordion-border-width: unset; */
         }
 
         .accordion-button:not(.collapsed) {
@@ -211,102 +211,119 @@
         .accordion-button:focus {
             border-color: unset;
         }
+
+        .f-14 {
+            font-size: 14px;
+        }
+
+        .f-16 {
+            font-size: 16px;
+        }
     </style>
 @endpush
 @section('content')
 
-    <div class="mt-4">
+    <div class="mt-4 mb-4">
         <div class="row">
             <div class="col-12 col-lg-8">
                 <div class="accordion" id="accordionPanelsStayOpenExample">
+
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
                                 aria-controls="panelsStayOpen-collapseOne">
-                                <h5>
+                                <h6>
                                     ข้อมูลพื้นฐานของสินทรัพย์
-                                </h5>
+                                </h6>
                             </button>
                         </h2>
                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
                             <div class="accordion-body">
-                                <div class="row px-4">
-                                    <div class="col-2 p-1">
-                                        <label for="asset-name" class="form-label">ชื่อสินทรัพย์</label>
+
+                                <div class="row px-2">
+                                    <div class="col-4">
+                                        <label for="asset-name " class="form-label f-14 text-bold text-black">ชื่อ</label>
                                     </div>
-                                    <div class="col-10 p-1">
-                                        <label id="asset-name" class="form-label">จอLED Monitor 23.8 VIEWSONIC
+                                    <div class="col-8">
+                                        <label id="asset-name" class="form-label f-14" style="color: #646b76;">จอLED Monitor
+                                            23.8
+                                            VIEWSONIC
                                             VA2432</label>
                                     </div>
 
-                                    <div class="col-2 p-1">
-                                        <label for="company" class="form-label">บริษัท</label>
+                                    <div class="col-4">
+                                        <label for="type" class="form-label f-14 text-bold text-black">ประเภท</label>
                                     </div>
-                                    <div class="col-10 p-1">
-                                        <label id="company" class="form-label">บริษัท กรีนซีดส์ จำกัด</label>
-                                    </div>
-
-                                    <div class="col-2 p-1">
-                                        <label for="type" class="form-label">ประเภท</label>
-                                    </div>
-                                    <div class="col-10 p-1">
-                                        <label id="type" class="form-label">อุปกรณ์อื่นๆ</label>
+                                    <div class="col-8">
+                                        <label id="type" class="form-label f-14">อุปกรณ์อื่นๆ</label>
                                     </div>
 
-                                    <div class="col-2 p-1">
-                                        <label for="location" class="form-label">สถานที่</label>
+                                    <div class="col-4">
+                                        <label for="location"
+                                            class="form-label f-14 text-bold text-black">สถานที่ใช้งาน</label>
                                     </div>
-                                    <div class="col-10 p-1">
-                                        <label id="location" class="form-label">บริษัท กรีนซีดส์ จำกัด</label>
-                                    </div>
-
-                                    <div class="col-2 p-1">
-                                        <label for="quantity" class="form-label">จำนวน</label>
-                                    </div>
-                                    <div class="col-10 p-1">
-                                        <label id="quantity" class="form-label">1</label>
+                                    <div class="col-8">
+                                        <label id="location" class="form-label f-14">บริษัท กรีนซีดส์ จำกัด</label>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
                                 aria-controls="panelsStayOpen-collapseTwo">
-                                <h5>การจัดซื้อและสถานะ</h5>
+                                <h6>การจัดซื้อและสถานะ</h6>
+
                             </button>
                         </h2>
                         <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
                             <div class="accordion-body">
-                                <strong>This is the second item's accordion body.</strong> It is hidden by default, until
-                                the collapse plugin adds the appropriate classes that we use to style each element. These
-                                classes control the overall appearance, as well as the showing and hiding via CSS
-                                transitions. You can modify any of this with custom CSS or overriding our default variables.
-                                It's also worth noting that just about any HTML can go within the
-                                <code>.accordion-body</code>, though the transition does limit overflow.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseThree">
-                                <h5>การเงินและการคำนวณค่าเสื่อม</h5>
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
-                            <div class="accordion-body">
-                                <strong>This is the third item's accordion body.</strong> It is hidden by default, until the
-                                collapse plugin adds the appropriate classes that we use to style each element. These
-                                classes control the overall appearance, as well as the showing and hiding via CSS
-                                transitions. You can modify any of this with custom CSS or overriding our default variables.
-                                It's also worth noting that just about any HTML can go within the
-                                <code>.accordion-body</code>, though the transition does limit overflow.
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label for="company" class="form-label f-14 text-bold text-black">บริษัท</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">บริษัท กรีนซีดส์ จำกัด</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="company"
+                                            class="form-label f-14 text-bold text-black">ผู้จัดซื้อ</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">ธุมากร สุมาทัย</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="company" class="form-label f-14 text-bold text-black">Supplier</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">บริษัท กรีนซีดส์ จำกัด</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="company" class="form-label f-14 text-bold text-black">สถานะ</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">ใช้งาน</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="company"
+                                            class="form-label f-14 text-bold text-black">วันที่ซื้อ</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">05/04/2567</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="company"
+                                            class="form-label f-14 text-bold text-black">วันที่เริ่มใช้</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">05/04/2567</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -316,26 +333,160 @@
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
                                 aria-controls="panelsStayOpen-collapseThree">
-                                <h5>ข้อมูลประกัน</h5>
+                                <h6>การเงินและการคำนวณค่าเสื่อม</h6>
                             </button>
                         </h2>
                         <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
                             <div class="accordion-body">
-                                <strong>This is the third item's accordion body.</strong> It is hidden by default, until the
-                                collapse plugin adds the appropriate classes that we use to style each element. These
-                                classes control the overall appearance, as well as the showing and hiding via CSS
-                                transitions. You can modify any of this with custom CSS or overriding our default variables.
-                                It's also worth noting that just about any HTML can go within the
-                                <code>.accordion-body</code>, though the transition does limit overflow.
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label for="company" class="form-label f-14 text-bold text-black">ราคาทุน</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">5,780.00 บาท</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="company" class="form-label f-14 text-bold text-black">ราคาซาก</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">0.00 บาท</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="company"
+                                            class="form-label f-14 text-bold text-black">อัตราเสื่อมราคา</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">20.00%</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="company"
+                                            class="form-label f-14 text-bold text-black">วิธีคิดค่าเสื่อม</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">คิดค่าเสื่อมต่อปีเอง</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="company" class="form-label f-14 text-bold text-black">มูลค่า ณ
+                                            ปัจจุบัน</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">5,780.00 บาท</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="company"
+                                            class="form-label f-14 text-bold text-black">ค่าเสื่อม</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">0.00 บาท</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="company"
+                                            class="form-label f-14 text-bold text-black">ถึงวันที่</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">05/04/2572</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseFour">
+                                <h6>ข้อมูลประกัน</h6>
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label for="company"
+                                            class="form-label f-14 text-bold text-black">สถานะประกัน</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">มีประกัน</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="company"
+                                            class="form-label f-14 text-bold text-black">วันที่เริ่มประกัน</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">05/04/2572</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="company"
+                                            class="form-label f-14 text-bold text-black">วันที่หมดประกัน</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">05/04/2572</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="company"
+                                            class="form-label f-14 text-bold text-black">ระยะประกัน</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">5 ปี</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseFive">
+                                <h6>ข้อมูลการใช้งาน</h6>
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label for="company"
+                                            class="form-label f-14 text-bold text-black">อายุการใช้งานที่ตั้งไว้</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">5 ปี</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="company"
+                                            class="form-label f-14 text-bold text-black">อายุการใช้งานปัจจุบัน</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="company" class="form-label f-14">0 ปี</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            <div class="col-12 col-lg-4"></div>
+            <div class="col-12 col-lg-4">
+                <div class="items-conllection">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title mb-3">สินทรัพย์เชื่อมโยง</h6>
+                            <div class="d-flex mb-3 search-result-list p-2">
+                                <img src="{{ asset('assets/box.png') }}" class="pe-3" height="44">
+                                <div class="detal">
+                                    <label for="">กล่องทดสอบแสดงรายการ</label>
+                                    <p style="color:#9ca3af;">company</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
         </div>
     </div>
-
 
     <div class="mt-4 search-bar d-none">
         <div class="card card-asset-detail" style="padding: .75rem 0rem 1.5rem 0rem;">
