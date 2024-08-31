@@ -212,6 +212,12 @@
             border-color: unset;
         }
 
+        .scrollImg {
+            overflow: auto;
+            white-space: nowrap;
+            /* scrollbar-width: none; */
+        }
+
         .f-14 {
             font-size: 14px;
         }
@@ -241,30 +247,34 @@
                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
                             <div class="accordion-body">
 
-                                <div class="row px-2">
+                                <div class="row mt-3 px-2">
                                     <div class="col-4">
                                         <label for="asset-name " class="form-label f-14 text-bold text-black">ชื่อ</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-name" class="form-label f-14" style="color: #646b76;">จอLED Monitor
-                                            23.8
-                                            VIEWSONIC
-                                            VA2432</label>
+                                        <label id="asset-name" class="form-label f-14" style="color: #646b76;"></label>
                                     </div>
 
                                     <div class="col-4">
-                                        <label for="type" class="form-label f-14 text-bold text-black">ประเภท</label>
+                                        <label for="asset-type" class="form-label f-14 text-bold text-black">ประเภท</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="type" class="form-label f-14">อุปกรณ์อื่นๆ</label>
+                                        <label id="asset-type" class="form-label f-14"></label>
                                     </div>
 
                                     <div class="col-4">
-                                        <label for="location"
+                                        <label for="asset-location"
                                             class="form-label f-14 text-bold text-black">สถานที่ใช้งาน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="location" class="form-label f-14">บริษัท กรีนซีดส์ จำกัด</label>
+                                        <label id="asset-location" class="form-label f-14"></label>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="asset-amount" class="form-label f-14 text-bold text-black">จำนวน</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="asset-amount" class="form-label f-14"></label>
                                     </div>
 
                                 </div>
@@ -285,43 +295,45 @@
                             <div class="accordion-body">
                                 <div class="row">
                                     <div class="col-4">
-                                        <label for="company" class="form-label f-14 text-bold text-black">บริษัท</label>
+                                        <label for="asset-company"
+                                            class="form-label f-14 text-bold text-black">บริษัท</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">บริษัท กรีนซีดส์ จำกัด</label>
+                                        <label id="asset-company" class="form-label f-14"></label>
                                     </div>
                                     <div class="col-4">
-                                        <label for="company"
+                                        <label for="asset-psrp"
                                             class="form-label f-14 text-bold text-black">ผู้จัดซื้อ</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">ธุมากร สุมาทัย</label>
+                                        <label id="asset-psrp" class="form-label f-14"></label>
                                     </div>
                                     <div class="col-4">
-                                        <label for="company" class="form-label f-14 text-bold text-black">Supplier</label>
+                                        <label for="asset-supplier"
+                                            class="form-label f-14 text-bold text-black">Supplier</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">บริษัท กรีนซีดส์ จำกัด</label>
+                                        <label id="asset-supplier" class="form-label f-14"></label>
                                     </div>
                                     <div class="col-4">
-                                        <label for="company" class="form-label f-14 text-bold text-black">สถานะ</label>
+                                        <label for="asset-status" class="form-label f-14 text-bold text-black">สถานะ</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">ใช้งาน</label>
+                                        <label id="asset-status" class="form-label f-14"></label>
                                     </div>
                                     <div class="col-4">
-                                        <label for="company"
+                                        <label for="asset-datepurchase"
                                             class="form-label f-14 text-bold text-black">วันที่ซื้อ</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">05/04/2567</label>
+                                        <label id="asset-datepurchase" class="form-label f-14"></label>
                                     </div>
                                     <div class="col-4">
-                                        <label for="company"
+                                        <label for="asset-datestart"
                                             class="form-label f-14 text-bold text-black">วันที่เริ่มใช้</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">05/04/2567</label>
+                                        <label id="asset-datestart" class="form-label f-14">05/04/2567</label>
                                     </div>
                                 </div>
                             </div>
@@ -340,51 +352,47 @@
                             <div class="accordion-body">
                                 <div class="row">
                                     <div class="col-4">
-                                        <label for="company" class="form-label f-14 text-bold text-black">ราคาทุน</label>
+                                        <label for="asset-price"
+                                            class="form-label f-14 text-bold text-black">ราคาทุน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">5,780.00 บาท</label>
+                                        <label id="asset-price" class="form-label f-14"></label>
                                     </div>
                                     <div class="col-4">
-                                        <label for="company" class="form-label f-14 text-bold text-black">ราคาซาก</label>
+                                        <label for="asset-pricescrap"
+                                            class="form-label f-14 text-bold text-black">ราคาซาก</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">0.00 บาท</label>
+                                        <label id="asset-pricescrap" class="form-label f-14"></label>
                                     </div>
                                     <div class="col-4">
-                                        <label for="company"
+                                        <label for="asset-depreciationrate"
                                             class="form-label f-14 text-bold text-black">อัตราเสื่อมราคา</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">20.00%</label>
+                                        <label id="asset-depreciationrate" class="form-label f-14"></label>
                                     </div>
                                     <div class="col-4">
-                                        <label for="company"
-                                            class="form-label f-14 text-bold text-black">วิธีคิดค่าเสื่อม</label>
-                                    </div>
-                                    <div class="col-8">
-                                        <label id="company" class="form-label f-14">คิดค่าเสื่อมต่อปีเอง</label>
-                                    </div>
-                                    <div class="col-4">
-                                        <label for="company" class="form-label f-14 text-bold text-black">มูลค่า ณ
+                                        <label for="asset-presentvalue"
+                                            class="form-label f-14 text-bold text-black">มูลค่า ณ
                                             ปัจจุบัน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">5,780.00 บาท</label>
+                                        <label id="asset-presentvalue" class="form-label f-14"></label>
                                     </div>
                                     <div class="col-4">
-                                        <label for="company"
+                                        <label for="asset-depreciation"
                                             class="form-label f-14 text-bold text-black">ค่าเสื่อม</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">0.00 บาท</label>
+                                        <label id="asset-depreciation" class="form-label f-14"></label>
                                     </div>
                                     <div class="col-4">
-                                        <label for="company"
+                                        <label for="asset-depreciation-time"
                                             class="form-label f-14 text-bold text-black">ถึงวันที่</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">05/04/2572</label>
+                                        <label id="asset-depreciation-time" class="form-label f-14"></label>
                                     </div>
                                 </div>
                             </div>
@@ -403,32 +411,32 @@
                             <div class="accordion-body">
                                 <div class="row">
                                     <div class="col-4">
-                                        <label for="company"
+                                        <label for="asset-insurancestatus"
                                             class="form-label f-14 text-bold text-black">สถานะประกัน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">มีประกัน</label>
+                                        <label id="asset-insurancestatus" class="form-label f-14"></label>
                                     </div>
                                     <div class="col-4">
-                                        <label for="company"
+                                        <label for="asset-insurancestart"
                                             class="form-label f-14 text-bold text-black">วันที่เริ่มประกัน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">05/04/2572</label>
+                                        <label id="asset-insurancestart" class="form-label f-14"></label>
                                     </div>
                                     <div class="col-4">
-                                        <label for="company"
+                                        <label for="asset-insuranceend"
                                             class="form-label f-14 text-bold text-black">วันที่หมดประกัน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">05/04/2572</label>
+                                        <label id="asset-insuranceend" class="form-label f-14"></label>
                                     </div>
                                     <div class="col-4">
-                                        <label for="company"
+                                        <label for="asset-warranty-period"
                                             class="form-label f-14 text-bold text-black">ระยะประกัน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">5 ปี</label>
+                                        <label id="asset-warranty-period" class="form-label f-14"></label>
                                     </div>
                                 </div>
                             </div>
@@ -447,18 +455,18 @@
                             <div class="accordion-body">
                                 <div class="row">
                                     <div class="col-4">
-                                        <label for="company"
+                                        <label for="asset-setdate"
                                             class="form-label f-14 text-bold text-black">อายุการใช้งานที่ตั้งไว้</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">5 ปี</label>
+                                        <label id="asset-setdate" class="form-label f-14"></label>
                                     </div>
                                     <div class="col-4">
-                                        <label for="company"
+                                        <label for="asset-currentdate"
                                             class="form-label f-14 text-bold text-black">อายุการใช้งานปัจจุบัน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="company" class="form-label f-14">0 ปี</label>
+                                        <label id="asset-currentdate" class="form-label f-14"></label>
                                     </div>
                                 </div>
                             </div>
@@ -488,69 +496,6 @@
         </div>
     </div>
 
-    <div class="mt-4 search-bar d-none">
-        <div class="card card-asset-detail" style="padding: .75rem 0rem 1.5rem 0rem;">
-            <div class="row d-flex justify-content-center align-items-center m-0 mb-3 mt-3">
-                <div class="col-md-8">
-                    <div class="align-items-center" style="text-align: -webkit-center;">
-                        <div class="asset-box-img mb-3">
-                            <img class="asset-img"
-                                src="https://seedsgroup.dyndns.org/spm/Asset/PicAsset/{{ $idAsset }}_1.jpg"
-                                style="width: 100%;border-radius:12px;">
-                        </div>
-                        <div class="text-center">
-                            <h6 id="AssetName">เครื่องพ่นยา ฮอนด้า(HONDA) พร้อมเครื่องยนต์ 3 สูบพร้อมเครื่องยนต์</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-bottom mb-3" style="width: 95%;"></div>
-                <div class="col-12 row mb-2">
-                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">สถานะสินทรัพย์</label>
-                    <label class="col-7 text-end" style="font-weight: 500;"
-                        id="AssetStatus"><samp>ใช้งานอยู่</samp></label>
-                </div>
-                <div class="col-12 row mb-2">
-                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">จำนวน</label>
-                    <label class="col-7 text-end" style="font-weight: 500;" id="AssetAmount"></label>
-                </div>
-                <div class="col-12 row mb-2">
-                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">Serial Number</label>
-                    <label class="col-7 text-end" style="font-weight: 500;" id="SerialNumber">mz62347-er2</label>
-                </div>
-                <div class="col-12 row mb-2">
-                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">ประเภทสินทรัพย์</label>
-                    <label class="col-7 text-end" style="font-weight: 500;" id="AssetType">อุปกรณ์อื่นๆ</label>
-                </div>
-                <div class="col-12 row mb-2">
-                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">วันที่ซื้อ</label>
-                    <label class="col-7 text-end" style="font-weight: 500;" id="PurchaseDate">29/06/2567</label>
-                </div>
-                <div class="col-12 row mb-2">
-                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">สถานที่ใช้งาน</label>
-                    <label class="col-7 text-end" style="font-weight: 500;" id="Location">บริษัท กรีนซีดส์ จำกัด</label>
-                </div>
-
-                <div class="col-12 row mb-2">
-                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">ผู้รับผิดชอบ</label>
-                    <label class="col-7 text-end" style="font-weight: 500;" id="ResponsiblePerson">เพชรินทร์ ชลูด</label>
-                </div>
-
-                <div class="border-bottom mb-3" style="width: 95%;"></div>
-                <div class="col-12 row mb-2">
-                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">อายุการใช้งาน</label>
-                    <label class="col-7 text-end" style="font-weight: 500;" id="AssetYear">5 ปี</label>
-                </div>
-                <div class="col-12 row mb-2">
-                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">มูลค่าต้นทุน</label>
-                    <label class="col-7 text-end" style="font-weight: 500;" id="Cost">3,000 บาท</label>
-                </div>
-                <div class="col-12 row mb-3">
-                    <label class="col-5 text-start" style="color: #262c40a8;font-weight: 500;">มูลค่าคงเหลือ</label>
-                    <label class="col-7 text-end" style="font-weight: 500;color:#f8493b;" id="Value">1 บาท</label>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="modal fade" id="add-new-asset" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-fullscreen-sm-down"> {{-- modal-fullscreen-sm-down --}}
@@ -717,27 +662,96 @@
 
             let price = parseFloat(data.Price);
 
-            document.getElementById("AssetName").innerText = data.AssetName;
+            document.getElementById("asset-name").innerText = data.AssetName ? data.AssetName : "รอการอัพเดท";
+            document.getElementById("asset-type").innerText = data.AssTypeName ? data.AssTypeName : "รอการอัพเดท";
+            document.getElementById("asset-location").innerText = data.location ? data.location : "รอการอัพเดท";
+            document.getElementById("asset-amount").innerText = data.AssAmount ? (parseInt(data.AssAmount, 10)) +
+                " รายการ" : "รอการอัพเดท";
+
             document.getElementById("inAssetName_active").value = data.AssetName;
 
-            document.getElementById("AssetAmount").innerText = (parseInt(data.AssAmount, 10));;
-            document.getElementById("AssetType").innerText = (data.AssTypeName || 'ไม่ถูกระบุ');
-            document.getElementById("PurchaseDate").innerText = data.AssDateT;
-            document.getElementById("Location").innerText = data.CompName;
-            document.getElementById("ResponsiblePerson").innerText = data.emp_PsName;
-            document.getElementById("SerialNumber").innerText = "#AS000x";
-            document.getElementById("Cost").innerText = new Intl.NumberFormat('th-TH', {
+            document.getElementById("asset-company").innerText = data.CompName ? data.CompName : "รอการอัพเดท";
+            document.getElementById("asset-psrp").innerText = data.emp_PsName ? data.emp_PsName : "รอการอัพเดท";
+            document.getElementById("asset-supplier").innerText = data.supplier ? data.supplier : "รอการอัพเดท";
+            document.getElementById("asset-status").innerText = data.status_name ? data.status_name : "รอการอัพเดท";
+            document.getElementById("asset-datepurchase").innerText = data.AssDateT ? data.AssDateT : "รอการอัพเดท";
+            document.getElementById("asset-datestart").innerText = data.AssDateT ? data.AssDateT : "รอการอัพเดท";
+
+            document.getElementById("asset-price").innerText = new Intl.NumberFormat('th-TH', {
                 style: 'currency',
                 currency: 'THB'
             }).format(parseFloat(data.Price)) + " บาท";
 
+            document.getElementById("asset-pricescrap").innerText = data.pricescrap ? data.pricescrap : "รอการอัพเดท";
+            document.getElementById("asset-depreciationrate").innerText = (parseInt(data.AssPerc, 10)) ? (parseInt(data
+                .AssPerc, 10)) + "%" : "รอการอัพเดท";
+
             const lifespanDays = (parseInt(data.AssYearType) || 5) * 365;
             const currentDays = calDate(data.AssDateT);
-            document.getElementById("AssetYear").innerText = (data.AssYearType || 'ไม่ถูกระบุ') + " ปี";
-            document.getElementById("Value").innerText = new Intl.NumberFormat('th-TH', {
+            document.getElementById("asset-presentvalue").innerText = data.AssDateT ? new Intl.NumberFormat('th-TH', {
                 style: 'currency',
                 currency: 'THB'
-            }).format(parseFloat(calculateAssetValue(price, lifespanDays, currentDays))) + " บาท";
+            }).format(parseFloat(calculateAssetValue(price, lifespanDays, currentDays))) + " บาท" : "รอการอัพเดท";
+
+            document.getElementById("asset-depreciation").innerText = isNaN(parseFloat(price - calculateAssetValue(price,
+                    lifespanDays, currentDays))) ?
+                "รอการอัพเดท" :
+                parseFloat(price - calculateAssetValue(price, lifespanDays, currentDays)).toFixed(2) + " บาท";
+            let [day, month, buddhistYear] = data.AssDateT.split("/").map(Number);
+            let date = new Date(buddhistYear - 543, month - 1, day);
+            date.setFullYear(date.getFullYear() + 5);
+
+            document.getElementById("asset-depreciation-time").innerText = data.AssDateT ?
+                `${("0" + date.getDate()).slice(-2)}/${("0" + (date.getMonth() + 1)).slice(-2)}/${date.getFullYear() + 543}` :
+                "รอการอัพเดท";
+
+            document.getElementById("asset-insurancestatus").innerText = data.stIns ? data.stIns : "รอการอัพเดท";
+            document.getElementById("asset-insurancestart").innerText = data.DateInsurStrat ? data.DateInsurStrat :
+                "รอการอัพเดท";
+            document.getElementById("asset-insuranceend").innerText = data.DateInsurEnd ? data.DateInsurEnd : "รอการอัพเดท";
+
+            if (!data.DateInsurStrat && !data.DateInsurEnd) {
+                document.getElementById("asset-warranty-period").innerText = "รอการอัพเดท";
+            } else {
+                const convertDated = (date) => new Date(date.split('/').reverse().map((v, i) => i === 0 ? v - 543 : v).join(
+                    '-'));
+                let diffInDays = Math.ceil(Math.abs(convertDated(data.DateInsurEnd) - convertDated(data.DateInsurStrat)) / (
+                    1000 *
+                    60 * 60 * 24));
+                const convertDate = (date) => new Date(date.split('/').reverse().map((v, i) => i === 0 ? v - 543 : v).join(
+                    '-'));
+                let d1 = convertDate(data.DateInsurStrat),
+                    d2 = convertDate(data.DateInsurEnd);
+                let yearsDiff = d2.getFullYear() - d1.getFullYear() - (d2 < new Date(d1.setFullYear(d1.getFullYear() + (d2
+                    .getFullYear() - d1.getFullYear()))) ? 1 : 0);
+
+                document.getElementById("asset-warranty-period").innerText = (yearsDiff || yearsDiff === 0) ? yearsDiff +
+                    " ปี" + " หรือ " + diffInDays + " วัน" : "รอการอัพเดท";
+            }
+
+            document.getElementById("asset-setdate").innerText = data.AssYearType ? data.AssYearType + " ปี" :
+                "รอการอัพเดท";
+
+            if (!data.AssDateT) {
+                document.getElementById("asset-currentdate").innerText = "รอการอัพเดท";
+            } else {
+                const currentDate = new Date();
+                const buddhistDate = convertToBuddhistDate(currentDate);
+                const dateCurrent = calculateDateDifference(data.AssDateT, buddhistDate);
+                document.getElementById("asset-currentdate").innerText = dateCurrent ? dateCurrent.days + " วัน " +
+                    dateCurrent
+                    .months + " เดือน " + dateCurrent.years + " ปี" :
+                    "รอการอัพเดท";
+            }
+
+        }
+
+        function convertToBuddhistDate(date) {
+            const year = date.getFullYear();
+            const buddhistYear = year + 543;
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            return `${day}/${month}/${buddhistYear}`;
         }
 
         function calculateAssetValue(price, lifespanDays, currentDays) {
@@ -752,6 +766,41 @@
             // คำนวณมูลค่าลดลง
             const valueAfterDepreciation = price * Math.pow((1 - depreciationRatePerDay), currentDays);
             return valueAfterDepreciation;
+        }
+
+        function calculateDateDifference(date1, date2) {
+            // แปลงวันที่จากพ.ศ.เป็นค.ศ.
+            function convertToCE(date) {
+                let [day, month, year] = date.split("/").map(Number);
+                year = year - 543; // แปลง พ.ศ. เป็น ค.ศ.
+                return new Date(year, month - 1, day); // สร้าง Date object
+            }
+
+            const startDate = convertToCE(date1);
+            const endDate = convertToCE(date2);
+
+            // คำนวณความแตกต่างของปี, เดือน และวัน
+            let yearsDiff = endDate.getFullYear() - startDate.getFullYear();
+            let monthsDiff = endDate.getMonth() - startDate.getMonth();
+            let daysDiff = endDate.getDate() - startDate.getDate();
+
+            // ปรับเดือนและปีถ้าความแตกต่างของวันน้อยกว่า 0
+            if (daysDiff < 0) {
+                monthsDiff--;
+                daysDiff += new Date(endDate.getFullYear(), endDate.getMonth(), 0).getDate();
+            }
+
+            // ปรับปีถ้าความแตกต่างของเดือนน้อยกว่า 0
+            if (monthsDiff < 0) {
+                yearsDiff--;
+                monthsDiff += 12;
+            }
+
+            return {
+                years: yearsDiff,
+                months: monthsDiff,
+                days: daysDiff
+            };
         }
 
         function calDate(dateString) { //let date = calDate("13/05/2567");
@@ -862,7 +911,6 @@
         });
 
         /* /addEven */
-
 
         /* resize image */
         var images;

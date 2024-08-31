@@ -139,13 +139,17 @@ class AssetsController extends Controller
                 YEAR ( assD.AssDate ) AS YearAss,
                 ( YEAR ( GETDATE( ) ) + 543 ) - YEAR ( assD.AssDate ) AS YearAsset,
                 synd.CompCode,
-                synd.CompName
+                synd.CompName,
+                acom.location,
+                acs.acs_name_th as status_name
             FROM
                 PchInvAndProject.dbo.AssAssetD assD
                 LEFT JOIN PchInvAndProject.dbo.AssTypeD assT ON assD.idType = assT.idAssType
                 LEFT JOIN PchInvAndProject.dbo.AssPlaceD assPD ON assD.idPlace = assPD.idPlace
                 LEFT JOIN GR_Group.dbo.syndCompany synd ON assD.idComp = synd.idComp
                 LEFT JOIN GR_Group.dbo.dEmployee emp ON assD.idPsRp = emp.idPs
+                LEFT JOIN PchInvAndProject.dbo.Asset_Components acom ON assD.idAsset = acom.asset_d
+	            LEFT JOIN PchInvAndProject.dbo.Asset_Component_Status acs ON acom.acs_id = acs.acs_id
             WHERE
                 assD.idAsset = $id
         "))->first();
