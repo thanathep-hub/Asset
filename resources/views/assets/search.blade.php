@@ -224,8 +224,6 @@
                 let company = document.getElementById('search-filter-company').value;
                 let category = document.getElementById('search-filter-category').value;
 
-                console.log(company);
-
                 $.ajax({
                     url: '/assets/search/input',
                     type: 'GET',
@@ -235,19 +233,25 @@
                         textQuery: searchInput
                     },
                     success: function(response) {
+
                         console.log(response);
+                        if (response.msg === "noresult") {
+                            console.log("no result");
+
+                        }
+
                         $('#search_result').empty();
 
                         $.each(response, function(index, items) {
                             $('#search_result').append(`
-                            <div class="d-flex mb-3 search-result-list p-2" onclick="assetDetail(${items.idAsset})">
-                                <img src="{{ asset('assets/box.png') }}" class="pe-3" height="44">
-                                <div>
-                                    <label for="result-name">${items.AssetName}</label>
-                                    <p style="color:#9ca3af;">${items.CompCode}</p>
+                                <div class="d-flex mb-3 search-result-list p-2" onclick="assetDetail(${items.idAsset})">
+                                    <img src="{{ asset('assets/box.png') }}" class="pe-3" height="44">
+                                    <div>
+                                        <label for="result-name">${items.AssetName}</label>
+                                        <p style="color:#9ca3af;">${items.CompCode}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        `);
+                            `);
                         });
                     },
                     error: function(xhr, status, error) {

@@ -142,11 +142,6 @@
             }
         }
 
-
-        $(document).ready(function() {
-            fetchUser();
-        });
-
         function fetchCategory() {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
@@ -182,7 +177,7 @@
 
                     $.each(user, function(index, users) {
                         $('#ResponsiblePerson-active').append(`
-                        <option value="${users.idPs}">${users.PsNameFS}</option>
+                        <option value="${users.idPs}" ${users.idPs === asset.idPsRp ? 'selected' : ''}>${users.PsNameFS}</option>
                         `);
                     });
                     new TomSelect("#ResponsiblePerson-active", {
@@ -204,6 +199,12 @@
         }
 
         /* save active asset */
+
+        function active_asset_show() {
+            fetchUser();
+            $('#active-old-asset').modal('show');
+        }
+
         function activeAsset() {
             // 1. to idPsRp on AssAssetD
             // 2. to Asset_Components | acs_name, asset_d , acs_id, location

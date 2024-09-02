@@ -246,6 +246,7 @@
                         </h2>
                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
                             <div class="accordion-body">
+                                @include('assets.img-scroll.img_scroll')
 
                                 <div class="row mt-3 px-2">
                                     <div class="col-4">
@@ -602,8 +603,7 @@
                     จัดการ <i class="fa-solid fa-pen ps-2"></i>
                 </button>
                 <ul class="dropdown-menu">
-                    <li class="mb-1"><a class="dropdown-item" data-bs-toggle="modal"
-                            data-bs-target="#active-old-asset">ยืนยันสินทรัพย์</a></li>
+                    <li class="mb-1"><a class="dropdown-item" onclick="active_asset_show()">ยืนยันสินทรัพย์</a></li>
                     <li class="mb-1"><a class="dropdown-item" onclick="waitUpdate()">ผูกสินทรัพย์</a></li>
                     <li class="mb-1"><a class="dropdown-item" onclick="editAssetM()">อัพเดตสินทรัพย์ </a></li>
 
@@ -677,26 +677,27 @@
             document.getElementById("asset-datepurchase").innerText = data.AssDateT ? data.AssDateT : "รอการอัพเดท";
             document.getElementById("asset-datestart").innerText = data.AssDateT ? data.AssDateT : "รอการอัพเดท";
 
+            /* การเงินและการคำนวณค่าเสื่อม */
             document.getElementById("asset-price").innerText = new Intl.NumberFormat('th-TH', {
                 style: 'currency',
                 currency: 'THB'
             }).format(parseFloat(data.Price)) + " บาท";
-
             document.getElementById("asset-pricescrap").innerText = data.pricescrap ? data.pricescrap : "รอการอัพเดท";
             document.getElementById("asset-depreciationrate").innerText = (parseInt(data.AssPerc, 10)) ? (parseInt(data
                 .AssPerc, 10)) + "%" : "รอการอัพเดท";
-
             const lifespanDays = (parseInt(data.AssYearType) || 5) * 365;
             const currentDays = calDate(data.AssDateT);
             document.getElementById("asset-presentvalue").innerText = data.AssDateT ? new Intl.NumberFormat('th-TH', {
-                style: 'currency',
-                currency: 'THB'
-            }).format(parseFloat(calculateAssetValue(price, lifespanDays, currentDays))) + " บาท" : "รอการอัพเดท";
+                    style: 'currency',
+                    currency: 'THB'
+                }).format(parseFloat(calculateAssetValue(price, lifespanDays, currentDays, parseInt('20.00', 10) / 100))) +
+                " บาท" : "รอการอัพเดท";
 
             document.getElementById("asset-depreciation").innerText = isNaN(parseFloat(price - calculateAssetValue(price,
-                    lifespanDays, currentDays))) ?
+                    lifespanDays, currentDays, parseInt('20.00', 10) / 100))) ?
                 "รอการอัพเดท" :
-                parseFloat(price - calculateAssetValue(price, lifespanDays, currentDays)).toFixed(2) + " บาท";
+                parseFloat(price - calculateAssetValue(price, lifespanDays, currentDays, parseInt('20.00', 10) / 100))
+                .toFixed(2) + " บาท";
             let [day, month, buddhistYear] = data.AssDateT.split("/").map(Number);
             let date = new Date(buddhistYear - 543, month - 1, day);
             date.setFullYear(date.getFullYear() + 5);
@@ -754,9 +755,9 @@
             return `${day}/${month}/${buddhistYear}`;
         }
 
-        function calculateAssetValue(price, lifespanDays, currentDays) {
-            console.log(price, lifespanDays, currentDays);
-            const depreciationRatePerDay = 0.20 / lifespanDays; // มูลค่าลดลงคิดเป็น 20% ต่อวัน
+        function calculateAssetValue(price, lifespanDays, currentDays, assetPer) {
+            // console.log(price, lifespanDays, currentDays);
+            const depreciationRatePerDay = assetPer / lifespanDays; // มูลค่าลดลงคิดเป็น 20% ต่อวัน
 
             if (currentDays >= lifespanDays) {
                 return 1; // หากเกินอายุการใช้งาน มูลค่าจะเหลือ 1 บาท
@@ -834,7 +835,7 @@
                     'X-CSRF-Token': csrfToken
                 },
                 success: function(catagory) {
-                    console.log(catagory);
+                    // console.log(catagory);
                     $.each(catagory, function(index, items) {
                         $('#showAssetCategory').append(`
                         <option value="${items.idAssType}" selected>${items.AssTypeName}</option>

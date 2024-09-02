@@ -93,6 +93,10 @@ class AssetsController extends Controller
 
             if ($query) {
                 return response()->json($query);
+            }else{
+                return response()->json([
+                    'msg' => 'noresult',
+                ], 201);
             }
         } catch (\Throwable $th) {
         }
@@ -268,8 +272,8 @@ class AssetsController extends Controller
             if ($insertAssetDt) {
                 $i = 1;
                 foreach ($request->file('assetFile') as $file) {
-                    $fileName = 'AS' . $AssetInvInsert_id . '_' . $i . "." . $file->getClientOriginalExtension();
-                    $file->storeAs('/Asset/newPath/', $fileName, 'ftp');
+                    $fileName = $AssetInvInsert_id . '_' . $i . "." . $file->getClientOriginalExtension();
+                    $file->storeAs('/Asset/PicAsset/', $fileName, 'ftp');
 
                     $insertImagPath = DB::insert(
                         "
@@ -382,8 +386,8 @@ class AssetsController extends Controller
             if ($insertAssetDt) {
                 $i = 1;
                 foreach ($request->file('qrAssetImg') as $file) {
-                    $fileName = 'AS' . $AssetInvInsert_id . '_' . $i . "." . $file->getClientOriginalExtension();
-                    $file->storeAs('/Asset/newPath/', $fileName, 'ftp');
+                    $fileName = $AssetInvInsert_id . '_' . $i . "." . $file->getClientOriginalExtension();
+                    $file->storeAs('/Asset/PicAsset/', $fileName, 'ftp');
 
                     $insertImagPath = DB::insert(
                         "
