@@ -50,6 +50,7 @@ class AssetsController extends Controller
         }
     }
 
+
     public function search_query(Request $request)
     {
         $company = $request->input('company');
@@ -93,12 +94,12 @@ class AssetsController extends Controller
 
             if ($query) {
                 return response()->json($query);
-            }else{
-                return response()->json([
-                    'msg' => 'noresult',
-                ], 201);
+            } else {
+                return response()->json(['message' => 'No assets found'], 404);
             }
         } catch (\Throwable $th) {
+            // Return a detailed error message
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 
@@ -613,6 +614,27 @@ class AssetsController extends Controller
             }
         } else {
             return 'AS0001';
+        }
+    }
+
+    public function fetch_assetImg($id)
+    {
+        try {
+            $query = DB::select("
+                SELECT
+                    *
+                FROM
+                    PchInvAndProject.dbo.Asset_img_path pdaip
+                WHERE pdaip.asset_id = ?
+            ", [$id]);
+
+            if ($query) {
+                return response()->json($query);
+            }
+
+            return response()->json(['message' => 'No data found'], 404);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 

@@ -452,7 +452,7 @@
                                 <h6>ข้อมูลการใช้งาน</h6>
                             </button>
                         </h2>
-                        <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse">
+                        <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse show">
                             <div class="accordion-body">
                                 <div class="row">
                                     <div class="col-4">
@@ -590,6 +590,7 @@
         </div>
     </div>
 
+    @include('assets.img-scroll.img-edit')
     @include('assets.active')
     @include('assets.qr-code')
     @include('assets.edit')
@@ -621,7 +622,9 @@
 @push('script')
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     <script>
-        let asset = '';
+        var asset = '';
+        var img_as = []
+        var edit_img = [];
         document.addEventListener('DOMContentLoaded', function() {
             var fileupload = document.getElementById("asset-image-upload");
             var image = document.getElementById("imgFileUpload");
@@ -636,7 +639,7 @@
             callAssetDetail({{ $idAsset }});
             apiCallCatagory_asset(); // modal new asset
             apiUserFullName(); // modal new asset
-
+            // fetchImg();
         });
 
         function callAssetDetail(id) {

@@ -94,6 +94,8 @@ Route::group(['middleware' => 'CheckLogin'], function () {
 
     // search input company , category and text input
     Route::get('/assets/search/input', 'AssetsController@search_query');
+    // img assets
+    Route::get('/api/assets/img/{id}', 'AssetsController@fetch_assetImg');
 
     // generate QR code to asset component
     Route::get('/assets/create-component/', 'AssetsController@Create_component');

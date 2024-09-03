@@ -12,6 +12,8 @@
 
     .img-present-show {
         height: 140px;
+        min-width: 140px;
+        border-radius: 8px;
     }
 
     .full-screen-modal {
@@ -56,24 +58,17 @@
     }
 </style>
 <div class="" style="margin-bottom: 3rem;">
-    <div class="img-present p-2 d-flex">
-        <img class="img-present-show" id="img-scroll-show"
-            src="https://seedsgroup.dyndns.org/spm/Asset/PicAsset/{{ $idAsset }}_1.jpg" style="cursor:zoom-in;">
+    <div class="img-present p-2 d-flex ">
+        <img class="img-present-show border border-opacity-10" id="img-scroll-show" src="" style="cursor:zoom-in;">
     </div>
-    <div class="d-flex gap-2 scroll-img">
-        <img class="m-2 scroll-img-item" src="https://seedsgroup.dyndns.org/spm/Asset/PicAsset/{{ $idAsset }}_1.jpg"
-            height="44px;" style="cursor:pointer;min-width:44px;">
-        <img class="m-2 scroll-img-item"
-            src="https://seedsgroup.dyndns.org/spm/Asset/PicAsset/{{ $idAsset }}_2.jpg" height="44px;"
-            style="cursor:pointer;min-width:44px;">
-        <img class="m-2 scroll-img-item"
-            src="https://seedsgroup.dyndns.org/spm/Asset/PicAsset/{{ $idAsset }}_3.jpg" height="44px;"
-            style="cursor:pointer;min-width:44px;">
-        <div style="align-content: center;">
-            <button class="btn border border-opacity-10" style="border-radius: 12px;height:40px;"><i
-                    class="fa-solid fa-pen"></i></button>
+    <div class="d-flex gap-2 scroll-img ">
+        <div id="img-list">
         </div>
 
+        <div style="align-content: center;">
+            <button class="btn btn-light" style="border-radius: 12px;height:40px;" onclick="show_edit_img()"><i
+                    class="fa-solid fa-pen pe-2"></i>แก้ไข</button>
+        </div>
     </div>
 </div>
 
@@ -85,37 +80,65 @@
 </div>
 
 <script>
-    // เลือกทุก img ใน scroll-img
-    const scrollImages = document.querySelectorAll('.scroll-img-item');
-    const imgShow = document.getElementById('img-scroll-show');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fetch and display images when the page is loaded
+        fetchImg();
 
-    scrollImages.forEach(function(image) {
-        image.addEventListener('click', function() {
-            // อัพเดท src ของ img ที่โชว์
-            imgShow.src = this.src;
+        // Attach click listener to img-scroll-show for full screen
+        const imgShow = document.getElementById('img-scroll-show');
+        const fullScreenModal = document.getElementById('fullScreenModal');
+        const fullScreenImage = document.getElementById('fullScreenImage');
+        const closeBtn = document.querySelector('.close-fullscreen');
+
+        imgShow.addEventListener('click', function() {
+            fullScreenModal.style.display = 'block';
+            fullScreenImage.src = this.src; // Update full screen image
+        });
+
+        closeBtn.addEventListener('click', function() {
+            fullScreenModal.style.display = 'none';
+        });
+
+        fullScreenModal.addEventListener('click', function(event) {
+            if (event.target === fullScreenModal) {
+                fullScreenModal.style.display = 'none';
+            }
         });
     });
 
-    // เลือก img-scroll-show และ fullScreenModalฆ
-    const fullScreenModal = document.getElementById('fullScreenModal');
-    const fullScreenImage = document.getElementById('fullScreenImage');
-    const closeBtn = document.querySelector('.close-fullscreen');
+    function fetchImg() {
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: "/api/assets/img/" + {{ $idAsset }},
+            type: 'GET',
+            headers: {
+                'X-CSRF-Token': csrfToken
+            },
+            success: function(img_path) {
+                img_as = img_path;
+                // console.log(img_as);
 
-    // เมื่อคลิกที่ img-scroll-show
-    imgShow.addEventListener('click', function() {
-        fullScreenModal.style.display = 'block';
-        fullScreenImage.src = this.src; // อัพเดทรูปใน full screen
-    });
+                $('#img-list').empty();
+                document.getElementById('img-scroll-show').src =
+                    `https://seedsgroup.dyndns.org/spm/Asset/PicAsset/${img_path[0].name_img}`;
+                $.each(img_path, function(index, img_paths) {
+                    const imgElement = $(`
+                        <img class="m-2 scroll-img-item border border-opacity-10"
+                        src="https://seedsgroup.dyndns.org/spm/Asset/PicAsset/${img_paths.name_img}" height="44px;"
+                        style="cursor:pointer;min-width:44px;">
+                    `);
 
-    // ปุ่มปิด full-screen
-    closeBtn.addEventListener('click', function() {
-        fullScreenModal.style.display = 'none';
-    });
+                    imgElement.on('click', function() {
+                        // Update the img-show when an image is clicked
+                        $('#img-scroll-show').attr('src', this.src);
+                    });
 
-    // คลิกข้างนอกเพื่อปิด
-    fullScreenModal.addEventListener('click', function(event) {
-        if (event.target === fullScreenModal) {
-            fullScreenModal.style.display = 'none';
-        }
-    });
+                    $('#img-list').append(imgElement);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+    }
 </script>
