@@ -119,8 +119,11 @@
                     Swal.fire({
                         icon: "success",
                         title: response.msg,
-                        showConfirmButton: false,
-                        timer: 1500
+                        showConfirmButton: true,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
                     });
                 } else if (response.status === 'error') {
                     Swal.fire({
@@ -128,6 +131,10 @@
                         title: response.msg,
                         showConfirmButton: true,
                         confirmButtonText: 'ตกลง',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
                     });
                 }
             },
