@@ -669,4 +669,55 @@ class AssetsController extends Controller
 
         return $formattedDate;
     }
+
+    public function edbi_save(Request $request)
+    {
+        $check = $this->checkAssetComponent($request->input('uid'));
+
+        if (!$check) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'กรุณายืนยันสินทรัพย์ก่อนอัพเดท',
+            ], 200);
+        }
+
+        $uid = $request->input('uid');
+        $uname = $request->input('uname');
+        $ucategory = $request->input('ucategory');
+        $uamount = $request->input('uamount');
+        $uplace = $request->input('uplace');
+
+        $update_assetD = DB::update(
+            "
+                UPDATE AssAssetD
+                SET AssetName = ?, AssAmount = ?, idType = ?
+                WHERE idAsset = ?",
+            [$uname, $uamount, $ucategory, $uid]
+        );
+        if ($update_assetD) {
+            $Component = DB::update(
+                "
+                UPDATE Asset_Components
+                SET location = ?
+                WHERE asset_d = ?",
+                [$uplace, $uid]
+            );
+            if ($Component) {
+                return response()->json([
+                    'status' => 'success',
+                    'msg' => 'อัพเดทสำเร็จ',
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'msg' => 'There was an error updating the asset.',
+                ], 500);
+            }
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'There was an error updating the asset.',
+            ], 500);
+        }
+    }
 }

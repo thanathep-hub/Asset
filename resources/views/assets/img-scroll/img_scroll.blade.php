@@ -60,21 +60,24 @@
 <div class="" style="margin-bottom: 3rem;">
     <div class="img-present p-2 d-flex ">
         <img class="img-present-show border border-opacity-10" id="img-scroll-show" src="" style="cursor:zoom-in;">
+        <div class="ps-2" style="align-content: center;">
+            <button class="btn btn-light" style="border-radius: 12px;height:40px;" onclick="show_edit_img()"><i
+                    class="fa-solid fa-pen pe-2"></i>เปลี่ยน</button>
+        </div>
     </div>
     <div class="d-flex gap-2 scroll-img ">
         <div id="img-list">
         </div>
 
-        <div style="align-content: center;">
+        {{-- <div style="align-content: center;">
             <button class="btn btn-light" style="border-radius: 12px;height:40px;" onclick="show_edit_img()"><i
                     class="fa-solid fa-pen pe-2"></i>แก้ไข</button>
-        </div>
+        </div> --}}
     </div>
 </div>
 
 <!-- เต็มจอ -->
 <div id="fullScreenModal" class="full-screen-modal">
-
     <span class="close-fullscreen">&times;</span>
     <img class="full-screen-content" id="fullScreenImage">
 </div>

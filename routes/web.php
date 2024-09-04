@@ -92,6 +92,9 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::post('/assets/detail/active', 'AssetsController@assets_active');
     Route::post('/assets/detail/update', 'AssetsController@assets_update');
 
+    // edit
+    Route::post('/assets/detail/edbi_save', 'AssetsController@edbi_save');
+
     // search input company , category and text input
     Route::get('/assets/search/input', 'AssetsController@search_query');
     // img assets

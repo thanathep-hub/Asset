@@ -218,6 +218,12 @@
             /* scrollbar-width: none; */
         }
 
+        @media (max-width: 600px) {
+            .img-present {
+                justify-content: space-evenly !important;
+            }
+        }
+
         .f-14 {
             font-size: 14px;
         }
@@ -260,7 +266,7 @@
                                         <label for="asset-type" class="form-label f-14 text-bold text-black">ประเภท</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-type" class="form-label f-14"></label>
+                                        <label id="asset-type" class="form-label f-14" style="color: #646b76;"></label>
                                     </div>
 
                                     <div class="col-4">
@@ -268,17 +274,24 @@
                                             class="form-label f-14 text-bold text-black">สถานที่ใช้งาน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-location" class="form-label f-14"></label>
+                                        <label id="asset-location" class="form-label f-14" style="color: #646b76;"></label>
                                     </div>
 
                                     <div class="col-4">
                                         <label for="asset-amount" class="form-label f-14 text-bold text-black">จำนวน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-amount" class="form-label f-14"></label>
+                                        <label id="asset-amount" class="form-label f-14" style="color: #646b76;"></label>
                                     </div>
 
                                 </div>
+                                <div class="text-end p-2" style="background-color: #f8f9fa;">
+                                    <button class="btn btn-light"
+                                        style="border-radius: 12px;height:40px;background-color:#262f40;color:#ffffff;"
+                                        onclick="edit_basic_information()"><i
+                                            class="fa-solid fa-pen pe-2"></i>แก้ไข</button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -289,7 +302,6 @@
                                 data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
                                 aria-controls="panelsStayOpen-collapseTwo">
                                 <h6>การจัดซื้อและสถานะ</h6>
-
                             </button>
                         </h2>
                         <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
@@ -300,42 +312,49 @@
                                             class="form-label f-14 text-bold text-black">บริษัท</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-company" class="form-label f-14"></label>
+                                        <label id="asset-company" class="form-label f-14" style="color: #646b76;"></label>
                                     </div>
                                     <div class="col-4">
                                         <label for="asset-psrp"
                                             class="form-label f-14 text-bold text-black">ผู้จัดซื้อ</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-psrp" class="form-label f-14"></label>
+                                        <label id="asset-psrp" class="form-label f-14" style="color: #646b76;"></label>
                                     </div>
                                     <div class="col-4">
                                         <label for="asset-supplier"
                                             class="form-label f-14 text-bold text-black">Supplier</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-supplier" class="form-label f-14"></label>
+                                        <label id="asset-supplier" class="form-label f-14" style="color: #646b76;"></label>
                                     </div>
                                     <div class="col-4">
                                         <label for="asset-status" class="form-label f-14 text-bold text-black">สถานะ</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-status" class="form-label f-14"></label>
+                                        <label id="asset-status" class="form-label f-14" style="color: #646b76;"></label>
                                     </div>
                                     <div class="col-4">
                                         <label for="asset-datepurchase"
                                             class="form-label f-14 text-bold text-black">วันที่ซื้อ</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-datepurchase" class="form-label f-14"></label>
+                                        <label id="asset-datepurchase" class="form-label f-14"
+                                            style="color: #646b76;"></label>
                                     </div>
                                     <div class="col-4">
                                         <label for="asset-datestart"
                                             class="form-label f-14 text-bold text-black">วันที่เริ่มใช้</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-datestart" class="form-label f-14">05/04/2567</label>
+                                        <label id="asset-datestart" class="form-label f-14"
+                                            style="color: #646b76;"></label>
                                     </div>
+                                </div>
+                                <div class="text-end p-2" style="background-color: #f8f9fa;">
+                                    <button class="btn btn-light"
+                                        style="border-radius: 12px;height:40px;background-color:#262f40;color:#ffffff;"
+                                        onclick=""><i class="fa-solid fa-pen pe-2"></i>แก้ไข</button>
                                 </div>
                             </div>
                         </div>
@@ -357,21 +376,23 @@
                                             class="form-label f-14 text-bold text-black">ราคาทุน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-price" class="form-label f-14"></label>
+                                        <label id="asset-price" class="form-label f-14" style="color: #646b76;"></label>
                                     </div>
                                     <div class="col-4">
                                         <label for="asset-pricescrap"
                                             class="form-label f-14 text-bold text-black">ราคาซาก</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-pricescrap" class="form-label f-14"></label>
+                                        <label id="asset-pricescrap" class="form-label f-14"
+                                            style="color: #646b76;"></label>
                                     </div>
                                     <div class="col-4">
                                         <label for="asset-depreciationrate"
                                             class="form-label f-14 text-bold text-black">อัตราเสื่อมราคา</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-depreciationrate" class="form-label f-14"></label>
+                                        <label id="asset-depreciationrate" class="form-label f-14"
+                                            style="color: #646b76;"></label>
                                     </div>
                                     <div class="col-4">
                                         <label for="asset-presentvalue"
@@ -379,22 +400,30 @@
                                             ปัจจุบัน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-presentvalue" class="form-label f-14"></label>
+                                        <label id="asset-presentvalue" class="form-label f-14"
+                                            style="color: #646b76;"></label>
                                     </div>
                                     <div class="col-4">
                                         <label for="asset-depreciation"
                                             class="form-label f-14 text-bold text-black">ค่าเสื่อม</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-depreciation" class="form-label f-14"></label>
+                                        <label id="asset-depreciation" class="form-label f-14"
+                                            style="color: #646b76;"></label>
                                     </div>
                                     <div class="col-4">
                                         <label for="asset-depreciation-time"
                                             class="form-label f-14 text-bold text-black">ถึงวันที่</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-depreciation-time" class="form-label f-14"></label>
+                                        <label id="asset-depreciation-time" class="form-label f-14"
+                                            style="color: #646b76;"></label>
                                     </div>
+                                </div>
+                                <div class="text-end p-2" style="background-color: #f8f9fa;">
+                                    <button class="btn btn-light"
+                                        style="border-radius: 12px;height:40px;background-color:#262f40;color:#ffffff;"
+                                        onclick=""><i class="fa-solid fa-pen pe-2"></i>แก้ไข</button>
                                 </div>
                             </div>
                         </div>
@@ -416,29 +445,38 @@
                                             class="form-label f-14 text-bold text-black">สถานะประกัน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-insurancestatus" class="form-label f-14"></label>
+                                        <label id="asset-insurancestatus" class="form-label f-14"
+                                            style="color: #646b76;"></label>
                                     </div>
                                     <div class="col-4">
                                         <label for="asset-insurancestart"
                                             class="form-label f-14 text-bold text-black">วันที่เริ่มประกัน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-insurancestart" class="form-label f-14"></label>
+                                        <label id="asset-insurancestart" class="form-label f-14"
+                                            style="color: #646b76;"></label>
                                     </div>
                                     <div class="col-4">
                                         <label for="asset-insuranceend"
                                             class="form-label f-14 text-bold text-black">วันที่หมดประกัน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-insuranceend" class="form-label f-14"></label>
+                                        <label id="asset-insuranceend" class="form-label f-14"
+                                            style="color: #646b76;"></label>
                                     </div>
                                     <div class="col-4">
                                         <label for="asset-warranty-period"
                                             class="form-label f-14 text-bold text-black">ระยะประกัน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-warranty-period" class="form-label f-14"></label>
+                                        <label id="asset-warranty-period" class="form-label f-14"
+                                            style="color: #646b76;"></label>
                                     </div>
+                                </div>
+                                <div class="text-end p-2" style="background-color: #f8f9fa;">
+                                    <button class="btn btn-light"
+                                        style="border-radius: 12px;height:40px;background-color:#262f40;color:#ffffff;"
+                                        onclick=""><i class="fa-solid fa-pen pe-2"></i>แก้ไข</button>
                                 </div>
                             </div>
                         </div>
@@ -460,15 +498,22 @@
                                             class="form-label f-14 text-bold text-black">อายุการใช้งานที่ตั้งไว้</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-setdate" class="form-label f-14"></label>
+                                        <label id="asset-setdate" class="form-label f-14"
+                                            style="color: #646b76;"></label>
                                     </div>
                                     <div class="col-4">
                                         <label for="asset-currentdate"
                                             class="form-label f-14 text-bold text-black">อายุการใช้งานปัจจุบัน</label>
                                     </div>
                                     <div class="col-8">
-                                        <label id="asset-currentdate" class="form-label f-14"></label>
+                                        <label id="asset-currentdate" class="form-label f-14"
+                                            style="color: #646b76;"></label>
                                     </div>
+                                </div>
+                                <div class="text-end p-2" style="background-color: #f8f9fa;">
+                                    <button class="btn btn-light"
+                                        style="border-radius: 12px;height:40px;background-color:#262f40;color:#ffffff;"
+                                        onclick=""><i class="fa-solid fa-pen pe-2"></i>แก้ไข</button>
                                 </div>
                             </div>
                         </div>
@@ -594,6 +639,7 @@
     @include('assets.active')
     @include('assets.qr-code')
     @include('assets.edit')
+    @include('assets.edit.asset_basic_information')
 
     <div class="fixed-bottom "> {{-- d-md-none --}}
         <div class="text-end p-3 mb-3">
@@ -688,26 +734,37 @@
             document.getElementById("asset-pricescrap").innerText = data.pricescrap ? data.pricescrap : "รอการอัพเดท";
             document.getElementById("asset-depreciationrate").innerText = (parseInt(data.AssPerc, 10)) ? (parseInt(data
                 .AssPerc, 10)) + "%" : "รอการอัพเดท";
-            const lifespanDays = (parseInt(data.AssYearType) || 5) * 365;
-            const currentDays = calDate(data.AssDateT);
-            document.getElementById("asset-presentvalue").innerText = data.AssDateT ? new Intl.NumberFormat('th-TH', {
-                    style: 'currency',
-                    currency: 'THB'
-                }).format(parseFloat(calculateAssetValue(price, lifespanDays, currentDays, parseInt('20.00', 10) / 100))) +
-                " บาท" : "รอการอัพเดท";
+            if (data.AssDateT != null) {
+                var lifespanDays = (parseInt(data.AssYearType) || 5) * 365;
+                var currentDays = calDate(data.AssDateT);
+                document.getElementById("asset-presentvalue").innerText = data.AssDateT ? new Intl.NumberFormat('th-TH', {
+                        style: 'currency',
+                        currency: 'THB'
+                    }).format(parseFloat(calculateAssetValue(price, lifespanDays, currentDays, parseInt('20.00', 10) /
+                        100))) +
+                    " บาท" : "รอการอัพเดท";
+            } else {
+                document.getElementById("asset-presentvalue").innerText = "รอการอัพเดท";
+            }
+
 
             document.getElementById("asset-depreciation").innerText = isNaN(parseFloat(price - calculateAssetValue(price,
                     lifespanDays, currentDays, parseInt('20.00', 10) / 100))) ?
                 "รอการอัพเดท" :
                 parseFloat(price - calculateAssetValue(price, lifespanDays, currentDays, parseInt('20.00', 10) / 100))
                 .toFixed(2) + " บาท";
-            let [day, month, buddhistYear] = data.AssDateT.split("/").map(Number);
-            let date = new Date(buddhistYear - 543, month - 1, day);
-            date.setFullYear(date.getFullYear() + 5);
+            if (data.AssDateT != null) {
+                let [day, month, buddhistYear] = data.AssDateT.split("/").map(Number);
+                let date = new Date(buddhistYear - 543, month - 1, day);
+                date.setFullYear(date.getFullYear() + 5);
 
-            document.getElementById("asset-depreciation-time").innerText = data.AssDateT ?
-                `${("0" + date.getDate()).slice(-2)}/${("0" + (date.getMonth() + 1)).slice(-2)}/${date.getFullYear() + 543}` :
-                "รอการอัพเดท";
+                document.getElementById("asset-depreciation-time").innerText = data.AssDateT ?
+                    `${("0" + date.getDate()).slice(-2)}/${("0" + (date.getMonth() + 1)).slice(-2)}/${date.getFullYear() + 543}` :
+                    "รอการอัพเดท";
+            } else {
+                document.getElementById("asset-depreciation-time").innerText = "รอการอัพเดท";
+            }
+
 
             document.getElementById("asset-insurancestatus").innerText = data.stIns ? data.stIns : "รอการอัพเดท";
             document.getElementById("asset-insurancestart").innerText = data.DateInsurStrat ? data.DateInsurStrat :
