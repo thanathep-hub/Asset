@@ -94,6 +94,9 @@ Route::group(['middleware' => 'CheckLogin'], function () {
 
     // edit
     Route::post('/assets/detail/edbi_save', 'AssetsController@edbi_save');
+    Route::post('/assets/detail/edps_save', 'AssetsController@edps_save');
+    Route::post('/assets/detail/edii_save', 'AssetsController@edii_save');
+    // /assets/detail/edps_save
 
     // search input company , category and text input
     Route::get('/assets/search/input', 'AssetsController@search_query');
@@ -114,6 +117,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::get('/api/asset/catagory', 'AssetsController@apiAsset_catagory');
     Route::get('/api/user/fullname', 'AssetsController@apiUser_fullname');
     Route::get('/api/company', 'AssetsController@apiCompany');
+    Route::get('/api/supplier', 'AssetsController@apiSupplier');
 
     /* ---------------------------------------------- Project ---------------------------------------------- */
 

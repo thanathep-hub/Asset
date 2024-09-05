@@ -239,6 +239,31 @@ class AssetsController extends Controller
             //throw $th;
         }
     }
+
+    public function apiSupplier()
+    {
+        try {
+            $supplier = DB::select("
+                SELECT DISTINCT
+                    pdd.idSup,
+                    pdd.SupName
+                FROM
+                    PchInvAndProject.dbo.dSupplier AS pdd
+                WHERE
+                    pdd.SupName IS NOT NULL
+                    AND pdd.SupName != ''
+                    AND pdd.idSupType = 29
+                ORDER BY
+                    pdd.idSup ASC
+            ");
+
+            if ($supplier) {
+                return response()->json($supplier);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
     public function assets_new(Request $request)
     {
 
@@ -713,6 +738,91 @@ class AssetsController extends Controller
                     'msg' => 'There was an error updating the asset.',
                 ], 500);
             }
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'There was an error updating the asset.',
+            ], 500);
+        }
+    }
+    public function edps_save(Request $request)
+    {
+        $check = $this->checkAssetComponent($request->input('uid'));
+
+        if (!$check) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'กรุณายืนยันสินทรัพย์ก่อนอัพเดท',
+            ], 200);
+        }
+
+        $uid = $request->input('uid');
+        $upsrp = $request->input('upsrp');
+        $ustatus = $request->input('ustatus');
+        $udate = $request->input('udate');
+
+        $update_assetD = DB::update(
+            "
+                UPDATE AssAssetD
+                SET idPsRp = ?, AssDate = ?
+                WHERE idAsset = ?",
+            [$upsrp, $udate, $uid]
+        );
+        if ($update_assetD) {
+            $Component = DB::update(
+                "
+                UPDATE Asset_Components
+                SET acs_id = ?
+                WHERE asset_d = ?",
+                [$ustatus, $uid]
+            );
+            if ($Component) {
+                return response()->json([
+                    'status' => 'success',
+                    'msg' => 'อัพเดทสำเร็จ',
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'msg' => 'There was an error updating the asset.',
+                ], 500);
+            }
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'There was an error updating the asset.',
+            ], 500);
+        }
+    }
+    public function edii_save(Request $request)
+    {
+        //
+        $check = $this->checkAssetComponent($request->input('uid'));
+
+        if (!$check) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'กรุณายืนยันสินทรัพย์ก่อนอัพเดท',
+            ], 200);
+        }
+
+        $uid = $request->input('uid');
+        $uinsur = $request->input('upsrp');
+        $uins = $request->input('uins');
+        $uine = $request->input('uine');
+
+        $update_assetD = DB::update(
+            "
+                UPDATE AssAssetD
+                SET stInsur = ?, DateInsur1 = ?, DateInsur2 = ?
+                WHERE idAsset = ?",
+            [$uinsur, $uins, $uine, $uid]
+        );
+        if ($update_assetD) {
+            return response()->json([
+                'status' => 'success',
+                'msg' => 'อัพเดทสำเร็จ',
+            ], 200);
         } else {
             return response()->json([
                 'status' => 'error',

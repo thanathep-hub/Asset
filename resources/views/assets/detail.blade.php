@@ -354,7 +354,8 @@
                                 <div class="text-end p-2" style="background-color: #f8f9fa;">
                                     <button class="btn btn-light"
                                         style="border-radius: 12px;height:40px;background-color:#262f40;color:#ffffff;"
-                                        onclick=""><i class="fa-solid fa-pen pe-2"></i>แก้ไข</button>
+                                        onclick="edit_purchase_status()"><i
+                                            class="fa-solid fa-pen pe-2"></i>แก้ไข</button>
                                 </div>
                             </div>
                         </div>
@@ -420,11 +421,11 @@
                                             style="color: #646b76;"></label>
                                     </div>
                                 </div>
-                                <div class="text-end p-2" style="background-color: #f8f9fa;">
+                                {{-- <div class="text-end p-2" style="background-color: #f8f9fa;">
                                     <button class="btn btn-light"
                                         style="border-radius: 12px;height:40px;background-color:#262f40;color:#ffffff;"
                                         onclick=""><i class="fa-solid fa-pen pe-2"></i>แก้ไข</button>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -476,7 +477,8 @@
                                 <div class="text-end p-2" style="background-color: #f8f9fa;">
                                     <button class="btn btn-light"
                                         style="border-radius: 12px;height:40px;background-color:#262f40;color:#ffffff;"
-                                        onclick=""><i class="fa-solid fa-pen pe-2"></i>แก้ไข</button>
+                                        onclick="edit_insurance_information()"><i
+                                            class="fa-solid fa-pen pe-2"></i>แก้ไข</button>
                                 </div>
                             </div>
                         </div>
@@ -509,11 +511,6 @@
                                         <label id="asset-currentdate" class="form-label f-14"
                                             style="color: #646b76;"></label>
                                     </div>
-                                </div>
-                                <div class="text-end p-2" style="background-color: #f8f9fa;">
-                                    <button class="btn btn-light"
-                                        style="border-radius: 12px;height:40px;background-color:#262f40;color:#ffffff;"
-                                        onclick=""><i class="fa-solid fa-pen pe-2"></i>แก้ไข</button>
                                 </div>
                             </div>
                         </div>
@@ -640,6 +637,8 @@
     @include('assets.qr-code')
     @include('assets.edit')
     @include('assets.edit.asset_basic_information')
+    @include('assets.edit.asset_purchase_status')
+    @include('assets.edit.asset_insurance_information')
 
     <div class="fixed-bottom "> {{-- d-md-none --}}
         <div class="text-end p-3 mb-3">
@@ -749,9 +748,9 @@
 
 
             document.getElementById("asset-depreciation").innerText = isNaN(parseFloat(price - calculateAssetValue(price,
-                    lifespanDays, currentDays, parseInt('20.00', 10) / 100))) ?
+                    lifespanDays, currentDays, parseInt(data.AssPerc, 10) / 100))) ?
                 "รอการอัพเดท" :
-                parseFloat(price - calculateAssetValue(price, lifespanDays, currentDays, parseInt('20.00', 10) / 100))
+                parseFloat(price - calculateAssetValue(price, lifespanDays, currentDays, parseInt(data.AssPerc, 10) / 100))
                 .toFixed(2) + " บาท";
             if (data.AssDateT != null) {
                 let [day, month, buddhistYear] = data.AssDateT.split("/").map(Number);
@@ -816,17 +815,31 @@
         }
 
         function calculateAssetValue(price, lifespanDays, currentDays, assetPer) {
-            // console.log(price, lifespanDays, currentDays);
-            const depreciationRatePerDay = assetPer / lifespanDays; // มูลค่าลดลงคิดเป็น 20% ต่อวัน
-
+            const depreciationRatePerDay = assetPer / lifespanDays;
             if (currentDays >= lifespanDays) {
-                return 1; // หากเกินอายุการใช้งาน มูลค่าจะเหลือ 1 บาท
-
+                return 1;
             }
-
-            // คำนวณมูลค่าลดลง
             const valueAfterDepreciation = price * Math.pow((1 - depreciationRatePerDay), currentDays);
-            return valueAfterDepreciation;
+            // return valueAfterDepreciation;
+
+            var presentValue = (price - ((((price / 100) * asset.AssPerc) / 365) * currentDays)).toFixed(2);
+            console.log("ค่าเสื่อม", presentValue);
+            console.log(parseInt(asset.AssPerc, 10) / 100);
+
+            /* let y = 5;
+let useDay = 150;
+let price = 6450;
+let persent = 20;
+
+if(useDay <= 365){
+ var presentValue = (price - ((((price / 100) * persent) / 365) * useDay)).toFixed(2);
+}
+
+
+console.log(presentValue) */
+
+
+            return presentValue;
         }
 
         function calculateDateDifference(date1, date2) {
