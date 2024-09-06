@@ -830,4 +830,94 @@ class AssetsController extends Controller
             ], 500);
         }
     }
+    public function edimg_save(Request $request)
+    {
+        if ($request->hasFile('img')) {
+            $id = $request->input('assetId');
+            $i = 1;
+            $chk = $this->checkPathImg($id);
+            if ($chk) {
+                $ftp = ftp_connect('203.151.27.229', '21');
+                $login_result = ftp_login($ftp, 'spm', 'a0815209598');
+
+                if ($login_result == true) {
+
+                    foreach ($chk as $items) {
+                        ftp_delete($ftp, "Asset/PicAsset/$items->name_img");
+                    }
+                    ftp_close($ftp);
+                }
+                $del = DB::delete("
+                    DELETE FROM PchInvAndProject.dbo.Asset_img_path
+                    WHERE asset_id = $id
+                ");
+                if ($del) {
+                    foreach ($request->file('img') as $file) {
+                        $validatedData = $request->validate([
+                            'img.*' => 'required|mimes:jpeg,png,jpg|max:2048',
+                        ]);
+
+                        $fileName = $id . '_' . $i . "." . $file->getClientOriginalExtension();
+                        $file->storeAs('/Asset/PicAsset/', $fileName, 'ftp');
+
+                        DB::insert(
+                            "
+                        INSERT INTO Asset_img_path (asset_id, name_img)
+                        VALUES (?, ?)",
+                            [$id, $fileName]
+                        );
+                        $i++;
+                    }
+
+                    return response()->json([
+                        'status' => 'success',
+                        'msg' => 'อัพเดทสำเร็จ',
+                    ], 200);
+                }
+            } else {
+                foreach ($request->file('img') as $file) {
+                    $validatedData = $request->validate([
+                        'img.*' => 'required|mimes:jpeg,png,jpg|max:2048',
+                    ]);
+                    $fileName = $id . '_' . $i . "." . $file->getClientOriginalExtension();
+                    $file->storeAs('/Asset/PicAsset/', $fileName, 'ftp');
+
+                    DB::insert(
+                        "
+                            INSERT INTO Asset_img_path (asset_id, name_img)
+                            VALUES (?, ?)",
+                        [$id, $fileName]
+                    );
+                    $i++;
+                }
+                return response()->json([
+                    'status' => 'success',
+                    'msg' => 'อัพเดทสำเร็จ',
+                ], 200);
+            }
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'There was an error updating the asset.',
+            ], 500);
+        }
+    }
+
+    public function checkPathImg($id)
+    {
+        try {
+            $query = DB::select("
+                SELECT
+                    *
+                FROM
+                    PchInvAndProject.dbo.Asset_img_path pdaip
+                WHERE pdaip.asset_id = $id
+            ");
+            if ($query) {
+                return $query;
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
 }

@@ -18,7 +18,9 @@ use App\Http\Controllers\ProjectController;
 */
 
 
-
+Route::get('/depreciation', function () {
+    return view('assets.rate');
+});
 
 Route::get('/login', function () {
     if (Session::has('user')) {
@@ -96,6 +98,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::post('/assets/detail/edbi_save', 'AssetsController@edbi_save');
     Route::post('/assets/detail/edps_save', 'AssetsController@edps_save');
     Route::post('/assets/detail/edii_save', 'AssetsController@edii_save');
+    Route::post('/assets/detail/edimg', 'AssetsController@edimg_save');
     // /assets/detail/edps_save
 
     // search input company , category and text input

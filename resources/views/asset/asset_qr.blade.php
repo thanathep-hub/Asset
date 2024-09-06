@@ -53,8 +53,17 @@
                 margin-top: 2.25rem;
                 flex: 0 0 25%;
                 max-width: 25%;
+
             }
 
+            .col-auto.w-set {
+                align-content: center !important;
+            }
+
+        }
+
+        .col-auto.w-set {
+            align-content: center !important;
         }
     </style>
 </head>
@@ -72,8 +81,8 @@
 
             </div>
             <div class="col-auto w-set">
-                <b>รหัสสินทรัพย์ : </b> {{ $qrAsset->AssetCode ?? '-' }}<br>
-                 <label id="asset-name"><strong>ชื่อ :</strong> {{ $qrAsset->AssetName ?? '-' }}</label>
+                {{-- <b>รหัสสินทรัพย์ : </b> {{ $qrAsset->AssetCode ?? '-' }}<br> --}}
+                <label id="asset-name"> {{ $qrAsset->AssetName ?? '-' }}</label>
             </div>
         </div>
     </div>
@@ -89,7 +98,7 @@
         // assetNameElement.textContent = assetNameElement.textContent.substring(0, 10);
 
         var qrcode = new QRCode(document.getElementById("qrcode"), {
-            text: "https://assets.advanceseeds.com/asset/" + {{ $id }},
+            text: "https://assets.advanceseeds.com/assets/detail/" + {{ $id }},
             width: 100,
             height: 100,
             colorDark: "#000000",
@@ -106,5 +115,3 @@
 </body>
 
 </html>
-
-

@@ -396,20 +396,20 @@
                                             style="color: #646b76;"></label>
                                     </div>
                                     <div class="col-4">
+                                        <label for="asset-depreciation"
+                                            class="form-label f-14 text-bold text-black">ค่าเสื่อม</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <label id="asset-depreciation" class="form-label f-14"
+                                            style="color: #646b76;"></label>
+                                    </div>
+                                    <div class="col-4">
                                         <label for="asset-presentvalue"
                                             class="form-label f-14 text-bold text-black">มูลค่า ณ
                                             ปัจจุบัน</label>
                                     </div>
                                     <div class="col-8">
                                         <label id="asset-presentvalue" class="form-label f-14"
-                                            style="color: #646b76;"></label>
-                                    </div>
-                                    <div class="col-4">
-                                        <label for="asset-depreciation"
-                                            class="form-label f-14 text-bold text-black">ค่าเสื่อม</label>
-                                    </div>
-                                    <div class="col-8">
-                                        <label id="asset-depreciation" class="form-label f-14"
                                             style="color: #646b76;"></label>
                                     </div>
                                     <div class="col-4">
@@ -651,10 +651,10 @@
                 <ul class="dropdown-menu">
                     <li class="mb-1"><a class="dropdown-item" onclick="active_asset_show()">ยืนยันสินทรัพย์</a></li>
                     <li class="mb-1"><a class="dropdown-item" onclick="waitUpdate()">ผูกสินทรัพย์</a></li>
-                    <li class="mb-1"><a class="dropdown-item" onclick="editAssetM()">อัพเดตสินทรัพย์ </a></li>
+                    {{-- <li class="mb-1"><a class="dropdown-item" onclick="editAssetM()">อัพเดตสินทรัพย์ </a></li> --}}
 
                     <li class="mb-1"><a class="dropdown-item" href="#" data-bs-toggle="modal"
-                            data-bs-target="#qr-code-asset">qr-code</a></li>
+                            data-bs-target="#qr-code-asset">QR Code</a></li>
                 </ul>
             </div>
         </div>
@@ -739,19 +739,24 @@
                 document.getElementById("asset-presentvalue").innerText = data.AssDateT ? new Intl.NumberFormat('th-TH', {
                         style: 'currency',
                         currency: 'THB'
-                    }).format(parseFloat(calculateAssetValue(price, lifespanDays, currentDays, parseInt('20.00', 10) /
-                        100))) +
+                    }).format(parseFloat(calculateDecliningBalanceDepreciation(price, parseInt(data.AssPerc, 10) /
+                        100, data.AssYearType, currentDays))) +
                     " บาท" : "รอการอัพเดท";
             } else {
                 document.getElementById("asset-presentvalue").innerText = "รอการอัพเดท";
             }
 
 
-            document.getElementById("asset-depreciation").innerText = isNaN(parseFloat(price - calculateAssetValue(price,
-                    lifespanDays, currentDays, parseInt(data.AssPerc, 10) / 100))) ?
-                "รอการอัพเดท" :
-                parseFloat(price - calculateAssetValue(price, lifespanDays, currentDays, parseInt(data.AssPerc, 10) / 100))
-                .toFixed(2) + " บาท";
+            document.getElementById("asset-depreciation").innerText = isNaN(parseFloat(price - (
+                    calculateDecliningBalanceDepreciation(price, parseInt(data.AssPerc, 10) /
+                        100, data.AssYearType, currentDays)))) ?
+                "รอการอัพเดท" : new Intl.NumberFormat('th-TH', {
+                    style: 'currency',
+                    currency: 'THB'
+                }).format(
+                    parseFloat(price - (calculateDecliningBalanceDepreciation(price, parseInt(data.AssPerc, 10) /
+                        100, data.AssYearType, currentDays)))) + " บาท";
+
             if (data.AssDateT != null) {
                 let [day, month, buddhistYear] = data.AssDateT.split("/").map(Number);
                 let date = new Date(buddhistYear - 543, month - 1, day);
@@ -814,32 +819,35 @@
             return `${day}/${month}/${buddhistYear}`;
         }
 
-        function calculateAssetValue(price, lifespanDays, currentDays, assetPer) {
-            const depreciationRatePerDay = assetPer / lifespanDays;
-            if (currentDays >= lifespanDays) {
-                return 1;
+        function calculateDecliningBalanceDepreciation(initialPrice, depreciationRate, usefulLife, daysUsed) {
+            let currentValue = initialPrice;
+            let daysInYear = 365;
+            let resultHTML = '';
+            let totalDepreciation = 0;
+            let daysPassed = 0;
+            let result = 0;
+
+            for (let year = 1; year <= usefulLife; year++) {
+                let depreciation = currentValue * depreciationRate; // ค่าเสื่อมราค
+                daysPassed += daysInYear;
+                currentValue -= depreciation;
+                if (daysUsed <= daysPassed) {
+                    let remainingDays = daysUsed - (daysPassed - daysInYear);
+                    let proportion = remainingDays / daysInYear;
+                    let depreciationForDaysUsed = (initialPrice - totalDepreciation) * depreciationRate *
+                        proportion;
+                    let adjustedCurrentValue = initialPrice;
+                    for (let i = 1; i < year; i++) {
+                        adjustedCurrentValue -= adjustedCurrentValue * depreciationRate;
+                    }
+                    adjustedCurrentValue -= depreciationForDaysUsed;
+                    result = adjustedCurrentValue.toFixed(2);
+                    return result;
+                    // break;
+                }
+                totalDepreciation += depreciation; // รวมค่าเสื่อม
             }
-            const valueAfterDepreciation = price * Math.pow((1 - depreciationRatePerDay), currentDays);
-            // return valueAfterDepreciation;
 
-            var presentValue = (price - ((((price / 100) * asset.AssPerc) / 365) * currentDays)).toFixed(2);
-            console.log("ค่าเสื่อม", presentValue);
-            console.log(parseInt(asset.AssPerc, 10) / 100);
-
-            /* let y = 5;
-let useDay = 150;
-let price = 6450;
-let persent = 20;
-
-if(useDay <= 365){
- var presentValue = (price - ((((price / 100) * persent) / 365) * useDay)).toFixed(2);
-}
-
-
-console.log(presentValue) */
-
-
-            return presentValue;
         }
 
         function calculateDateDifference(date1, date2) {

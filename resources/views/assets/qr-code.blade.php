@@ -30,9 +30,15 @@
                 <div class="layout-qr-code" style="text-align: -webkit-center;">
                     <div class="mt-3 mb-4" id="qrcode"></div>
                 </div>
-                <button type="button" id="download" class="btn form-control"
-                    style="border-radius: 24px;height: 40px;background-color: #369689;color:#fff;"
-                    onclick="downloadQRCode()">บันทึก</button>
+                <div class="d-flex gap-2">
+                    <button type="button" id="download" class="btn form-control"
+                        style="border-radius: 24px;height: 40px;background-color: #369689;color:#fff;"
+                        onclick="downloadQRCode()">บันทึก</button>
+                    <button type="button" id="" class="btn w-50"
+                        style="border-radius: 24px;height: 40px;background-color: #369689;color:#fff;"
+                        onclick="printQR()"><i class="fa-solid fa-print pe-2"></i>พิมพ์</button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -69,6 +75,10 @@
             downloadLink.href = dataURL;
             downloadLink.download = 'qrAS' + {{ $idAsset }} + '.png';
             downloadLink.click();
+        }
+
+        function printQR() {
+            window.location = '/asset-qr/' + {{ $idAsset }};
         }
     </script>
 @endpush
