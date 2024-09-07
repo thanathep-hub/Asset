@@ -132,8 +132,8 @@
         <div class="text-end p-3 mb-3">
             <div class="btn-group dropup">
                 <button type="button" class="btn dropdown-toggle btn-manage-asset border-0" data-bs-toggle="dropdown"
-                    aria-expanded="false" style="min-width: 160px;min-height: 44px;background-color: #369689;color:#fff;">
-                    <i class="fa-solid fa-pen pe-2"></i> New
+                    aria-expanded="false" style="min-width: 120px;min-height: 44px;background-color: #369689;color:#fff;">
+                    <i class="fa-solid fa-pen pe-2"></i>ใหม่
                 </button>
                 <ul class="dropdown-menu">
                     <li class="mb-1">

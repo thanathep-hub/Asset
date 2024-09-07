@@ -72,7 +72,7 @@
 
     </div>
     <div class="align-items-center justify-content-center">
-        <h5>รออัพเดทเนื้อหา...</h5>
+        @include('assets.assets-m')
     </div>
 </div>
 

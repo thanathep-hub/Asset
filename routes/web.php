@@ -90,6 +90,8 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::get('/assets/search/text_query', 'AssetsController@assets_search');
     Route::get('/assets/detail/{id}', 'AssetsController@assets_detail');
 
+    route::get('/api/assets/wait-approve', 'AssetsController@getAsset_waitApprove');
+
     Route::post('/assets/new-asset', 'AssetsController@assets_new');
     Route::post('/assets/detail/active', 'AssetsController@assets_active');
     Route::post('/assets/detail/update', 'AssetsController@assets_update');
