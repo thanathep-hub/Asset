@@ -274,8 +274,6 @@
 
             if (checkInput() === true) {
                 let waitResize = await ManageImage();
-                console.log(images);
-                console.log(waitResize);
 
 
                 if (waitResize === true) {
@@ -303,7 +301,6 @@
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         },
                         success: function(response, textStatus, xhr) {
-                            console.log(response);
 
                             if (xhr.status === 201) {
                                 $('#add-new-asset').modal('hide');
@@ -453,7 +450,6 @@
                     'X-CSRF-Token': csrfToken
                 },
                 success: function(catagory) {
-                    console.log(catagory);
                     $.each(catagory, function(index, items) {
                         $('#showAssetCategory').append(`
                         <option value="${items.idAssType}" selected>${items.AssTypeName}</option>
@@ -509,7 +505,6 @@
                     'X-CSRF-Token': csrfToken
                 },
                 success: function(data) {
-                    console.log(data);
 
                     $('#inAssetComp').empty();
 

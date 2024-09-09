@@ -924,13 +924,15 @@ class AssetsController extends Controller
     public function getAsset_waitApprove()
     {
         $idComp =  (int)session('user')->idComp;
-        // Fetch assets based on session data or predefined criteria
+        $compText = "AND pdas.idComp = $idComp";
         try {
             $assetWaitApprove = DB::select("
             SELECT TOP 10
                 pdas.idAsset,
                 pdas.AssetName,
-                pdas.AssDate,
+                LEFT(CAST(pdas.AssDate AS VARCHAR(8)), 4) + '-' +
+                SUBSTRING(CAST(pdas.AssDate AS VARCHAR(8)), 5, 2) + '-' +
+                RIGHT(CAST(pdas.AssDate AS VARCHAR(8)), 2) AS AssDate,
                 pdac.location,
                 pdac.acs_id,
                 pdacs.acs_name_th
@@ -939,7 +941,56 @@ class AssetsController extends Controller
                 LEFT JOIN PchInvAndProject.dbo.Asset_Components pdac ON pdas.idAsset = pdac.asset_d
                 LEFT JOIN PchInvAndProject.dbo.Asset_Component_Status pdacs ON pdac.acs_id = pdacs.acs_id
             WHERE
-                pdas.idComp = $idComp
+                1 = 1
+                $compText
+                AND	pdac.asset_d IS NULL
+            ORDER BY
+                pdas.idAsset DESC
+        ");
+
+            if ($assetWaitApprove) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Assets found and awaiting approval',
+                    'data' => $assetWaitApprove
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'No assets found'
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred: ' . $th->getMessage()
+            ]);
+        }
+    }
+    public function getAsset_fetchApprove()
+    {
+        $idComp =  (int)session('user')->idComp;
+        // Fetch assets based on session data or predefined criteria
+        $compText = "AND pdas.idComp = $idComp";
+        try {
+            $assetWaitApprove = DB::select("
+            SELECT TOP 10
+                pdas.idAsset,
+                pdas.AssetName,
+                LEFT(CAST(pdas.AssDate AS VARCHAR(8)), 4) + '-' +
+                SUBSTRING(CAST(pdas.AssDate AS VARCHAR(8)), 5, 2) + '-' +
+                RIGHT(CAST(pdas.AssDate AS VARCHAR(8)), 2) AS AssDate,
+                pdac.location,
+                pdac.acs_id,
+                pdacs.acs_name_th
+            FROM
+                PchInvAndProject.dbo.AssAssetD pdas
+                LEFT JOIN PchInvAndProject.dbo.Asset_Components pdac ON pdas.idAsset = pdac.asset_d
+                LEFT JOIN PchInvAndProject.dbo.Asset_Component_Status pdacs ON pdac.acs_id = pdacs.acs_id
+            WHERE
+                1 = 1
+                $compText
+                AND	pdac.asset_d IS NOT NULL
             ORDER BY
                 pdas.idAsset DESC
         ");

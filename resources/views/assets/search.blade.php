@@ -30,9 +30,6 @@
     }
 
     /* tom select */
-    .card {
-        height: 100vh;
-    }
 
     .btn-filter {
         border-radius: 12px;

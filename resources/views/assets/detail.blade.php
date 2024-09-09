@@ -697,7 +697,6 @@
                 },
                 success: function(data) {
                     asset = data;
-                    console.log(data);
                     setData(data);
                 },
                 error: function(xhr, status, error) {

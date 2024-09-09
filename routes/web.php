@@ -91,6 +91,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::get('/assets/detail/{id}', 'AssetsController@assets_detail');
 
     route::get('/api/assets/wait-approve', 'AssetsController@getAsset_waitApprove');
+    route::get('/api/assets/fetch-approve', 'AssetsController@getAsset_fetchApprove');
 
     Route::post('/assets/new-asset', 'AssetsController@assets_new');
     Route::post('/assets/detail/active', 'AssetsController@assets_active');

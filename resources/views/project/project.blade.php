@@ -84,7 +84,7 @@
 
         tr.gridjs-tr:last-child td {
             /* background-color: yellow;
-                                                        border-radius: 18px 18px 18px 18px; */
+                                                                                            border-radius: 18px 18px 18px 18px; */
             /* เปลี่ยนพื้นหลังเป็นสีเหลือง */
         }
 
@@ -194,6 +194,9 @@
                         <th>บริษัท</th>
                         <th>สถานะ</th>
                         <th>วันที่เริ่มโครงการ</th>
+                        <th>
+
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -236,11 +239,13 @@
                             .ProjStName +
                             '</td><td><i class="fa-solid fa-calendar-days pe-2"></i>' + project_data
                             .cDateStart +
+                            '</td><td><button onclick="goTpProject(' + project_data.idProject +
+                            ')" type="button" class="btn btn-light">ดู</button>' +
                             '</td></tr>');
                     });
 
                     // Call a function to render the grid (if needed)
-                    rederGridjs();
+                    renderGridjs();
                 },
                 error: function(xhr, status, error) {
                     console.error('Error fetching data:', error);
@@ -249,7 +254,7 @@
         }
 
 
-        function rederGridjs() {
+        function renderGridjs() {
             const grid = $("table#project_table").Grid({
                 pagination: true,
                 sort: true,
@@ -285,6 +290,10 @@
                 StoploginLoading();
             }, 2000);
 
+        }
+
+        function goTpProject(id) {
+            window.location.href = '/project/items/' + id;
         }
 
         function loginLoading() {

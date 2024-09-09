@@ -26,10 +26,11 @@ class ProjectController extends Controller
             $query_mt = $this->project_query($id);
             $query_dt = $this->project_dt($id);
 
-            if ($query_mt === null) {
+            if ($query_mt) {
+                return view('project.project-m', compact('query_mt', 'query_dt', 'permiss', 'check_approve', 'note_reject'));
+            } else {
                 return redirect('/errors/404');
             }
-            return view('project.project-m', compact('query_mt', 'query_dt', 'permiss', 'check_approve', 'note_reject'));
         } else {
             return view('project.no-access');
         }
@@ -52,7 +53,7 @@ class ProjectController extends Controller
             if ($query) {
                 return $query;
             } else {
-                return redirect('/errors/404');
+                return $query;
             }
         } catch (\Throwable $th) {
         }

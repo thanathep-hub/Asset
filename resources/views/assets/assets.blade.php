@@ -190,7 +190,6 @@
                     textInput: textInput
                 },
                 success: function(data) {
-                    console.log(data.length);
                     document.getElementById("amountResult").innerText = data.length;
 
                     $('#showResult').empty();
