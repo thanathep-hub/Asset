@@ -11,14 +11,16 @@ class ProjectController extends Controller
 {
     public function project()
     {
+        $project_wait_approve = $this->fetchCountProjectWaitApprove();
         session()->put("routeIs", 'project');
-        return view('project.project');
+        return view('project.project', compact('project_wait_approve'));
     }
     public function project_mt($id)
     {
         $permiss = $this->project_permission();
         $check_approve = $this->checkApprove_status($id);
         $note_reject = $this->note_reject_approve();
+        $sign = $this->sign($id);
 
         // dd($check_approve);
 
@@ -27,7 +29,7 @@ class ProjectController extends Controller
             $query_dt = $this->project_dt($id);
 
             if ($query_mt) {
-                return view('project.project-m', compact('query_mt', 'query_dt', 'permiss', 'check_approve', 'note_reject'));
+                return view('project.project-m', compact('query_mt', 'query_dt', 'permiss', 'check_approve', 'note_reject', 'sign'));
             } else {
                 return redirect('/errors/404');
             }
@@ -512,6 +514,62 @@ class ProjectController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
             return response()->json(['success' => false, 'message' => 'An error approve Prject', 'error' => $th->getMessage()], 500);
+        }
+    }
+
+    public function sign($id)
+    {
+        try {
+            $query = collect(DB::select("
+                SELECT
+                    pddp.idProject,
+                    pddp.idPsCheck,
+                    gdde.PsNameFS  AS nameCheck,
+                    pddp.idPsAccept,
+                    gddea.PsNameFS  AS nameAccept,
+                    pddp.idPsConfirm,
+                    gddec.PsNameFS  AS nameConfirm1,
+                    pddp.idPsConfirm2,
+                    gddecc.PsNameFS AS nameConfirm2
+                FROM
+                    PchInvAndProject.dbo.dProject_Approve pddp
+                    LEFT JOIN GR_Group.dbo.dEmployee AS gdde ON pddp.idPsCheck = gdde.idPs
+                    LEFT JOIN GR_Group.dbo.dEmployee AS gddea ON pddp.idPsAccept = gddea.idPs
+                    LEFT JOIN GR_Group.dbo.dEmployee AS gddec ON pddp.idPsConfirm = gddec.idPs
+                    LEFT JOIN GR_Group.dbo.dEmployee AS gddecc ON pddp.idPsConfirm2 = gddecc.idPs
+                    WHERE pddp.idProject = $id
+            "))->first();
+
+            if ($query) {
+                return $query;
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    public function fetchCountProjectWaitApprove()
+    {
+        try {
+            $query = collect(DB::select("
+                SELECT COUNT
+                    ( * ) AS project_wait_approve
+                FROM
+                    PchInvAndProject.dbo.dProject_Approve pdda
+                WHERE
+                    (pdda.idPsAccept IS NULL
+                    OR pdda.idPsCheck IS NULL
+                    OR pdda.idPsConfirm IS NULL
+                    OR pdda.idPsConfirm2 IS NULL )
+                    AND pdda.idPsCancel IS NULL
+            "))->first();
+            if ($query) {
+                return $query;
+            } else {
+                return 0;
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
         }
     }
 }

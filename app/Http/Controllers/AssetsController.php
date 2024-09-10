@@ -938,10 +938,12 @@ class AssetsController extends Controller
                 pdacs.acs_name_th
             FROM
                 PchInvAndProject.dbo.AssAssetD pdas
+                LEFT JOIN PchInvAndProject.dbo.AssTypeD pdat ON pdas.idType = pdat.idAssType
                 LEFT JOIN PchInvAndProject.dbo.Asset_Components pdac ON pdas.idAsset = pdac.asset_d
                 LEFT JOIN PchInvAndProject.dbo.Asset_Component_Status pdacs ON pdac.acs_id = pdacs.acs_id
             WHERE
                 1 = 1
+                AND pdat.AssYear != 0
                 $compText
                 AND	pdac.asset_d IS NULL
             ORDER BY
@@ -974,7 +976,7 @@ class AssetsController extends Controller
         $compText = "AND pdas.idComp = $idComp";
         try {
             $assetWaitApprove = DB::select("
-            SELECT TOP 10
+            SELECT TOP 3
                 pdas.idAsset,
                 pdas.AssetName,
                 LEFT(CAST(pdas.AssDate AS VARCHAR(8)), 4) + '-' +
@@ -985,10 +987,12 @@ class AssetsController extends Controller
                 pdacs.acs_name_th
             FROM
                 PchInvAndProject.dbo.AssAssetD pdas
+                LEFT JOIN PchInvAndProject.dbo.AssTypeD pdat ON pdas.idType = pdat.idAssType
                 LEFT JOIN PchInvAndProject.dbo.Asset_Components pdac ON pdas.idAsset = pdac.asset_d
                 LEFT JOIN PchInvAndProject.dbo.Asset_Component_Status pdacs ON pdac.acs_id = pdacs.acs_id
             WHERE
                 1 = 1
+                AND pdat.AssYear != 0
                 $compText
                 AND	pdac.asset_d IS NOT NULL
             ORDER BY

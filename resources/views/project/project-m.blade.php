@@ -218,8 +218,8 @@
         }
 
         /* .dropdown-toggle::after {
-                                    background-color: #000;
-                                } */
+                                                                                                background-color: #000;
+                                                                                            } */
 
         /* scroll */
         ::-webkit-scrollbar {
@@ -376,6 +376,64 @@
 
 
             <div class="border-bm mb-3 d-none d-lg-block"></div>
+
+            <div class="row mb-3" style="margin-bottom: -10px;">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <table class="table table-bordered tTableText">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; width: 100px;">
+                                    <img class="img_cusMax"
+                                        src="https://seedsgroup.dyndns.org/spm/images/eSign/{{ $sign->idPsCheck }}.png"
+                                        onerror="this.src = '{{ asset('signature/signature_empty.png') }}';"
+                                        style="height: 40px;">
+                                </th>
+                                <th style="text-align: center; width: 100px;">
+                                    <img class="img_cusMax"
+                                        src="https://seedsgroup.dyndns.org/spm/images/eSign/{{ $sign->idPsAccept }}.png"
+                                        onerror="this.src = '{{ asset('signature/signature_empty.png') }}';"
+                                        style="height: 40px;">
+                                </th>
+                                <th style="text-align: center; width: 100px;">
+                                    <img class="img_cusMax"
+                                        src="https://seedsgroup.dyndns.org/spm/images/eSign/{{ $sign->idPsConfirm }}.png"
+                                        onerror="this.src = '{{ asset('signature/signature_empty.png') }}';"
+                                        style="height: 40px;">
+                                </th>
+                                <th style="text-align: center; width: 100px;">
+                                    <img class="img_cusMax"
+                                        src="https://seedsgroup.dyndns.org/spm/images/eSign/{{ $sign->idPsConfirm2 }}.png"
+                                        onerror="this.src = '{{ asset('signature/signature_empty.png') }}';"
+                                        style="height: 40px;">
+                                </th>
+                                <!-- <th class="tTb">วิธีการโอนเงิน &nbsp; - ผ่านทางธนาคาร<br>INST.DATE </th> -->
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="tTextL text-center" style="font-size: 12px;">
+                                    {{ $sign->nameCheck ?? '-' }}<br>
+                                    ผู้ตรวจสอบ
+                                <td class="tTextL text-center" style="font-size: 12px;">{{ $sign->nameAccept ?? '-' }}
+                                    <br>
+                                    รับทราบ
+                                </td>
+                                </td>
+                                <td class="tTextL text-center" style="font-size: 12px;">
+                                    {{ $sign->nameConfirm1 ?? '-' }}<br>
+                                    ผู้อนุมัติ1
+                                </td>
+                                <td class="tTextL text-center" style="font-size: 12px;">
+                                    {{ $sign->nameConfirm2 ?? '-' }}<br>
+                                    ผู้อนุมัติ2</td>
+                                <!-- <td class="tTb">ผู้รับเงิน</td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="border-bm mb-3 d-none d-lg-block"></div>
             @if (count($query_dt) > 0)
                 <div class="lis-material d-none d-lg-block">
                     <h6><img src="{{ asset('images/checklist.png') }}" alt="" height="24px"> รายการวัสดุ</h6>
@@ -437,14 +495,6 @@
                 </div>
             </div>
         @endif
-        {{-- <div class="d-block d-lg-none fixed-bottom">
-            <div class="row card-btn-approve m-0" style="justify-content: space-evenly;">
-                <button type="button" class="col-6 btn btn-not-approve-fixed" data-bs-toggle="modal"
-                    data-bs-target="#show-modal-not-approve-1">ยกเลิก</button>
-                <button type="button" class="col-6 btn btn-approve-fixed" data-bs-toggle="modal"
-                    data-bs-target="#show-modal-approve-1">อนุมัติ</button>
-            </div>
-        </div> --}}
 
     </div>
     <div class="modal fade" id="show-modal-check" tabindex="-1" aria-hidden="true">
@@ -550,7 +600,7 @@
                     </button>
                     <button type="button" class="btn col-5 btn-not-approve-fixed-modal" style="color:#fff;"
                         id="cancel" onclick="cancel()">
-                        ยกเลิก
+                        ปิดโครงการ
                     </button>
                 </div>
             </div>
@@ -804,31 +854,44 @@
         }
 
         function cancel() {
-            $.ajax({
-                url: '/project/cancel/' + {{ $query_mt->idProject }},
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    console.log(response);
-                    if (response.status == true) {
-                        Swal.fire({
-                            title: "สำเร็จ!",
-                            text: response.message,
-                            icon: "success"
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload();
+            $('#show-modal-not-approve-1').modal('hide');
+            Swal.fire({
+                title: "ต้องการปิดโครงการนี้ ?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "ยืนยัน!",
+                cancelButtonText: "ยกเลิก"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/project/cancel/' + {{ $query_mt->idProject }},
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            if (response.status == true) {
+                                Swal.fire({
+                                    title: "สำเร็จ!",
+                                    text: response.message,
+                                    icon: "success"
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload();
+                                    }
+                                });
+                            } else {
+                                console.log(response, "tets");
                             }
-                        });
-                    } else {
-                        console.log(response, "tets");
-                    }
+                        }
+                    });
                 }
             });
             console.log("cancel");
-            // $('#show-modal-not-approve-1').modal('hide');
+            // $('#show-modal-not-approve-1').modal('hide');show-modal-not-approve-1
         }
     </script>
 @endpush

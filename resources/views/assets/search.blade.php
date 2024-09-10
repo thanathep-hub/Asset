@@ -187,15 +187,17 @@
                     'X-CSRF-Token': csrfToken
                 },
                 success: function(company) {
+                    // $('#search-filter-company').append(`
+                //     <option value="0" selected>ทั้งหมด</option>
+                //     `);
                     $('#search-filter-company').empty();
-                    $('#search-filter-company').append(`
-                        <option value="0" selected>ทั้งหมด</option>
-                        `);
                     $.each(company, function(index, items) {
+                        let selected = ({{ session('idComp') }} == items.idComp) ? 'selected' : '';
                         $('#search-filter-company').append(`
-                        <option value="${items.idComp}" >${items.CompName}</option>
+                            <option value="${items.idComp}" ${selected}>${items.CompName}</option>
                         `);
                     });
+
                 },
                 error: function(xhr, status, error) {
                     console.error('Error fetching data:', error);

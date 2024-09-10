@@ -78,13 +78,13 @@
         }
 
         th.gridjs-th:nth-child(4) {
-            text-align: start;
+            text-align: center;
             padding-left: 24px;
         }
 
         tr.gridjs-tr:last-child td {
             /* background-color: yellow;
-                                                                                            border-radius: 18px 18px 18px 18px; */
+                                                                                                                                            border-radius: 18px 18px 18px 18px; */
             /* เปลี่ยนพื้นหลังเป็นสีเหลือง */
         }
 
@@ -102,7 +102,11 @@
         }
 
         td:nth-child(4) {
-            text-align: start;
+            text-align: center;
+        }
+
+        td:nth-child(5) {
+            text-align: center;
         }
 
         .gridjs-footer {
@@ -112,6 +116,10 @@
         .fa-circle {
             color: #23a66c;
             font-size: 8px;
+        }
+
+        td.gridjs-td {
+            white-space: nowrap;
         }
 
 
@@ -130,6 +138,23 @@
                         <div class="title-list-item align-items-center">
                             <label class="" style="color: #6d6d6d;">โครงการทั้งหมด</label>
                             <h5 class="kanit-semibold p-0 m-0">-</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3">
+                <div class="card card-list-title">
+                    <div class="d-flex align-items-center" style="height: 4.25rem;">
+                        <div class="icon card-list-card m-2 p-1 border-0" style="width:40px;">
+                            <img src="{{ asset('project/work-in-progress.png') }}" alt="" width="32px;">
+                        </div>
+                        <div class="title-list-item align-items-center">
+                            <label class="" style="color: #6d6d6d;">รอการอนุมัติ</label>
+                            <p class="kanit-semibold p-0 m-0">
+                                @if ($project_wait_approve)
+                                    {{ $project_wait_approve->project_wait_approve }}
+                                @endif
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -160,26 +185,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-3">
-                <div class="card card-list-title">
-                    <div class="d-flex align-items-center" style="height: 4.25rem;">
-                        <div class="icon card-list-card m-2 p-1 border-0" style="width:40px;">
-                            <img src="{{ asset('project/work-in-progress.png') }}" alt="" width="32px;">
-                        </div>
-                        <div class="title-list-item align-items-center">
-                            <label class="" style="color: #6d6d6d;">รอการอนุมัติ</label>
-                            <p class="kanit-semibold p-0 m-0">-</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
     <div class="option-filter mt-4 mb-3 d-flex justify-content-end">
         <input class="search-all-project form-control" type="search" placeholder="ค้นตามชื่อโครงการ"
             id="search-all-project">
         <div class="mx-2" style="border-right:2px solid #169fa836;"></div>
-        <button class="btn btn-filter form-control" type="button">
+        <button class="btn btn-filter form-control" type="button" hidden>
             <i class="fa-solid fa-table-cells pe-2"></i>
             กรอง</button>
     </div>
@@ -194,9 +207,7 @@
                         <th>บริษัท</th>
                         <th>สถานะ</th>
                         <th>วันที่เริ่มโครงการ</th>
-                        <th>
-
-                        </th>
+                        <th>จัดการ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -240,7 +251,7 @@
                             '</td><td><i class="fa-solid fa-calendar-days pe-2"></i>' + project_data
                             .cDateStart +
                             '</td><td><button onclick="goTpProject(' + project_data.idProject +
-                            ')" type="button" class="btn btn-light">ดู</button>' +
+                            ')" type="button" class="btn btn-light" style="background-color:#ffedd5;color:#000;">ดำเนินการ</button>' +
                             '</td></tr>');
                     });
 
