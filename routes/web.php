@@ -26,7 +26,7 @@ Route::get('/login', function () {
     if (Session::has('user')) {
         return redirect('/');
     } else {
-        return view('auth.loginForm');
+        return view('auth.loginForm2');
     }
 });
 
