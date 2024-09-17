@@ -1,5 +1,10 @@
 <style>
     /*  */
+
+    .section-first {
+        /* background-color: #dbeafe; */
+    }
+
     .t-gray {
         color: #808080a1;
     }
@@ -42,17 +47,18 @@
         text-overflow: ellipsis;
     }
 
-
     .goToEditAsset:hover {
         cursor: pointer;
-        background-color: #fef9c3;
+        /* background-color: #fef9c3; */
+        background-color: #eff3ff;
     }
 </style>
 <div class="asset-m"> {{-- แสดงรายากรที่เพิ่มเข้ามาใหม่กับรายการที่ยังไม่ยืนยัน --}}
 
-    <div class="section-first mb-4">
-        <h5 class="title">สินทรัพย์ที่ยืนยันล่าสุด <img class="ps-1" src="{{ asset('assets/validity.png') }}"
-                height="28px"></h5>
+    <div class="section-first mb-4 ">
+        <h5 class="title">สินทรัพย์ที่ยืนยันล่าสุด
+            {{-- <img class="ps-1" src="{{ asset('assets/validity.png') }}" height="28px"> --}}
+        </h5>
         <div class="table-responsive">
             <table class="table" id="asset-approve">
                 <thead>

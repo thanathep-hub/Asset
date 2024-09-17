@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('icons/asset-logo.png') }}">
 
     <link rel="manifest" href="/app.webmanifest" crossorigin="use-credentials" />
     <title>Asset</title>
@@ -164,7 +165,8 @@
         <div class="row">
             <div class="card p-4 shadow-lg border-0">
                 <div class="image-logo text-center mb-3">
-                    <img src="{{ asset('imges/asset-logo.png') }}" alt="" height="100px">
+                    {{-- <img src="{{ asset('imges/asset-logo.png') }}" alt="" height="100px"> --}}
+                    <img src="{{ asset('icons/asset-logo.png') }}" alt="" height="100px">
                 </div>
                 <form method="get" action="/checkLogin">
                     @csrf

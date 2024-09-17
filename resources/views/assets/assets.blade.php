@@ -3,9 +3,10 @@
 @push('style')
     <style>
         .content {
-            background-image: linear-gradient(to right, #d4e5ed, #d5d7e48a)
-                /* background-image: linear-gradient(to right, #effbfc, #d5d7e48a) */
-                /* background-image: linear-gradient(to right, #d2e9ee, #d5d7e4); */
+            /* background-image: linear-gradient(to right, #d4e5ed, #d5d7e48a); */
+            /* background-image: linear-gradient(to right, #effbfc, #d5d7e48a) */
+            /* background-image: linear-gradient(to right, #d2e9ee, #d5d7e4); */
+            background-color: #f1f5f9;
         }
 
         body {
@@ -93,6 +94,23 @@
             display: none;
         }
 
+        .dropdown-item {
+            color: #fff;
+        }
+
+        .dropdown-item:hover {
+            cursor: pointer;
+            background-color: #fff;
+            border-radius: 4px;
+        }
+
+        .dropdown-menu {
+            padding: .5rem;
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+            background-color: #3b66f6;
+        }
+
         /* list  asset items */
 
         /* for print */
@@ -132,7 +150,8 @@
         <div class="text-end p-3 mb-3">
             <div class="btn-group dropup">
                 <button type="button" class="btn dropdown-toggle btn-manage-asset border-0" data-bs-toggle="dropdown"
-                    aria-expanded="false" style="min-width: 120px;min-height: 44px;background-color: #369689;color:#fff;">
+                    aria-expanded="false"
+                    style="min-width: 120px;min-height: 44px;background-image: linear-gradient(to top, #2552eb, #3b66f6);color:#fff;">
                     <i class="fa-solid fa-pen pe-2"></i>ใหม่
                 </button>
                 <ul class="dropdown-menu">

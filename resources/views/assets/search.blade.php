@@ -33,11 +33,16 @@
 
     .btn-filter {
         border-radius: 12px;
-        border: 1px solid #dee2e6;
+        border: none;
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     }
 
     .search-input {
         max-width: 400px !important;
+        border: none;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        border-radius: 12px;
+
     }
 
     /* search-result */
@@ -48,7 +53,9 @@
     }
 
     .search-result-list:hover {
-        background-color: #fefce8;
+        border-radius: 12px;
+        /* background-color: #fefce8; */
+        background-color: #fff2f1;
     }
 </style>
 
@@ -57,11 +64,11 @@
         <div class="d-flex justify-content-end gap-2" role="search">
             {{-- <input class="form-control me-2 shadow-sm" type="search" placeholder="ค้นหาตามชื่อ" aria-label="ค้นหา"
                 style="max-width: 400px;"> --}}
-            <button class="btn btn-filter" onclick="searchModal()">
+            <button class="btn btn-filter" onclick="searchModal()" style="background-color:#fef6f2;color:#f8493b;">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 ค้นหา
             </button>
-            <button class="btn btn-filter" onclick="showFilter()">
+            <button class="btn btn-filter" onclick="showFilter()" style="background-color:#f8493b;color:#fff;">
                 <i class="fa-solid fa-sliders"></i>
                 ตัวกรอง
             </button>
@@ -76,8 +83,8 @@
 <div class="modal fade" id="search-modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg " style="height: 95vh; display: flex; flex-direction: column;">
         <div class="modal-content border-0" style="height: 100%; display: flex; flex-direction: column;">
-            <div class="modal-header border-0" style="background-color: #f3f1ff;">
-                <h1 class="modal-title fs-5" style="font-weight: 700; color: #58d090;">
+            <div class="modal-header border-0" style="background-color: #fef6f2;">
+                <h1 class="modal-title fs-5" style="font-weight: 700; color: #480c07;">
                     <img class="pe-2" src="{{ asset('assets/3d-magnifier.png') }}" height="28px">ค้นหา
                 </h1>
                 <button type="button" class="btn-close-new-asset" data-bs-dismiss="modal" aria-label="Close">
@@ -87,7 +94,7 @@
             <div class="modal-body" style="flex-grow: 1; overflow-y: auto;">
                 <div class="serarch-layout mb-3" style="text-align: -webkit-center;">
                     <div class="search-input">
-                        <input type="search" id="search-input" class="form-control"
+                        <input type="search" id="search-input" class="form-control border-0"
                             placeholder="ค้นหาด้วยชื่อ เช่น คอมพิวเตอร์...">
                     </div>
                 </div>
@@ -109,8 +116,8 @@
 <div class="modal fade" id="search-filter" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-md"> {{-- modal-dialog-centered --}}
         <div class="modal-content modal-content-active border-0">
-            <div class="modal-header border-0" style="background-color: #f3f1ff;">
-                <h1 class="modal-title fs-5" style="font-weight: 700;color: #58d090;"><img class="pe-2"
+            <div class="modal-header border-0" style="background-color: #dbe3fe;">
+                <h1 class="modal-title fs-5" style="font-weight: 700;color: #1e378a;"><img class="pe-2"
                         src="{{ asset('assets/filter.png') }}" height="28px">ตัวกรอง</h1>
                 <button type="button" class="btn-close-new-asset" data-bs-dismiss="modal" aria-label="Close"><i
                         class="fa-solid fa-xmark"></i></button>
@@ -130,7 +137,7 @@
                         </select>
                     </div>
                     <button type="button" class="btn w-full btn-save-asset mt-3" onclick="search_filter_save()"
-                        style="height: 44px;color:#fff;background-color:#6857E8;">
+                        style="height: 44px;color:#fff;background-color:#3b66f6;">
                         <i class="fa-regular fa-circle-check pe-2"></i>ตกลง</button>
                 </form>
             </div>

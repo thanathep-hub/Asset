@@ -242,7 +242,8 @@
                         </select>
                     </div>
                     <button type="button" class="btn w-full btn-save-asset mt-3"
-                        style="height: 44px;color:#fff;background-color:#6857E8;" onclick="SaveNewAsset()">
+                        style="height: 44px;color:#fff;background-image: linear-gradient(to top, #2552eb, #3b66f6);"
+                        onclick="SaveNewAsset()">
                         <i class="fa-regular fa-floppy-disk pe-2"></i>บันทึก</button>
 
                 </form>

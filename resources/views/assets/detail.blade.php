@@ -53,8 +53,11 @@
         .dropdown-item:focus,
         .dropdown-item:hover,
         .dropdown-item:active {
-            background-color: #6857e8;
+            border-radius: 4px;
+            /* background-color: #6857e8; */
+            background-color: #2563eb;
             color: #fff;
+            cursor: pointer;
         }
 
         .dropup .dropdown-toggle::after {
@@ -644,7 +647,8 @@
         <div class="text-end p-3 mb-3">
             <div class="btn-group dropup">
                 <button type="button" class="btn dropdown-toggle btn-manage-asset border-0" data-bs-toggle="dropdown"
-                    aria-expanded="false" style="min-width: 160px;min-height: 44px;background-color: #369689;color:#fff;">
+                    aria-expanded="false"
+                    style="min-width: 160px;min-height: 44px;background-image: linear-gradient(to top, #2552eb, #3b66f6);color:#fff;">
                     {{-- background-color:#6857E8; --}}
                     จัดการ <i class="fa-solid fa-pen ps-2"></i>
                 </button>
