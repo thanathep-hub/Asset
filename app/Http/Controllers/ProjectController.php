@@ -572,6 +572,13 @@ class ProjectController extends Controller
             //throw $th;
         }
     }
+
+    // project list
+
+    public function project_list()
+    {
+        return view('project.project-list');
+    }
 }
 
 

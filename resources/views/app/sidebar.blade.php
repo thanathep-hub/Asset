@@ -44,7 +44,7 @@
         </div>
         <ul class="sidebar-nav">
             <li class="sidebar-header">
-                รายการ
+                สินทรัพย์
             </li>
             <li class="sidebar-item p-1">
                 <a href="/asset" class="sidebar-link {{ request()->is('asset') ? 'sidebar-link-active' : '' }}">
@@ -52,15 +52,28 @@
                     ASSET
                 </a>
             </li>
-
+            <li class="sidebar-header">
+                โครงการ
+            </li>
             <li class="sidebar-item p-1">
-                <a href="/project-all" class="sidebar-link  @if (session('routeIs') === 'project') active @endif">
-                    <i class="fa-solid fa-sheet-plastic fa-xl pe-2" style="max-width: 32px;"></i>
+                <a href="/project-list"
+                    class="sidebar-link  {{ request()->is('project-list') ? 'sidebar-link-active' : '' }}">
+                    <i class="fa-solid fa-file-powerpoint fa-xl pe-2" style="max-width: 32px;"></i>
                     โครงการ
                 </a>
             </li>
             <li class="sidebar-item p-1">
-                <a href="#" class="sidebar-link  @if (session('routeIs') === 'po') active @endif">
+                <a href="/project-all"
+                    class="sidebar-link   {{ request()->is('project-all') ? 'sidebar-link-active' : '' }}">
+                    <i class="fa-solid fa-clipboard-check fa-xl pe-2" style="max-width: 32px;"></i>
+                    อนุมัติโครงการ
+                </a>
+            </li>
+            <li class="sidebar-header">
+                การจัดซื้อ
+            </li>
+            <li class="sidebar-item p-1">
+                <a href="#" class="sidebar-link   {{ request()->is('po') ? 'sidebar-link-active' : '' }}">
                     <i class="fa-solid fa-briefcase fa-xl pe-2" style="max-width: 32px;"></i>
                     PO
                 </a>

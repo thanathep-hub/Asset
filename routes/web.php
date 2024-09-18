@@ -134,6 +134,9 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::post('/project/cancel/{id}', 'ProjectController@project_cancel');
     Route::get('/api/project', 'ProjectController@api_project')->name('get_project');
 
+    /* project list */
+    Route::get('/project-list', 'ProjectController@project_list');
+
     // Route::get('/test-view', function () {
     //     session()->put("routeIs", 'active');
     //     return view('app.app');
@@ -172,60 +175,3 @@ Route::get('up-file', function () {
 });
 
 Route::post('/up-file-con', 'TestController@resizeAndSaveToFTP');
-
-//
-//
-//
-
-//
-//
-//
-/* drink  */
-
-use App\Http\Controllers\DrinkController;
-
-Route::get('/connect_admin', 'DrinkController@connect_admin')->name('connect_admin');
-Route::get('/drink', function () {
-    try {
-        $DrinkController = new DrinkController();
-        $getMenus = $DrinkController->getMenus();
-    } catch (\Throwable $th) {
-        return view('errors.404');
-    }
-
-    return view('drink', ['getMenus' => $getMenus]);
-});
-
-Route::get('/getMenus', 'DrinkController@getMenus')->name('getMenus');
-
-Route::post('/insertCart', 'DrinkController@insertCart');
-
-Route::get('/drinks_success', 'DrinkController@drinks_success');
-Route::get('/back_to_drink', 'DrinkController@success')->name('back_to_drink');
-
-// Route::get('/test', 'DrinkController@test');
-// Route::get('/test/po/{id}', 'POController@PO_line_update');
-
-Route::get('/drink_home', function () {
-    return view('drinks.drink_home');
-});
-
-Route::get('/drink/admin', 'drink\AdminController@index');
-
-Route::get('/drink/admin/oderdetail', 'drink\AdminController@adminGetOderdetail')->name('adminGetOderdetail');
-Route::post('/drink/admin/OrderIdCancel', 'drink\AdminController@OrderIdCancel')->name('OrderIdCancel');
-Route::post('/drink/admin/OrderSubmit', 'drink\AdminController@OrderSubmit')->name('OrderSubmit');
-
-Route::get('/drink/admin/order/{id}', 'drink\AdminController@OrderAC');
-
-
-Route::get('/drink/admin/getMenu', 'drink\AdminController@getMenu')->name('AdminGetMenu');
-Route::post('/drink/admin/addMenu', 'drink\AdminController@addMenu');
-Route::post('/drink/admin/updateMenu', 'drink\AdminController@updateMenu');
-Route::post('/drink/admin/deleteMenu', 'drink\AdminController@deleteMenu');
-
-Route::get('/drink/admin/getMenubyID/{id}', 'drink\AdminController@getMenubyID');
-
-Route::get('drink/admin/getHistory', 'drink\AdminController@getHistoryOrder')->name('admin_get_history');
-
-Route::get('/drink/admin/SumOrderDaily', 'drink\AdminController@SumOrderDaily')->name('SumOrderDaily');
