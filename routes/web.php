@@ -135,7 +135,10 @@ Route::group(['middleware' => 'CheckLogin'], function () {
     Route::get('/api/project', 'ProjectController@api_project')->name('get_project');
 
     /* project list */
-    Route::get('/project-list', 'ProjectController@project_list');
+    Route::get('/project-list', 'ProjectController@project_list'); //vdProjectFilter
+    Route::get('/project-list-filter', 'ApiController@vdProjectFilter');
+
+    Route::get('/api/project-list', 'ApiController@vdProject');
 
     // Route::get('/test-view', function () {
     //     session()->put("routeIs", 'active');
