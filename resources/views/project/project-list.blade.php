@@ -135,6 +135,10 @@
         .dataTables_filter {
             display: none;
         }
+
+        /* loading css */
+
+        /* loading css */
     </style>
 @endpush
 @section('content')
@@ -185,7 +189,6 @@
         </div>
     </div>
 
-
     {{-- search filter modal setting --}}
     <!-- Modal -->
     <div class="modal fade" id="modal-filter-search-project" tabindex="-1" aria-hidden="true">
@@ -233,6 +236,7 @@
         let CompSelect = '';
         $(document).ready(function() {
             console.log("Project Page.");
+            StartLoading();
             fetch_comp();
         });
 
@@ -271,6 +275,9 @@
             "language": {
                 "url": '//cdn.datatables.net/plug-ins/1.13.6/i18n/th.json'
             },
+            "initComplete": function(settings, json) {
+                StopLoading();
+            }
         });
 
         $('#Project tbody').on('click', 'tr', function() {
@@ -333,6 +340,16 @@
 
         function resetPage() {
             window.location.reload();
+        }
+
+        function StartLoading() {
+            document.getElementById('loadingWait')?.classList.remove('d-none');
+            document.getElementById('loadingWait')?.classList.add('d-flex');
+        }
+
+        function StopLoading() {
+            document.getElementById('loadingWait')?.classList.remove('d-flex');
+            document.getElementById('loadingWait')?.classList.add('d-none');
         }
     </script>
 @endpush
