@@ -223,6 +223,7 @@
     </div>
     {{--  --}}
 
+
 @endsection
 @push('script')
     <!-- DataTables JS -->
@@ -234,8 +235,9 @@
     <script>
         var projectComp = {!! json_encode(session('user') ? session('user')->idComp : null) !!};
         let CompSelect = '';
+
         $(document).ready(function() {
-            console.log("Project Page.");
+            console.log("Project List Page.");
             StartLoading();
             fetch_comp();
         });
@@ -246,7 +248,13 @@
                 "type": "GET",
                 "data": function(d) {
                     // เพิ่มพารามิเตอร์เพิ่มเติมที่นี่
-                    d.comp = document.getElementById('filter-comp').value;
+                    var compCode = document.getElementById('filter-comp').value;
+                    console.log("dd", compCode);
+
+                    // ถ้า compCode ไม่ว่าง ให้ส่งพารามิเตอร์ไป
+                    if (compCode !== "") {
+                        d.comp = compCode;
+                    }
                     d.startDate = document.getElementById('startDate').value;
                     d.startEnd = document.getElementById('startEnd').value;
                 },
@@ -286,6 +294,20 @@
             window.location.href = '/project-list/d/' + id;
         });
 
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                // ค่าที่จะกรองจากฟิลด์ CompCode
+                var compCode = document.getElementById('filter-comp').value.toLowerCase();
+                var dataCompCode = data[1].toLowerCase(); // ข้อมูลคอลัมน์ CompCode
+
+                // ถ้าไม่เลือกค่าใดๆ ก็แสดงข้อมูลทั้งหมด
+                if (compCode == 0 || dataCompCode.includes(compCode)) {
+                    return true;
+                }
+                return false;
+            }
+        );
+
 
         document.querySelectorAll('input.global_filter').forEach((el) => {
             el.addEventListener(el.type === 'text' ? 'keyup' : 'change', () =>
@@ -294,7 +316,7 @@
         });
 
         function filterGlobal(table) {
-            let filter = document.querySelector('#global_filter').value + ' ' + CompSelect;
+            let filter = document.querySelector('#global_filter').value;
             table.search(filter).draw();
         }
 
@@ -307,7 +329,7 @@
         function fetch_comp() {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
-                url: "/api/company",
+                url: "/api/project/company",
                 type: 'GET',
                 headers: {
                     'X-CSRF-Token': csrfToken
@@ -315,11 +337,15 @@
                 success: function(data) {
 
                     $('#filter-comp').empty();
+
                     $.each(data, function(index, items) {
                         $('#filter-comp').append(`
-                    <option value="${items.CompCode}" ${items.idComp === projectComp ? 'selected' : ''}>${items.CompName}</option>
-                    `);
+                            <option value="${items.CompCode}" ${items.idComp === projectComp ? 'selected' : ''}>${items.CompName}</option>
+                        `);
                     });
+                    $('#filter-comp').append(`
+                        <option value="" >All</option>
+                    `);
                     new TomSelect("#filter-comp", {
                         sortField: {
                             field: "text",
@@ -331,6 +357,7 @@
                             }
                         }
                     });
+
                 },
                 error: function(xhr, status, error) {
                     console.error('Error fetching data:', error);

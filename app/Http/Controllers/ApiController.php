@@ -94,6 +94,39 @@ class ApiController extends Controller
     //     }
     // }
 
+
+    public function apiCompany()
+    {
+        try {
+            $company = DB::select("
+                SELECT DISTINCT
+                    ass.idComp,
+                    synd.CompCode,
+                    synd.CompName
+                FROM
+                    PchInvAndProject.dbo.AssAssetD AS ass
+                    LEFT JOIN GR_Group.dbo.syndCompany synd ON ass.idComp = synd.idComp
+                WHERE
+                    ass.idComp IS NOT NULL
+            ");
+
+            // Add new row with idComp = 0, CompCode = 0, CompName = 'ทั้งหมด'
+            $newRow = (object) [
+                'idComp' => 0,
+                'CompCode' => 0,
+                'CompName' => 'ทั้งหมด'
+            ];
+
+            // Append the new row to the company array
+            array_unshift($company, $newRow);
+            if ($company) {
+                return response()->json($company);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
     public function formatCurrency($amount)
     {
         // Ensure the amount is a float and formatted to 2 decimal places

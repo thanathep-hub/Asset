@@ -142,6 +142,7 @@ Route::group(['middleware' => 'CheckLogin'], function () {
 
 
     Route::get('/api/project-list', 'ApiController@vdProject');
+    Route::get('/api/project/company', 'ApiController@apiCompany');
 
 
     // Route::get('/test-view', function () {
