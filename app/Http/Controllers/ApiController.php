@@ -73,6 +73,27 @@ class ApiController extends Controller
         }
     }
 
+    // public function vdProject_items($id)
+    // {
+    //     try {
+    //         $query = DB::select("
+    //             SELECT
+    //                 *
+    //             FROM
+    //                 PchInvAndProject.dbo.vProject_InvDetail AS pdvpi
+    //             WHERE
+    //                 pdvpi.idProject = $id
+    //             ORDER BY
+    //                 pdvpi.idBuyDt DESC
+    //         ");
+    //         if ($query) {
+    //             return response()->json($query);
+    //         }
+    //     } catch (\Throwable $th) {
+    //         //throw $th;
+    //     }
+    // }
+
     public function formatCurrency($amount)
     {
         // Ensure the amount is a float and formatted to 2 decimal places

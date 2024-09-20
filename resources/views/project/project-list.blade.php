@@ -2,6 +2,7 @@
 @section('title', 'โครงการ')
 @push('style')
     <!-- DataTables CSS -->
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.1.6/css/dataTables.dataTables.min.css"> --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
     <style>
@@ -28,9 +29,9 @@
 
         #btn-filter-search-project {
             width: 100%;
-            max-width: 100px;
+            max-width: 120px;
             border-radius: 8px;
-            border: none;
+            border: 1px solid #64748b;
             box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
             background-color: #64748b;
             color: #fff;
@@ -40,7 +41,7 @@
             width: 100%;
             max-width: 100px;
             border-radius: 8px;
-            border: none;
+            border: 1px solid #facc15;
             box-shadow: #fef9c3 1.95px 1.95px 2.6px;
             background-color: #facc15;
             color: #fff;
@@ -130,6 +131,10 @@
         #Project tbody tr:hover {
             cursor: pointer;
         }
+
+        .dataTables_filter {
+            display: none;
+        }
     </style>
 @endpush
 @section('content')
@@ -198,11 +203,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="" class="form-label">ระหว่างวันที่</label>
-                        <input type="date" class="form-control" id="startDate">
+                        <input type="date" class="form-control" id="startDate" disabled>
                     </div>
                     <div class="mb-3">
                         <label for="" class="form-label">ถึงวันที่</label>
-                        <input type="date" class="form-control" id="startEnd">
+                        <input type="date" class="form-control" id="startEnd" disabled>
                     </div>
                     <div class="modal-footer border-0 p-0">
                         <button onclick="filter_save()" type="button" class="btn btn-primary"
@@ -218,12 +223,14 @@
 @endsection
 @push('script')
     <!-- DataTables JS -->
+    {{-- <script src="https://cdn.datatables.net/2.1.6/js/dataTables.min.js"></script> --}}
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 
     <script>
         var projectComp = {!! json_encode(session('user') ? session('user')->idComp : null) !!};
+        let CompSelect = '';
         $(document).ready(function() {
             console.log("Project Page.");
             fetch_comp();
@@ -260,7 +267,7 @@
                     "data": "Budget"
                 }
             ],
-            "dom": 'lrtip',
+            // "dom": 'lrtip',
             "language": {
                 "url": '//cdn.datatables.net/plug-ins/1.13.6/i18n/th.json'
             },
@@ -269,8 +276,9 @@
         $('#Project tbody').on('click', 'tr', function() {
             let data = table.row(this).data(); // ดึงข้อมูลของแถวที่คลิก
             let id = data.idProject; // ดึงค่า ID จากข้อมูลของแถว
-            alert('Row clicked with ID: ' + id);
+            window.location.href = '/project-list/d/' + id;
         });
+
 
         document.querySelectorAll('input.global_filter').forEach((el) => {
             el.addEventListener(el.type === 'text' ? 'keyup' : 'change', () =>
@@ -279,15 +287,13 @@
         });
 
         function filterGlobal(table) {
-            let filter = document.querySelector('#global_filter');
-            table.search(filter.value).draw();
+            let filter = document.querySelector('#global_filter').value + ' ' + CompSelect;
+            table.search(filter).draw();
         }
 
         function filter_save() {
-            console.log(document.getElementById('filter-comp').value);
-            console.log(document.getElementById('startDate').value);
-            console.log(document.getElementById('startEnd').value);
-
+            CompSelect = document.getElementById('filter-comp').value;
+            filterGlobal(table);
             $('#modal-filter-search-project').modal('hide');
         }
 
@@ -304,7 +310,7 @@
                     $('#filter-comp').empty();
                     $.each(data, function(index, items) {
                         $('#filter-comp').append(`
-                    <option value="${items.idComp}" ${items.idComp === projectComp ? 'selected' : ''}>${items.CompName}</option>
+                    <option value="${items.CompCode}" ${items.idComp === projectComp ? 'selected' : ''}>${items.CompName}</option>
                     `);
                     });
                     new TomSelect("#filter-comp", {

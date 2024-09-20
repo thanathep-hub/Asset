@@ -43,8 +43,9 @@ class ProjectController extends Controller
 
         try {
             $query = collect(DB::select("
-                SELECT
-                    *
+                SELECT *,
+                SUBSTRING ( pdvp.DateStart, 7, 2 ) + '-' + SUBSTRING ( pdvp.DateStart, 5, 2 ) + '-' + SUBSTRING ( pdvp.DateStart, 0, 5 ) AS DateStart_f,
+	            SUBSTRING ( pdvp.DateEnd, 7, 2 ) + '-' + SUBSTRING ( pdvp.DateEnd, 5, 2 ) + '-' + SUBSTRING ( pdvp.DateEnd, 0, 5 ) AS DateEnd_f
                 FROM
                     PchInvAndProject.dbo.vProject AS pdvp
                 WHERE
@@ -578,6 +579,35 @@ class ProjectController extends Controller
     public function project_list()
     {
         return view('project.project-list');
+    }
+
+    public function vdProject_Detail($id)
+    {
+        $img_path = 'https://seedsgroup.dyndns.org/spm/POP/images/pBill/AssetProPic'; // + id.jpg
+        $pDetails = $this->project_query($id);
+        $pItems = $this->project_dt($id);
+
+        return view('project.project-detail', compact('pDetails', 'pItems', 'img_path'));
+    }
+    public function vdProject_items($id)
+    {
+        try {
+            $query = DB::select("
+                SELECT
+                    *
+                FROM
+                    PchInvAndProject.dbo.vProject_InvDetail AS pdvpi
+                WHERE
+                    pdvpi.idProject = $id
+                ORDER BY
+                    pdvpi.idBuyDt DESC
+            ");
+            if ($query) {
+                return response()->json($query);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 }
 

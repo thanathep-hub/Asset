@@ -57,7 +57,7 @@
             </li>
             <li class="sidebar-item p-1">
                 <a href="/project-list"
-                    class="sidebar-link  {{ request()->is('project-list') ? 'sidebar-link-active' : '' }}">
+                    class="sidebar-link  {{ request()->is('project-list', 'project-list/*') ? 'sidebar-link-active' : '' }}">
                     <i class="fa-solid fa-file-powerpoint fa-xl pe-2" style="max-width: 32px;"></i>
                     โครงการ
                 </a>
