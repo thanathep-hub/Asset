@@ -30,11 +30,11 @@
             max-width: 140px;
             min-width: 100px;
             border: 1px solid #e2e8f0;
-            border-radius: 4px;
+            border-radius: 8px;
         }
 
         #project-img {
-            justify-content: space-around;
+            /* justify-content: space-around; */
         }
 
         /* data table  */
@@ -54,6 +54,10 @@
             height: 40px;
         }
 
+        td {
+            white-space: nowrap;
+        }
+
         td:nth-child(1),
         td:nth-child(3),
         td:nth-child(4) {
@@ -70,10 +74,57 @@
         }
 
         .dataTables_filter {
-            display: none;
+            /* display: none; */
         }
 
-        @media (max-width: 600px) {}
+        @media (max-width: 600px) {
+            .h-label {
+                max-width: 125px !important;
+            }
+        }
+
+        /* img full screen */
+        .full-screen-modal {
+            align-content: center;
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .full-screen-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        .close-fullscreen {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-fullscreen:hover,
+        .close-fullscreen:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .img:hover {
+            cursor: pointer;
+        }
+
+        /* / */
     </style>
 @endpush
 @section('content')
@@ -134,8 +185,8 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-6 col-lg-6">
-                        <div class="p-2 border">
-                            <h5 class="mb-3" style="text-align: center;">ภาพประกอบโครงการ</h5>
+                        <div class="p-3" style="background-color: #f3f4f6;border-radius: 8px;">
+                            <h5 class="mb-3" style="text-align: start;">ภาพประกอบโครงการ</h5>
                             <div class="project-image-list row gap-2 p-0 m-0" id="project-img">
                                 {{-- <div class="col-auto" style="">
                                     <img class="img" src="{{ $img_path . $pDetails->idProject }}_1.jpg">
@@ -184,16 +235,9 @@
         </div>
     </div>
 
-    <div class="modal fade" id="loader" data-bs-backdrop="static" tabindex="-1" aria-labelledby="loader"
-        aria-hidden="false">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0">
-                <button class="btn btn-primary" type="button" disabled>
-                    <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
-                    <span role="status">Loading...</span>
-                </button>
-            </div>
-        </div>
+    <div id="fullScreenModal" class="full-screen-modal">
+        <span class="close-fullscreen">&times;</span>
+        <img class="full-screen-content" id="fullScreenImage">
     </div>
 
 @endsection
@@ -204,6 +248,7 @@
         $(document).ready(function() {
             checkImage();
             // $('#loader').modal('show');
+            totalP();
         });
         let checkImage = function() {
             let textImg = '';
@@ -216,7 +261,7 @@
                 s.onload = function() {
                     textImg += `
                         <div class="col-auto" style="">
-                            <img class="img" src="${'{{ $img_path . $pDetails->idProject }}_' + index + '.jpg'}">
+                            <img onclick="fullscreenImg(this.src)" class="img" src="${'{{ $img_path . $pDetails->idProject }}_' + index + '.jpg'}">
                         </div>
                     `;
                     $('#project-img').append(textImg);
@@ -228,6 +273,34 @@
             "language": {
                 "url": '//cdn.datatables.net/plug-ins/1.13.6/i18n/th.json'
             },
+        });
+
+        function totalP() {
+            $('#detail-items_filter').empty();
+            $('#detail-items_filter').append(`
+                <label> รวมเป็นเงิน <strong>{{ $total }}</strong> บาท</label>
+            `);
+        }
+
+        function fullscreenImg(src) {
+            fullScreenModal.style.display = 'block';
+            fullScreenImage.src = src;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const fullScreenModal = document.getElementById('fullScreenModal');
+            const fullScreenImage = document.getElementById('fullScreenImage');
+            const closeBtn = document.querySelector('.close-fullscreen');
+
+            closeBtn.addEventListener('click', function() {
+                fullScreenModal.style.display = 'none';
+            });
+
+            fullScreenModal.addEventListener('click', function(event) {
+                if (event.target === fullScreenModal) {
+                    fullScreenModal.style.display = 'none';
+                }
+            });
         });
     </script>
 @endpush

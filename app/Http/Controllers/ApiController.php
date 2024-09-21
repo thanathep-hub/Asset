@@ -9,6 +9,11 @@ class ApiController extends Controller
 {
     public function vdProject()
     {
+        $idComp = session('user')->idComp;
+        $text_q = '';
+        if (session('role') != 'admin') {
+            $text_q = " AND pddp.idComp = $idComp ";
+        }
         try {
             $query = DB::select("
                 SELECT
@@ -24,6 +29,8 @@ class ApiController extends Controller
                 FROM
                     PchInvAndProject.dbo.dProject pddp
                     LEFT JOIN GR_Group.dbo.syndCompany synd ON pddp.idComp = synd.idComp
+                    WHERE 1 = 1
+                    $text_q
                 ORDER BY
                     pddp.idProject DESC
             ");

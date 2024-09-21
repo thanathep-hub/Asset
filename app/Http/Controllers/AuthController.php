@@ -46,18 +46,24 @@ class AuthController extends Controller
         if ($data_user != null) {
             session()->put("user", $data_user);
             session()->put('username', $data_user->shortname);
-            session()->put('idPositions', $data_user->idPositions);
+            session()->put('idPosition', $data_user->idPositions);
             session()->put("idComp", $data_user->idComp);
-            // session()->put('idPositions', 15); // position 15 กรรมการผู้บริหาร
+            // session()->put('idPosition', 15); // position 15 กรรมการผู้บริหาร
 
             session()->put("permission_po", $this->permission_po($data_user->idPs));
 
-            if ($data_user->idPosition === '15') {
-                session()->put("role", 'admin');
-            } else if ($data_user->idPosition === '17') {
-                session()->put("role", 'superAdmin');
-            } else {
-                session()->put("role", 'user');
+            // if ($data_user->idPosition === '15') {
+            //     session()->put("role", 'admin');
+            // } else if ($data_user->idPosition === '17') {
+            //     session()->put("role", 'superAdmin');
+            // } else {
+            //     session()->put("role", 'user');
+            // }
+            if ($data_user->idPosition === '17' || $data_user->idPosition === '15' ||  $data_user->idPosition === '171') {
+                session()->put("role", "admin");
+            }
+            if ($data_user->idPosition != '17' && $data_user->idPosition != '15' && $data_user->idPosition === '171') {
+                session()->put("role", "user");
             }
 
             // ดึง URL ก่อนหน้าจาก session

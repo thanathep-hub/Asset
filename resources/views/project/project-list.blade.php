@@ -22,8 +22,12 @@
 
         @media (max-width: 600px) {
             #btn-repeat-search-project {
-                margin: 0px !important;
-                margin-bottom: .5rem !important;
+                /* margin: 0px !important; */
+                /* margin-bottom: .5rem !important; */
+            }
+
+            .col-12.col-md-6.col-lg-6.text-end {
+                margin-top: .5rem;
             }
         }
 
@@ -118,8 +122,12 @@
             height: 40px;
         }
 
+        td {
+            white-space: nowrap;
+        }
+
         td:nth-child(1),
-        td:nth-child(2),
+        td:nth-child(3),
         td:nth-child(4) {
             text-align: center;
         }
@@ -136,6 +144,18 @@
             display: none;
         }
 
+        @media(max-width: 767px) {
+            div.dataTables_length {
+                text-align: start !important;
+            }
+        }
+
+        .active>.page-link,
+        .page-link.active {
+            background-color: #6b7280;
+            border-color: #6b7280;
+        }
+
         /* loading css */
 
         /* loading css */
@@ -147,11 +167,11 @@
             <h4 style="font-weight: 700;">โครงการ</h3>
                 <div class="border-bottom mb-3"></div>
                 <div class="row mb-3">
-                    <div class="col">
+                    <div class="col-12 col-md-6 col-lg-6">
                         <input class="h-40 search form-control global_filter" type="text" name="search-project"
                             id="global_filter" placeholder="ค้นหาโครงการ">
                     </div>
-                    <div class="col text-end">
+                    <div class="col-12 col-md-6 col-lg-6 text-end">
                         <button class="btn btn-filter h-40 me-2" id="btn-repeat-search-project" onclick="resetPage()">
                             <i class="fa-solid fa-repeat"></i>
                             รีเซ็ต
@@ -169,8 +189,8 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th scope="col">บริษัท</th>
                                 <th scope="col">โครงการ</th>
+                                <th scope="col">บริษัท</th>
                                 <th scope="col">วันที่เริ่มโครงการ</th>
                                 <th scope="col">งบประมาณ</th>
                             </tr>
@@ -247,14 +267,13 @@
                 "url": "/api/project-list",
                 "type": "GET",
                 "data": function(d) {
-                    // เพิ่มพารามิเตอร์เพิ่มเติมที่นี่
-                    var compCode = document.getElementById('filter-comp').value;
-                    console.log("dd", compCode);
 
-                    // ถ้า compCode ไม่ว่าง ให้ส่งพารามิเตอร์ไป
-                    if (compCode !== "") {
-                        d.comp = compCode;
-                    }
+                    // var compCode = document.getElementById('filter-comp').value;
+                    // console.log("dd", compCode);
+
+                    // if (compCode !== "") {
+                    //     d.comp = compCode;
+                    // }
                     d.startDate = document.getElementById('startDate').value;
                     d.startEnd = document.getElementById('startEnd').value;
                 },
@@ -267,10 +286,10 @@
                     }
                 },
                 {
-                    "data": "CompCode"
+                    "data": "ProjectName"
                 },
                 {
-                    "data": "ProjectName"
+                    "data": "CompCode"
                 },
                 {
                     "data": "DateStart"
@@ -298,10 +317,10 @@
             function(settings, data, dataIndex) {
                 // ค่าที่จะกรองจากฟิลด์ CompCode
                 var compCode = document.getElementById('filter-comp').value.toLowerCase();
-                var dataCompCode = data[1].toLowerCase(); // ข้อมูลคอลัมน์ CompCode
+                var dataCompCode = data[2].toLowerCase(); // ข้อมูลคอลัมน์ CompCode
 
                 // ถ้าไม่เลือกค่าใดๆ ก็แสดงข้อมูลทั้งหมด
-                if (compCode == 0 || dataCompCode.includes(compCode)) {
+                if (compCode == 0 || compCode === dataCompCode) {
                     return true;
                 }
                 return false;
