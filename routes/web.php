@@ -183,3 +183,8 @@ Route::get('up-file', function () {
 });
 
 Route::post('/up-file-con', 'TestController@resizeAndSaveToFTP');
+
+
+Route::get('test-img', function () {
+    return view('test-img');
+});

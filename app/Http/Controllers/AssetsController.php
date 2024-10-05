@@ -298,7 +298,8 @@ class AssetsController extends Controller
             if ($insertAssetDt) {
                 $i = 1;
                 foreach ($request->file('assetFile') as $file) {
-                    $fileName = $AssetInvInsert_id . '_' . $i . "." . $file->getClientOriginalExtension();
+                    // $fileName = $AssetInvInsert_id . '_' . $i . "." . $file->getClientOriginalExtension();
+                    $fileName = $AssetInvInsert_id . '_' . $i . ".jpg";
                     $file->storeAs('/Asset/PicAsset/', $fileName, 'ftp');
 
                     $insertImagPath = DB::insert(
@@ -412,7 +413,8 @@ class AssetsController extends Controller
             if ($insertAssetDt) {
                 $i = 1;
                 foreach ($request->file('qrAssetImg') as $file) {
-                    $fileName = $AssetInvInsert_id . '_' . $i . "." . $file->getClientOriginalExtension();
+                    // $fileName = $AssetInvInsert_id . '_' . $i . "." . $file->getClientOriginalExtension();
+                    $fileName = $AssetInvInsert_id . '_' . $i . ".jpg";
                     $file->storeAs('/Asset/PicAsset/', $fileName, 'ftp');
 
                     $insertImagPath = DB::insert(
@@ -837,16 +839,16 @@ class AssetsController extends Controller
             $i = 1;
             $chk = $this->checkPathImg($id);
             if ($chk) {
-                $ftp = ftp_connect('203.151.27.229', '21');
-                $login_result = ftp_login($ftp, 'spm', 'a0815209598');
+                // $ftp = ftp_connect('203.151.27.229', '21');
+                // $login_result = ftp_login($ftp, 'spm', 'a0815209598');
 
-                if ($login_result == true) {
+                // if ($login_result == true) {
 
-                    foreach ($chk as $items) {
-                        ftp_delete($ftp, "Asset/PicAsset/$items->name_img");
-                    }
-                    ftp_close($ftp);
-                }
+                //     foreach ($chk as $items) {
+                //         ftp_delete($ftp, "Asset/PicAsset/$items->name_img");
+                //     }
+                //     ftp_close($ftp);
+                // }
                 $del = DB::delete("
                     DELETE FROM PchInvAndProject.dbo.Asset_img_path
                     WHERE asset_id = $id
@@ -857,7 +859,8 @@ class AssetsController extends Controller
                             'img.*' => 'required|mimes:jpeg,png,jpg|max:2048',
                         ]);
 
-                        $fileName = $id . '_' . $i . "." . $file->getClientOriginalExtension();
+                        // $fileName = $id . '_' . $i . "." . $file->getClientOriginalExtension();
+                        $fileName = $id . '_' . $i . ".jpg";
                         $file->storeAs('/Asset/PicAsset/', $fileName, 'ftp');
 
                         DB::insert(
@@ -879,7 +882,8 @@ class AssetsController extends Controller
                     $validatedData = $request->validate([
                         'img.*' => 'required|mimes:jpeg,png,jpg|max:2048',
                     ]);
-                    $fileName = $id . '_' . $i . "." . $file->getClientOriginalExtension();
+                    // $fileName = $id . '_' . $i . "." . $file->getClientOriginalExtension();
+                    $fileName = $id . '_' . $i . ".jpg";
                     $file->storeAs('/Asset/PicAsset/', $fileName, 'ftp');
 
                     DB::insert(
