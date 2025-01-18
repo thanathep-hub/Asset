@@ -64,7 +64,7 @@
                 <thead>
                     <tr>
                         <th scope="col" class="t-gray">ชื่อ</th>
-                        <th scope="col" class="t-gray">วันที่</th>
+                        <th scope="col" class="t-gray">วันที่ยืนยัน</th>
                         <th scope="col" class="t-gray text-center">สถานะ</th>
                         <th scope="col" class="t-gray">สถานที่ใช้งาน</th>
                         {{-- <th scope="col" class="t-gray text-center">จัดการ</th> --}}
@@ -143,7 +143,10 @@
                     response.data.forEach(function(asset, index) {
                         let idAsset = asset.idAsset ? asset.idAsset : "รอการอัพเดท";
                         let assetName = asset.AssetName ? asset.AssetName : "รอการอัพเดท";
-                        let assDate = asset.AssDate ? asset.AssDate : "รอการอัพเดท";
+                        let assDate = asset.created_date ?
+                            new Date(asset.created_date).toISOString().split('T')[0] :
+                            "รอการอัพเดท";
+
                         let location = asset.location ? asset.location : "รอการอัพเดท";
                         let acs_id = asset.acs_id ? asset.acs_id : "รอการอัพเดท";
                         let acs_name_th = asset.acs_name_th ? asset.acs_name_th : "รอการอัพเดท";

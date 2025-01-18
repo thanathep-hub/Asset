@@ -980,28 +980,27 @@ class AssetsController extends Controller
         $compText = "AND pdas.idComp = $idComp";
         try {
             $assetWaitApprove = DB::select("
-            SELECT TOP 3
-                pdas.idAsset,
-                pdas.AssetName,
-                LEFT(CAST(pdas.AssDate AS VARCHAR(8)), 4) + '-' +
-                SUBSTRING(CAST(pdas.AssDate AS VARCHAR(8)), 5, 2) + '-' +
-                RIGHT(CAST(pdas.AssDate AS VARCHAR(8)), 2) AS AssDate,
-                pdac.location,
-                pdac.acs_id,
-                pdacs.acs_name_th
-            FROM
-                PchInvAndProject.dbo.AssAssetD pdas
-                LEFT JOIN PchInvAndProject.dbo.AssTypeD pdat ON pdas.idType = pdat.idAssType
-                LEFT JOIN PchInvAndProject.dbo.Asset_Components pdac ON pdas.idAsset = pdac.asset_d
-                LEFT JOIN PchInvAndProject.dbo.Asset_Component_Status pdacs ON pdac.acs_id = pdacs.acs_id
-            WHERE
-                1 = 1
-                AND pdat.AssYear != 0
-                $compText
-                AND	pdac.asset_d IS NOT NULL
-            ORDER BY
-                pdas.idAsset DESC
-        ");
+                SELECT TOP
+                    3 pdas.idAsset,
+                    pdas.AssetName,
+                    LEFT ( CAST ( pdas.AssDate AS VARCHAR ( 8 ) ), 4 ) + '-' + SUBSTRING ( CAST ( pdas.AssDate AS VARCHAR ( 8 ) ), 5, 2 ) + '-' + RIGHT ( CAST ( pdas.AssDate AS VARCHAR ( 8 ) ), 2 ) AS AssDate,
+                    pdac.location,
+                    pdac.acs_id,
+                    pdacs.acs_name_th,
+                    pdac.created_date
+                FROM
+                    PchInvAndProject.dbo.AssAssetD pdas
+                    LEFT JOIN PchInvAndProject.dbo.AssTypeD pdat ON pdas.idType = pdat.idAssType
+                    LEFT JOIN PchInvAndProject.dbo.Asset_Components pdac ON pdas.idAsset = pdac.asset_d
+                    LEFT JOIN PchInvAndProject.dbo.Asset_Component_Status pdacs ON pdac.acs_id = pdacs.acs_id
+                WHERE
+                    1 = 1
+                    AND pdat.AssYear != 0
+                    $compText
+                    AND pdac.asset_d IS NOT NULL
+                ORDER BY
+                    pdac.created_date DESC
+            ");
 
             if ($assetWaitApprove) {
                 return response()->json([

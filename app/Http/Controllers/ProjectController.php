@@ -165,7 +165,7 @@ class ProjectController extends Controller
     public function Check_project($id)
     {
         $user = session('user');
-        $datetime = Carbon::now()->toDateString();
+        $datetime = Carbon::now()->addYears(543)->format('Ymd');
         try {
             // Update data using the DB::update method with parameter binding
             $update_status_project = DB::update(
@@ -189,7 +189,7 @@ class ProjectController extends Controller
     public function Accept_project($id)
     {
         $user = session('user');
-        $datetime = Carbon::now()->toDateString();
+        $datetime = Carbon::now()->addYears(543)->format('Ymd');
 
         try {
             // Update data using the DB::update method with parameter binding
@@ -214,7 +214,7 @@ class ProjectController extends Controller
     public function Confirm_1_project($id)
     {
         $user = session('user');
-        $datetime = Carbon::now()->toDateString();
+        $datetime = Carbon::now()->addYears(543)->format('Ymd');
 
         try {
             // Update data using the DB::update method with parameter binding
@@ -239,7 +239,7 @@ class ProjectController extends Controller
     public function Confirm_2_project($id)
     {
         $user = session('user');
-        $datetime = Carbon::now()->toDateString();
+        $datetime = Carbon::now()->addYears(543)->format('Ymd');
 
         try {
             // Update data using the DB::update method with parameter binding
