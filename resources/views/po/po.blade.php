@@ -541,13 +541,15 @@
                 </button>
             </div>
         @elseif ($po_mt->idPsConfirm == null && $permission->po_confirm1 == 1)
-            <div class="po-btn-accept">
-                <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
-                    onclick="showAlert('confirm1')">
-                    <i class="fa-solid fa-check"></i>
-                    อนุมัติ 1
-                </button>
-            </div>
+            @if ($po_mt->idComp === 3)
+                <div class="po-btn-accept">
+                    <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
+                        onclick="showAlert('confirm1')">
+                        <i class="fa-solid fa-check"></i>
+                        อนุมัติ 1
+                    </button>
+                </div>
+            @endif
         @elseif ($po_mt->idPsAccept == null && $permission->po_accept == 1)
             <div class="po-btn-accept">
                 <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
@@ -754,7 +756,8 @@
             var imagList = [];
             var counter = 0;
             var promises = image.map(async (element) => {
-                var imageUrl = 'https://seedsgroup.dyndns.org/spm/POP/images/pBill/AssetPO' + assetIdRepair + '_' +
+                var imageUrl = 'https://seedsgroup.dyndns.org/spm/POP/images/pBill/AssetPO' + assetIdRepair +
+                    '_' +
                     element + '.jpg';
                 const isImage = await isImageUrl(imageUrl);
                 if (isImage) {
