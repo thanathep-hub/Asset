@@ -541,7 +541,7 @@
                 </button>
             </div>
         @elseif ($po_mt->idPsConfirm == null && $permission->po_confirm1 == 1)
-            @if ($po_mt->idComp === 3)
+            @if ($po_mt->idComp == 3)
                 <div class="po-btn-accept">
                     <button type="button" class="btn btn text-center" style="width: 100%; color: #fff;"
                         onclick="showAlert('confirm1')">
