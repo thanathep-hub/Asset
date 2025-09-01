@@ -21,7 +21,7 @@
         border: none;
     }
 </style>
-<nav class="navbar navbar-expand px-3 navbar-bg">
+<nav class="navbar navbar-expand pe-3 navbar-bg">
     <button class="btn" id="sidebar-toggle" type="button">
         <span>
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000" class="bi bi-list"

@@ -585,13 +585,25 @@ class ProjectController extends Controller
         $img_path = 'https://seedsgroup.dyndns.org/spm/POP/images/pBill/AssetProPic'; // + id.jpg
         $pDetails = $this->project_query($id);
         $pItems = $this->project_dt($id);
+        // dd($pItems);
         $total = 0;
         foreach ($pItems as $item) {
             $total += $item->TotalPrice;
         }
         $total = number_format($total, 2);
 
-        return view('project.project-detail', compact('pDetails', 'pItems', 'img_path', 'total'));
+        $grouped = collect($pItems)->groupBy('SectionName');
+        $sectionSummary = [];
+        foreach ($grouped as $section => $items) {
+            $sectionSummary[] = [
+                'section' => $section,
+                'count' => count($items),
+                'total' => number_format(collect($items)->sum('TotalPrice'), 2),
+                'items' => $items,
+            ];
+        }
+
+        return view('project.project-detail', compact('pDetails', 'pItems', 'img_path', 'total', 'sectionSummary'));
     }
     public function vdProject_items($id)
     {

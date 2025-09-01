@@ -5,6 +5,7 @@
     {{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.1.6/css/dataTables.dataTables.min.css"> --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <style>
         .content {
             background-color: #f1f5f9;
@@ -125,113 +126,152 @@
         }
 
         /* / */
+
+        @media (max-width: 576px) {
+            .form-control {
+                padding: 0px !important;
+            }
+        }
     </style>
 @endpush
 @section('content')
     <div class="mt-3">
-        <div class="card p-4 border-0 mb-3">
-            <h4 style="font-weight: 700;">รายละเอียดโครงการ</h3>
-                <div class="border-bottom mb-3"></div>
-                <div class="row mb-3">
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <div class="form-control border-0 d-flex">
-                            <label for="" class="h-label">ชื่อโครงการ</label>
-                            <label for=""
-                                id="project-name">{{ $pDetails->ProjectName ? $pDetails->ProjectName : '' }}</label>
-                        </div>
-                        <div class="form-control border-0 d-flex">
-                            <label for="" class="h-label">งบประมาณ</label>
-                            <label for=""
-                                id="project-budget">{{ $pDetails->Budget ? '฿' . number_format($pDetails->Budget, 2) : '' }}</label>
-                        </div>
-                        <div class="form-control border-0 d-flex">
-                            <label for="" class="h-label">กลุ่มโครงการหลัก</label>
-                            <label for=""
-                                id="project-main-name">{{ $pDetails->PjGroupMainName ? $pDetails->PjGroupMainName : '' }}</label>
-                        </div>
-                        <div class="form-control border-0 d-flex">
-                            <label for="" class="h-label">กลุ่มโครงการรอง</label>
-                            <label for=""
-                                id="project-sub-name">{{ $pDetails->PjGroupSubName ? $pDetails->PjGroupSubName : '' }}</label>
-                        </div>
-                        <div class="form-control border-0 d-flex">
-                            <label for="" class="h-label">ผู้สั่งดำเนินการ</label>
-                            <label for=""
-                                id="project-command-name">{{ $pDetails->PsNamecom ? $pDetails->PsNamecom : '' }}</label>
-                        </div>
-                        <div class="form-control border-0 d-flex">
-                            <label for="" class="h-label">วันที่เริ่มโครงการ</label>
-                            <label for=""
-                                id="project-date-start">{{ $pDetails->DateStart ? $pDetails->DateStart_f : '' }}</label>
-                        </div>
-                        <div class="form-control border-0 d-flex">
-                            <label for="" class="h-label">วันที่คาดว่าจะเสร็จสิ้น</label>
-                            <label for=""
-                                id="project-date-start">{{ $pDetails->DateEnd ? $pDetails->DateEnd_f : '' }}</label>
-                        </div>
-                        <div class="form-control border-0 d-flex">
-                            <label for="" class="h-label">อำเภอ</label>
-                            <label for=""
-                                id="project-district-name">{{ $pDetails->ApName ? $pDetails->ApName : '' }}</label>
-                        </div>
-                        <div class="form-control border-0 d-flex">
-                            <label for="" class="h-label">จังหวัด</label>
-                            <label for=""
-                                id="project-district-name">{{ $pDetails->ProvinceName ? $pDetails->ProvinceName : '' }}</label>
-                        </div>
-                        <div class="form-control border-0 d-flex">
-                            <label for="" class="h-label">รายละเอียด</label>
-                            <label for="" id="project-note">{{ $pDetails->Note ? $pDetails->Note : '' }}</label>
-                        </div>
+        <div class="card p-3 p-md-4 border-0 mb-3">
+            <h5 style="font-weight: 600;">รายละเอียดโครงการ</h5>
+            <div class="border-bottom mb-3"></div>
+            <div class="row mb-3">
+                <div class="col-12 col-md-6 col-lg-6 mb-3">
+                    <div class="form-control border-0 d-flex">
+                        <label for="" class="h-label">ชื่อโครงการ</label>
+                        <label for=""
+                            id="project-name">{{ $pDetails->ProjectName ? $pDetails->ProjectName : '' }}</label>
                     </div>
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <div class="p-3" style="background-color: #f3f4f6;border-radius: 8px;">
-                            <h5 class="mb-3" style="text-align: start;">ภาพประกอบโครงการ</h5>
-                            <div class="project-image-list row gap-2 p-0 m-0" id="project-img">
-                                {{-- <div class="col-auto" style="">
-                                    <img class="img" src="{{ $img_path . $pDetails->idProject }}_1.jpg">
-                                </div> --}}
-                            </div>
-                        </div>
+                    <div class="form-control border-0 d-flex">
+                        <label for="" class="h-label">งบประมาณ</label>
+                        <label for=""
+                            id="project-budget">{{ $pDetails->Budget ? '฿' . number_format($pDetails->Budget, 2) : '' }}</label>
+                    </div>
+                    <div class="form-control border-0 d-flex">
+                        <label for="" class="h-label">กลุ่มโครงการหลัก</label>
+                        <label for=""
+                            id="project-main-name">{{ $pDetails->PjGroupMainName ? $pDetails->PjGroupMainName : '' }}</label>
+                    </div>
+                    <div class="form-control border-0 d-flex">
+                        <label for="" class="h-label">กลุ่มโครงการรอง</label>
+                        <label for=""
+                            id="project-sub-name">{{ $pDetails->PjGroupSubName ? $pDetails->PjGroupSubName : '' }}</label>
+                    </div>
+                    <div class="form-control border-0 d-flex">
+                        <label for="" class="h-label">ผู้สั่งดำเนินการ</label>
+                        <label for=""
+                            id="project-command-name">{{ $pDetails->PsNamecom ? $pDetails->PsNamecom : '' }}</label>
+                    </div>
+                    <div class="form-control border-0 d-flex">
+                        <label for="" class="h-label">วันที่เริ่มโครงการ</label>
+                        <label for=""
+                            id="project-date-start">{{ $pDetails->DateStart ? $pDetails->DateStart_f : '' }}</label>
+                    </div>
+                    <div class="form-control border-0 d-flex">
+                        <label for="" class="h-label">วันที่คาดว่าจะเสร็จสิ้น</label>
+                        <label for=""
+                            id="project-date-start">{{ $pDetails->DateEnd ? $pDetails->DateEnd_f : '' }}</label>
+                    </div>
+                    <div class="form-control border-0 d-flex">
+                        <label for="" class="h-label">อำเภอ</label>
+                        <label for=""
+                            id="project-district-name">{{ $pDetails->ApName ? $pDetails->ApName : '' }}</label>
+                    </div>
+                    <div class="form-control border-0 d-flex">
+                        <label for="" class="h-label">จังหวัด</label>
+                        <label for=""
+                            id="project-district-name">{{ $pDetails->ProvinceName ? $pDetails->ProvinceName : '' }}</label>
+                    </div>
+                    <div class="form-control border-0 d-flex">
+                        <label for="" class="h-label">รายละเอียด</label>
+                        <label for="" id="project-note">{{ $pDetails->Note ? $pDetails->Note : '' }}</label>
                     </div>
                 </div>
-                <div class="border-bottom mb-3"></div>
-                <div class="table-items-list">
-                    <h5>รายการวัสดุที่ใช้</h5>
-                    <div class="table-responsive">
-                        <table class="table table-bordered " id="detail-items">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">ชื่อ</th>
-                                    <th scope="col">จำนวน</th>
-                                    <th scope="col">หน่วย</th>
-                                    <th scope="col">ราคา</th>
-                                    <th scope="col">รวมเป็นเงิน</th>
-                                    <th scope="col">Supplier</th>
+                {{-- <div class="col-12 col-md-6 col-lg-6 mb-3">
+                    <div class="p-3" style="background-color: #f3f4f6;border-radius: 8px;">
+                        <h5 class="mb-3" style="text-align: start;">ภาพประกอบโครงการ</h5>
+                        <div class="project-image-list row gap-2 p-0 m-0" id="project-img">
+                        </div>
+                    </div>
+                </div> --}}
+            </div>
+            <div class="border-bottom mb-3"></div>
+            <div class="table-items-list">
+                <h6>รายการวัสดุที่ใช้</h6>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="section-table">
+                        <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-start">ประเภทวัสดุ</th>
+                                <th class="text-center">จำนวนวัสดุ</th>
+                                <th class="text-end">ราคารวม</th>
+                                <th class="text-center">ดูรายละเอียด</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($sectionSummary as $i => $section)
+                                <tr class="section-header" data-section="{{ $i }}">
+                                    <td class="text-center">{{ $i + 1 }}</td>
+                                    <td class="text-start">{{ $section['section'] }}</td>
+                                    <td class="text-center">{{ $section['count'] }}</td>
+                                    <td class="text-end">฿{{ $section['total'] }}</td>
+                                    <td class="text-center">
+                                        <span class="toggle-section" style="cursor:pointer;">
+                                            <i class="bi bi-chevron-down"></i>
+                                        </span>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($pItems as $index => $items)
-                                    <tr>
-                                        <th scope="row">{{ $index + 1 }}</th>
-                                        <td>{{ $items->InvName_ ? $items->InvName_ : '' }}</td>
-                                        <td>{{ $items->Amount ? number_format($items->Amount) : '' }}</td>
-                                        <td>{{ $items->UnitName ? $items->UnitName : '' }}</td>
-                                        <td>{{ $items->Price ? '฿' . number_format($items->Price, 2) : '' }}</td>
-                                        <td>{{ $items->TotalPrice ? '฿' . number_format($items->TotalPrice, 2) : '' }}</td>
-                                        <td>{{ $items->SupName ? $items->SupName : '' }}</td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="7">ไม่มีรายการ</td>
-                                    </tr>
-                                @endforelse
-
-                            </tbody>
-                        </table>
-                    </div>
+                                <tr class="section-detail section-{{ $i }}" style="display:none;">
+                                    <td colspan="5">
+                                        <div style="max-height: 300px; overflow-y: auto;">
+                                            <table class="table table-sm mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>ชื่อ</th>
+                                                        <th>จำนวน</th>
+                                                        <th>หน่วย</th>
+                                                        <th>ราคา</th>
+                                                        <th>รวมเป็นเงิน</th>
+                                                        <th>Supplier</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($section['items'] as $index => $item)
+                                                        <tr>
+                                                            <td class="align-content-center">{{ $index + 1 }}</td>
+                                                            <td class="align-content-center">{{ $item->InvName_ ?? '' }}
+                                                            </td>
+                                                            <td class="align-content-center">
+                                                                {{ $item->Amount ? number_format($item->Amount) : '' }}
+                                                            </td>
+                                                            <td class="align-content-center">{{ $item->UnitName ?? '' }}
+                                                            </td>
+                                                            <td class="align-content-center">
+                                                                {{ $item->Price ? '฿' . number_format($item->Price, 2) : '' }}
+                                                            </td>
+                                                            <td class="align-content-center">
+                                                                {{ $item->TotalPrice ? '฿' . number_format($item->TotalPrice, 2) : '' }}
+                                                            </td>
+                                                            <td class="align-content-center">{{ $item->SupName ?? '' }}
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
+            </div>
         </div>
     </div>
 
@@ -300,6 +340,14 @@
                 if (event.target === fullScreenModal) {
                     fullScreenModal.style.display = 'none';
                 }
+            });
+        });
+
+        $(document).ready(function() {
+            $('.toggle-section').on('click', function() {
+                var sectionIndex = $(this).closest('.section-header').data('section');
+                $('.section-' + sectionIndex).toggle();
+                $(this).find('i').toggleClass('bi-chevron-down bi-chevron-up');
             });
         });
     </script>
