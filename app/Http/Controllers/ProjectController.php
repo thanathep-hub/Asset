@@ -585,7 +585,7 @@ class ProjectController extends Controller
         $img_path = 'https://seedsgroup.dyndns.org/spm/POP/images/pBill/AssetProPic'; // + id.jpg
         $pDetails = $this->project_query($id);
         $pItems = $this->project_dt($id);
-        // dd($pItems);
+        // dd($pDetails);
         $total = 0;
         foreach ($pItems as $item) {
             $total += $item->TotalPrice;

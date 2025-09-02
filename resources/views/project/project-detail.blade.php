@@ -147,6 +147,10 @@
                             id="project-name">{{ $pDetails->ProjectName ? $pDetails->ProjectName : '' }}</label>
                     </div>
                     <div class="form-control border-0 d-flex">
+                        <label for="" class="h-label">บริษัท</label>
+                        <label for="" id="project-name">{{ $pDetails->CompName ? $pDetails->CompName : '' }}</label>
+                    </div>
+                    <div class="form-control border-0 d-flex">
                         <label for="" class="h-label">งบประมาณ</label>
                         <label for=""
                             id="project-budget">{{ $pDetails->Budget ? '฿' . number_format($pDetails->Budget, 2) : '' }}</label>
@@ -202,50 +206,59 @@
             <div class="border-bottom mb-3"></div>
             <div class="table-items-list">
                 <h6>รายการวัสดุที่ใช้</h6>
+                <div class="mb-2">
+                    <span> <strong>ราคาวัสดุรวม</strong> : {{ $total ?? '0.00' }} บาท</span>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-bordered" id="section-table">
                         <thead>
                             <tr>
-                                <th class="text-center">#</th>
                                 <th class="text-start">ประเภทวัสดุ</th>
                                 <th class="text-center">จำนวนวัสดุ</th>
                                 <th class="text-end">ราคารวม</th>
-                                <th class="text-center">ดูรายละเอียด</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($sectionSummary as $i => $section)
                                 <tr class="section-header" data-section="{{ $i }}">
-                                    <td class="text-center">{{ $i + 1 }}</td>
-                                    <td class="text-start">{{ $section['section'] }}</td>
+                                    <td class="text-start">
+                                        <span class="align-content-center text-center me-2 toggle-section"
+                                            style="cursor:pointer;">
+                                            <i class="bi bi-plus-circle-fill"
+                                                style="display:inline;color:#00a63e;font-size:1rem;"></i>
+                                            <i class="bi bi-dash-circle-fill"
+                                                style="display:none;color:#e7000b;font-size:1rem;"></i>
+                                        </span>
+                                        {{ $i + 1 }}. {{ $section['section'] }}
+                                    </td>
                                     <td class="text-center">{{ $section['count'] }}</td>
                                     <td class="text-end">฿{{ $section['total'] }}</td>
-                                    <td class="text-center">
-                                        <span class="toggle-section" style="cursor:pointer;">
-                                            <i class="bi bi-chevron-down"></i>
-                                        </span>
-                                    </td>
                                 </tr>
                                 <tr class="section-detail section-{{ $i }}" style="display:none;">
                                     <td colspan="5">
                                         <div style="max-height: 300px; overflow-y: auto;">
-                                            <table class="table table-sm mb-0">
+                                            <table class="table table-bordered table-sm mb-0">
                                                 <thead>
                                                     <tr>
-                                                        <th>#</th>
-                                                        <th>ชื่อ</th>
-                                                        <th>จำนวน</th>
-                                                        <th>หน่วย</th>
-                                                        <th>ราคา</th>
-                                                        <th>รวมเป็นเงิน</th>
-                                                        <th>Supplier</th>
+                                                        <th class="text-start p-2 px-4"
+                                                            style="font-weight: 500 !important;">
+                                                            ชื่อ</th>
+                                                        <th class="text-center p-2 px-4"
+                                                            style="font-weight: 500 !important;">จำนวน</th>
+                                                        <th class="text-center p-2 px-4"
+                                                            style="font-weight: 500 !important;">หน่วย</th>
+                                                        <th class="text-end p-2 px-4" style="font-weight: 500 !important;">
+                                                            ราคา</th>
+                                                        <th class="text-end p-2 px-4"
+                                                            style="font-weight: 500 !important;">รวมเป็นเงิน</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($section['items'] as $index => $item)
                                                         <tr>
-                                                            <td class="align-content-center">{{ $index + 1 }}</td>
-                                                            <td class="align-content-center">{{ $item->InvName_ ?? '' }}
+                                                            <td class="align-content-center text-start">
+                                                                {{ $index + 1 }}.
+                                                                {{ $item->InvName_ ?? '' }}
                                                             </td>
                                                             <td class="align-content-center">
                                                                 {{ $item->Amount ? number_format($item->Amount) : '' }}
@@ -257,8 +270,6 @@
                                                             </td>
                                                             <td class="align-content-center">
                                                                 {{ $item->TotalPrice ? '฿' . number_format($item->TotalPrice, 2) : '' }}
-                                                            </td>
-                                                            <td class="align-content-center">{{ $item->SupName ?? '' }}
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -346,8 +357,18 @@
         $(document).ready(function() {
             $('.toggle-section').on('click', function() {
                 var sectionIndex = $(this).closest('.section-header').data('section');
-                $('.section-' + sectionIndex).toggle();
-                $(this).find('i').toggleClass('bi-chevron-down bi-chevron-up');
+                var detailRow = $('.section-' + sectionIndex);
+                var plusIcon = $(this).find('.bi-plus-circle-fill');
+                var dashIcon = $(this).find('.bi-dash-circle-fill');
+                if (detailRow.is(':visible')) {
+                    detailRow.hide();
+                    plusIcon.show();
+                    dashIcon.hide();
+                } else {
+                    detailRow.show();
+                    plusIcon.hide();
+                    dashIcon.show();
+                }
             });
         });
     </script>
