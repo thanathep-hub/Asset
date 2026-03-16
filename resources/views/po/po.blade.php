@@ -740,32 +740,32 @@
 
         function po_image(id) {
             var assetIdRepair = id;
-            async function isImageUrl(assetIdRepair) {
-                try {
-                    const response = await fetch(assetIdRepair, {
-                        method: 'HEAD'
-                    });
-                    const contentType = response.headers.get('content-type');
-                    return contentType.includes('image');
-                } catch (error) {
-                    console.error('An error occurred:', error);
-                    return false;
-                }
+
+            function checkImage(url) {
+                return new Promise((resolve) => {
+                    var img = new Image();
+                    img.onload = function() {
+                        resolve(url);
+                    };
+                    img.onerror = function() {
+                        resolve(null);
+                    };
+                    img.src = url;
+                });
             }
+
             var image = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-            var imagList = [];
-            var counter = 0;
-            var promises = image.map(async (element) => {
+            var promises = image.map(function(element) {
                 var imageUrl = 'https://seedsgroup.dyndns.org/spm/POP/images/pBill/AssetPO' + assetIdRepair +
                     '_' +
                     element + '.jpg';
-                const isImage = await isImageUrl(imageUrl);
-                if (isImage) {
-                    imagList.push(imageUrl);
-                    counter++;
-                }
+                return checkImage(imageUrl);
             });
-            Promise.all(promises).then(() => {
+
+            Promise.all(promises).then(function(results) {
+                var imagList = results.filter(function(url) {
+                    return url !== null;
+                });
                 let output = "";
                 for (let i = 0; i < imagList.length; i++) {
                     output += `<img data-enlargable src="${imagList[i]}" alt="Image ${i + 1}">`;
