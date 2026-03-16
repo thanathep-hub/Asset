@@ -385,16 +385,12 @@
                 <table class="table table-bordered tTableText">
                     <tbody>
                         <tr>
-                            <td style="height: 30px; font-size: 12px;">
-                                <p style="font-size: 12px;"><b>PO No : </b>{{ $po_mt->DocCode }}</p>
-                                <p style="margin-top: -5px; font-size: 12px;"><b>วันที่ใบสังซื้อ :
-                                    </b>{{ $formattedDate }}
-                                </p>
-                                <p style="margin-top: -5px; font-size: 12px;">
-                                    <b>เลขที่ใบเสนอราคา : </b>{{ $po_mt->QtCode }}
-                                </p>
-                                <p style="margin-top: -5px; margin-bottom: -1px; font-size: 12px;"><b>ผู้ทำรายการ :
-                                    </b>{{ $po_mt->PsTs }}</p>
+                            <td style="font-size: 12px; padding: 8px;">
+                                <p style="margin: 0 0 4px; font-size: 12px;"><b>PO No : </b>{{ $po_mt->DocCode }}</p>
+                                <p style="margin: 0 0 4px; font-size: 12px;"><b>วันที่ใบสังซื้อ : </b>{{ $formattedDate }}</p>
+                                <p style="margin: 0 0 4px; font-size: 12px;"><b>เลขที่ใบเสนอราคา : </b>{{ $po_mt->QtCode }}</p>
+                                <p style="margin: 0 0 4px; font-size: 12px;"><b>ผู้ออกคำสั่ง : </b>{{ $po_mt->PsCommand }}</p>
+                                <p style="margin: 0; font-size: 12px;"><b>ผู้ทำรายการ : </b>{{ $po_mt->PsTs }}</p>
                             </td>
                         </tr>
                     </tbody>
