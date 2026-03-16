@@ -9,7 +9,9 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('images/checklist.png') }}">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link
         href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
@@ -387,9 +389,12 @@
                         <tr>
                             <td style="font-size: 12px; padding: 8px;">
                                 <p style="margin: 0 0 4px; font-size: 12px;"><b>PO No : </b>{{ $po_mt->DocCode }}</p>
-                                <p style="margin: 0 0 4px; font-size: 12px;"><b>วันที่ใบสังซื้อ : </b>{{ $formattedDate }}</p>
-                                <p style="margin: 0 0 4px; font-size: 12px;"><b>เลขที่ใบเสนอราคา : </b>{{ $po_mt->QtCode }}</p>
-                                <p style="margin: 0 0 4px; font-size: 12px;"><b>ผู้ออกคำสั่ง : </b>{{ $po_mt->PsCommand }}</p>
+                                <p style="margin: 0 0 4px; font-size: 12px;"><b>วันที่ใบสังซื้อ :
+                                    </b>{{ $formattedDate }}</p>
+                                <p style="margin: 0 0 4px; font-size: 12px;"><b>เลขที่ใบเสนอราคา :
+                                    </b>{{ $po_mt->QtCode }}</p>
+                                <p style="margin: 0 0 4px; font-size: 12px;"><b>ผู้ออกคำสั่ง :
+                                    </b>{{ $po_mt->PsCommand }}</p>
                                 <p style="margin: 0; font-size: 12px;"><b>ผู้ทำรายการ : </b>{{ $po_mt->PsTs }}</p>
                             </td>
                         </tr>
