@@ -434,8 +434,7 @@
                                 <td class="text-start">{{ $item->InvName_ }}</td>
                                 <td class="text-end">{{ number_format($item->InvPrice, 2) ?? 0 }}</td>
                                 <td class="text-end">{{ number_format($item->AmountSub) ?? 0 }}</td>
-                                <td class="text-end">{{ number_format($item->TotalPrice, 2) ?? 0.0 }}
-                                </td>
+                                <td class="text-end">{{ number_format($item->TotalPrice, 2) ?? 0.0 }}</td>
                             </tr>
                         @empty
                         @endforelse
@@ -447,10 +446,23 @@
                                 <strong>หมายเหตุ(Note) : </strong>{{ $po_mt->Note ?? '' }}
                             </td>
                             <td style="font-size: 12px; font-weight: bold; text-align: right;" colspan="2">
-                                รวมเป็นเงิน :
+                                <p class="mb-1">
+                                    ภาษี ณ ที่จ่าย :
+                                </p>
+                                <p class="mb-0">
+                                    รวมเป็นเงิน :
+                                </p>
+
                             </td>
                             <td style="text-align: right; font-size: 12px;">
-                                <strong>{{ number_format($po_mt->TotalNet, 2) ?? 0.0 }}</strong>
+                                <p class="mb-1">
+                                    <strong>{{ number_format($po_mt->Vat_po, 2) ?? 0.0 }}</strong><br>
+                                </p>
+                                <p class="mb-0">
+                                    <strong>{{ number_format($po_mt->TotalNet, 2) ?? 0.0 }}</strong>
+                                </p>
+
+
                             </td>
                         </tr>
 
