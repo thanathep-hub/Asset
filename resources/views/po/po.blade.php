@@ -447,7 +447,7 @@
                             </td>
                             <td style="font-size: 12px; font-weight: bold; text-align: right;" colspan="2">
                                 <p class="mb-1">
-                                    ภาษี ณ ที่จ่าย :
+                                    ภาษีมูลค่าเพิ่ม :
                                 </p>
                                 <p class="mb-0">
                                     รวมเป็นเงิน :
